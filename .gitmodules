@@ -1,0 +1,9 @@
+[submodule "Kanalysis/external/eigen"]
+	path = Kanalysis/external/eigen
+	url = https://gitlab.com/libeigen/eigen.git
+[submodule "Kanalysis/external/armadillo-code"]
+	path = Kanalysis/external/armadillo-code
+	url = https://gitlab.com/conradsnicta/armadillo-code.git
+[submodule "Kanalysis/external/discreture"]
+	path = Kanalysis/external/discreture
+	url = https://github.com/mraggi/discreture.git
