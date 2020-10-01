@@ -180,8 +180,8 @@ namespace kanalysis::stats
 
 		auto f = [&](Iterator lhs_first, Iterator lhs_last, ReverseIterator rhs_first, ReverseIterator rhs_last)
 		{
-			Matrix lhs_matrix(Base::standardized_matrix());
-			Matrix rhs_matrix(Base::standardized_matrix());
+			Matrix lhs_matrix(Base::std_matrix());
+			Matrix rhs_matrix(Base::std_matrix());
 
 			Map<Matrix> lhs_map(lhs_matrix.data(), lhs_matrix.rows(), lhs_matrix.cols());
 			Map<Matrix> rhs_map(rhs_matrix.data(), rhs_matrix.rows(), rhs_matrix.cols());
@@ -241,10 +241,10 @@ namespace kanalysis::stats
 	{
 		assert(m_partial_r_squared_sums.sum() == 0);
 
-		Matrix standardized_model_matrix = Base::standardized_matrix().leftCols(2);
+		Matrix standardized_model_matrix = Base::std_matrix().leftCols(2);
 
 		// Fence
-		ComputeHolderTemplateType<Matrix, Array> compute_holder(standardized_model_matrix, Base::weights(), true);
+		ComputeHolderTemplateType<Matrix, Array> compute_holder(standardized_model_matrix, Base::compute_holder().weights(), true);
 		CorrelationTemplateType<ComputeHolderTemplateType<Matrix, Array>, RegressionFunctionType> correlation(compute_holder);
 		Scalar r = correlation.standardized_solve(standardized_y);
 		m_partial_r_squared_sums[0] += std::pow(r, 2);
@@ -252,8 +252,8 @@ namespace kanalysis::stats
 		// Post
 		for (Index i = 1; i < x_variables; ++i)
 		{
-			standardized_model_matrix.col(1) = Base::standardized_matrix().col(i + 1);
-			correlation.standardized_compute(standardized_model_matrix);
+			standardized_model_matrix.col(1) = Base::std_matrix().col(i + 1);
+			correlation.std_compute(standardized_model_matrix);
 			r = correlation.standardized_solve(standardized_y);
 			m_partial_r_squared_sums[i] += std::pow(r, 2);
 		}
@@ -266,7 +266,7 @@ namespace kanalysis::stats
 	KruskalBase<DerivedType>::Formula::Formula(KruskalBase& kruskal, int threads, const VectorBase<Derived>& standardized_y, std::vector<Vector>& out)
 		: m_kruskal(kruskal)
 		, m_standardized_y(standardized_y.derived())
-		, m_standardized_model_matrices(threads, Matrix(kruskal.standardized_matrix()))
+		, m_standardized_model_matrices(threads, Matrix(kruskal.std_matrix()))
 		, m_out(out)
 	{
 		m_partial_correlations.reserve(threads);
@@ -287,7 +287,7 @@ namespace kanalysis::stats
 	{
 		PartialCorrelationType& pcor = m_partial_correlations[worker_id];
 
-		Map<Matrix>& standardized_model_matrix = pcor.const_cast_standardized_matrix();
+		Map<Matrix>& standardized_model_matrix = pcor.const_cast_std_matrix();
 		new (&standardized_model_matrix) Map<Matrix>(standardized_model_matrix.data(), standardized_model_matrix.rows(), nth_order + 1);
 
 		ColIteratorType& iterator = m_iterators[worker_id];
@@ -295,10 +295,10 @@ namespace kanalysis::stats
 
 		Vector& out = m_out[worker_id];
 
-		const MatrixType& read_only_model_mx = m_kruskal.standardized_matrix();
+		const MatrixType& read_only_model_mx = m_kruskal.std_matrix();
 		while (iterator.has_next())
 		{
-			pcor.standardized_compute(standardized_model_matrix);
+			pcor.std_compute(standardized_model_matrix);
 
 			// Fence
 			auto i = iterator.indicies().middle();

@@ -6,6 +6,9 @@
 
 namespace kanalysis::stats
 {
+	template<typename MatrixType>
+	class ComputeHolder;
+
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class FittedValue : public FittedValueBase<FittedValue<ComputeHolderType, RegressionFunctionType>>
 	{
@@ -14,6 +17,9 @@ namespace kanalysis::stats
 	public:
 		using Base::Base;
 		FittedValue() = default;
+
+		template<typename Derived>
+		const Vector& solve(const VectorBase<Derived>& std_y);
 	};
 
 	template<typename ComputeHolderType_, typename RegressionFunctionType_>
@@ -22,4 +28,23 @@ namespace kanalysis::stats
 		using ComputeHolderType = ComputeHolderType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
+
+	template<typename MatrixType, typename RegressionFunctionType>
+	FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType> fitted_value(const ComputeHolder<MatrixType>& compute_holder);
+} // namespace kanalysis::stats
+
+namespace kanalysis::stats
+{
+	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename Derived>
+	const Vector& FittedValue<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y)
+	{
+		return Base::std_solve(std_y);
+	}
+
+	template<typename MatrixType, typename RegressionFunctionType>
+	FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType> fitted_value(const ComputeHolder<MatrixType>& compute_holder)
+	{
+		return FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType>(compute_holder);
+	}
 } // namespace kanalysis::stats

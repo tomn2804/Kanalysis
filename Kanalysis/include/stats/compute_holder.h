@@ -6,90 +6,62 @@
 
 namespace kanalysis::stats
 {
-	template<typename MatrixType, typename ArrayType>
-	class ComputeHolder : public ComputeHolderBase<ComputeHolder<MatrixType, ArrayType>>
+	template<typename MatrixType>
+	class ComputeHolder : public ComputeHolderBase<ComputeHolder<MatrixType>>
 	{
 	protected:
-		using Base = ComputeHolderBase<ComputeHolder<MatrixType, ArrayType>>;
+		using Base = ComputeHolderBase<ComputeHolder<MatrixType>>;
 	public:
 		using Base::Base;
 		ComputeHolder() = default;
 
 		template<typename DerivedA, typename DerivedB>
-		ComputeHolder(const DenseBase<DerivedA>& matrix, const DenseBase<DerivedB>& weights);
-
-		template<typename DerivedA, typename DerivedB>
-		ComputeHolder(DenseBase<DerivedA>& matrix, DenseBase<DerivedB>& weights);
-
-		template<typename DerivedA, typename DerivedB>
-		ComputeHolder(const DenseBase<DerivedA>& matrix, const DenseBase<DerivedB>& weights, bool is_standardized_matrix);
-
-		template<typename DerivedA, typename DerivedB>
-		ComputeHolder(DenseBase<DerivedA>& matrix, DenseBase<DerivedB>& weights, bool is_standardized_matrix);
+		static void standardize(const DenseBase<DerivedA>& x, DenseBase<DerivedB>& out);
 
 		template<typename Derived>
-		void compute(const DenseBase<Derived>& matrix);
+		static Matrix standardize(const DenseBase<Derived>& x);
+
+		template<typename Derived>
+		static ComputeHolder<Derived> compute_holder(const DenseBase<Derived>& std_matrix);
 	};
 
-	template<typename MatrixType_, typename ArrayType_>
-	struct ComputeHolderTraits<ComputeHolder<MatrixType_, ArrayType_>>
+	template<typename MatrixType_>
+	struct ComputeHolderTraits<ComputeHolder<MatrixType_>>
 	{
-		template<typename MatrixType, typename ArrayType>
-		using ComputeHolderTemplateType = ComputeHolder<MatrixType, ArrayType>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using CoefficientTemplateType = Coefficient<ComputeHolderType_, RegressionFunctionType_>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using FittedValueTemplateType = FittedValue<ComputeHolderType_, RegressionFunctionType_>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using ResidualTemplateType = Residual<ComputeHolderType_, RegressionFunctionType_>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using CorrelationTemplateType = Correlation<ComputeHolderType_, RegressionFunctionType_>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using PartialCorrelationTemplateType = PartialCorrelation<ComputeHolderType_, RegressionFunctionType_>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using KruskalTemplateType = Kruskal<ComputeHolderType_, RegressionFunctionType_>;
-
 		using MatrixType = MatrixType_;
-		using ArrayType = ArrayType_;
+		using ArrayType = Array;
 	};
+
+	template<typename Derived>
+	ComputeHolder<Derived> compute_holder(const DenseBase<Derived>& std_matrix);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
-	template<typename MatrixType, typename ArrayType>
+	template<typename MatrixType>
 	template<typename DerivedA, typename DerivedB>
-	ComputeHolder<MatrixType, ArrayType>::ComputeHolder(const DenseBase<DerivedA>& matrix, const DenseBase<DerivedB>& weights)
-		: Base(matrix)
-	{}
-
-	template<typename MatrixType, typename ArrayType>
-	template<typename DerivedA, typename DerivedB>
-	ComputeHolder<MatrixType, ArrayType>::ComputeHolder(DenseBase<DerivedA>& matrix, DenseBase<DerivedB>& weights)
-		: Base(matrix)
-	{}
-
-	template<typename MatrixType, typename ArrayType>
-	template<typename DerivedA, typename DerivedB>
-	ComputeHolder<MatrixType, ArrayType>::ComputeHolder(const DenseBase<DerivedA>& matrix, const DenseBase<DerivedB>& weights, bool is_standardized_matrix)
-		: Base(matrix)
-	{}
-
-	template<typename MatrixType, typename ArrayType>
-	template<typename DerivedA, typename DerivedB>
-	ComputeHolder<MatrixType, ArrayType>::ComputeHolder(DenseBase<DerivedA>& matrix, DenseBase<DerivedB>& weights, bool is_standardized_matrix)
-		: Base(matrix)
-	{}
-
-	template<typename MatrixType, typename ArrayType>
-	template<typename Derived>
-	void ComputeHolder<MatrixType, ArrayType>::compute(const DenseBase<Derived>& matrix)
+	void ComputeHolder<MatrixType>::standardize(const DenseBase<DerivedA>& x, DenseBase<DerivedB>& out)
 	{
-		Base::standardized_compute(matrix);
+		out.derived() = x.derived();
+	}
+
+	template<typename MatrixType>
+	template<typename Derived>
+	Matrix ComputeHolder<MatrixType>::standardize(const DenseBase<Derived>& x)
+	{
+		return x.derived();
+	}
+
+	template<typename MatrixType>
+	template<typename Derived>
+	ComputeHolder<Derived> ComputeHolder<MatrixType>::compute_holder(const DenseBase<Derived>& std_matrix)
+	{
+		return ComputeHolder<Derived>(std_matrix);
+	}
+
+	template<typename Derived>
+	ComputeHolder<Derived> compute_holder(const DenseBase<Derived>& std_matrix)
+	{
+		return ComputeHolder<Derived>(std_matrix);
 	}
 } // namespace kanalysis::stats

@@ -3,29 +3,10 @@
 #include "include/config.h"
 
 #include "include/stats/compute_holder_base.h"
+#include "include/stats/weight_function.h"
 
 namespace kanalysis::stats
 {
-	struct WeightFunction;
-
-	template<typename ComputeHolderTemplateType, typename RegressionFunctionType>
-	class CoefficientWeight;
-
-	template<typename ComputeHolderTemplateType, typename RegressionFunctionType>
-	class FittedValueWeight;
-
-	template<typename ComputeHolderTemplateType, typename RegressionFunctionType>
-	class ResidualWeight;
-
-	template<typename ComputeHolderTemplateType, typename RegressionFunctionType>
-	class CorrelationWeight;
-
-	template<typename ComputeHolderTemplateType, typename RegressionFunctionType>
-	class PartialCorrelationWeight;
-
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	class KruskalWeight;
-
 	template<typename MatrixType, typename ArrayType>
 	class ComputeHolderWeight : public ComputeHolderBase<ComputeHolderWeight<MatrixType, ArrayType>>
 	{
@@ -35,116 +16,128 @@ namespace kanalysis::stats
 		using Base::Base;
 		ComputeHolderWeight() = default;
 
-		template<typename Derived>
-		ComputeHolderWeight(const DenseBase<Derived>& matrix);
-
-		template<typename Derived>
-		ComputeHolderWeight(DenseBase<Derived>& matrix);
+		template<typename DerivedA, typename DerivedB>
+		ComputeHolderWeight(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights);
 
 		template<typename DerivedA, typename DerivedB>
-		ComputeHolderWeight(const DenseBase<DerivedA>& matrix, const DenseBase<DerivedB>& weights);
+		ComputeHolderWeight(DenseBase<DerivedA>& std_matrix, DenseBase<DerivedB>& weights);
+
+		template<typename DerivedA, typename DerivedB, typename DerivedC>
+		ComputeHolderWeight(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights, const DenseBase<DerivedC>& sqrt_weights);
+
+		template<typename DerivedA, typename DerivedB, typename DerivedC>
+		ComputeHolderWeight(DenseBase<DerivedA>& std_matrix, DenseBase<DerivedB>& weights, DenseBase<DerivedC>& sqrt_weights);
 
 		template<typename DerivedA, typename DerivedB>
-		ComputeHolderWeight(DenseBase<DerivedA>& matrix, DenseBase<DerivedB>& weights);
-
-		template<typename DerivedA, typename DerivedB>
-		ComputeHolderWeight(const DenseBase<DerivedA>& matrix, const DenseBase<DerivedB>& weights, bool is_standardized_matrix);
-
-		template<typename DerivedA, typename DerivedB>
-		ComputeHolderWeight(DenseBase<DerivedA>& matrix, DenseBase<DerivedB>& weights, bool is_standardized_matrix);
+		void standardize(const DenseBase<DerivedA>& x, DenseBase<DerivedB>& out) const;
 
 		template<typename Derived>
-		void compute(const DenseBase<Derived>& matrix);
+		Matrix standardize(const DenseBase<Derived>& x) const;
+
+		template<typename Derived>
+		ComputeHolderWeight<Derived, ArrayType> compute_holder(const DenseBase<Derived>& std_matrix) const;
 
 		const ArrayType& weights() const;
 		ArrayType& const_cast_weights() const;
 
 		const Array& sqrt_weights() const;
 		Array& const_cast_sqrt_weights() const;
+	private:
+		ArrayType m_weights;
+		Array m_sqrt_weights = WeightFunction::sqrt_weights(m_weights);
 	};
 
 	template<typename MatrixType_, typename ArrayType_>
 	struct ComputeHolderTraits<ComputeHolderWeight<MatrixType_, ArrayType_>>
 	{
-		template<typename MatrixType, typename ArrayType>
-		using ComputeHolderTemplateType = ComputeHolderWeight<MatrixType, ArrayType>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using CoefficientTemplateType = CoefficientWeight<ComputeHolderType_, RegressionFunctionType_>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using FittedValueTemplateType = FittedValueWeight<ComputeHolderType_, RegressionFunctionType_>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using ResidualTemplateType = ResidualWeight<ComputeHolderType_, RegressionFunctionType_>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using CorrelationTemplateType = CorrelationWeight<ComputeHolderType_, RegressionFunctionType_>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using PartialCorrelationTemplateType = PartialCorrelationWeight<ComputeHolderType_, RegressionFunctionType_>;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using KruskalTemplateType = KruskalWeight<ComputeHolderType_, RegressionFunctionType_>;
-
 		using MatrixType = MatrixType_;
 		using ArrayType = ArrayType_;
 	};
+
+	template<typename DerivedA, typename DerivedB>
+	ComputeHolderWeight<DerivedA, DerivedB> compute_holder(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename ArrayType>
-	template<typename Derived>
-	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(const DenseBase<Derived>& matrix)
-		: Base(matrix, Vector::Constant(matrix.rows(), 1))
-	{}
-
-	template<typename MatrixType, typename ArrayType>
-	template<typename Derived>
-	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(DenseBase<Derived>& matrix)
-		: Base(matrix, Vector::Constant(matrix.rows(), 1))
+	template<typename DerivedA, typename DerivedB>
+	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights)
+		: Base(std_matrix)
+		, m_weights(weights.derived())
 	{}
 
 	template<typename MatrixType, typename ArrayType>
 	template<typename DerivedA, typename DerivedB>
-	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(const DenseBase<DerivedA>& matrix, const DenseBase<DerivedB>& weights)
-		: Base(matrix, weights)
-	{
-		compute(matrix);
-	}
+	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(DenseBase<DerivedA>& std_matrix, DenseBase<DerivedB>& weights)
+		: Base(std_matrix)
+		, m_weights(weights.derived())
+	{}
+
+	template<typename MatrixType, typename ArrayType>
+	template<typename DerivedA, typename DerivedB, typename DerivedC>
+	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights, const DenseBase<DerivedC>& sqrt_weights)
+		: Base(std_matrix)
+		, m_weights(weights.derived())
+		, m_sqrt_weights(sqrt_weights.derived())
+	{}
+
+	template<typename MatrixType, typename ArrayType>
+	template<typename DerivedA, typename DerivedB, typename DerivedC>
+	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(DenseBase<DerivedA>& std_matrix, DenseBase<DerivedB>& weights, DenseBase<DerivedC>& sqrt_weights)
+		: Base(std_matrix)
+		, m_weights(weights.derived())
+		, m_sqrt_weights(sqrt_weights.derived())
+	{}
 
 	template<typename MatrixType, typename ArrayType>
 	template<typename DerivedA, typename DerivedB>
-	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(DenseBase<DerivedA>& matrix, DenseBase<DerivedB>& weights)
-		: Base(matrix, weights)
+	void ComputeHolderWeight<MatrixType, ArrayType>::standardize(const DenseBase<DerivedA>& x, DenseBase<DerivedB>& out) const
 	{
-		compute(matrix);
-	}
-
-	template<typename MatrixType, typename ArrayType>
-	template<typename DerivedA, typename DerivedB>
-	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(const DenseBase<DerivedA>& matrix, const DenseBase<DerivedB>& weights, bool is_standardized_matrix)
-		: Base(matrix, weights)
-	{
-		if (is_standardized_matrix) Base::standardized_compute(matrix);
-		else compute(matrix);
-	}
-
-	template<typename MatrixType, typename ArrayType>
-	template<typename DerivedA, typename DerivedB>
-	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(DenseBase<DerivedA>& matrix, DenseBase<DerivedB>& weights, bool is_standardized_matrix)
-		: Base(matrix, weights)
-	{
-		if (is_standardized_matrix) Base::standardized_compute(matrix);
-		else compute(matrix);
+		WeightFunction::multiply_by_sqrt_weights(x, m_sqrt_weights, out);
 	}
 
 	template<typename MatrixType, typename ArrayType>
 	template<typename Derived>
-	void ComputeHolderWeight<MatrixType, ArrayType>::compute(const DenseBase<Derived>& matrix)
+	Matrix ComputeHolderWeight<MatrixType, ArrayType>::standardize(const DenseBase<Derived>& x) const
 	{
-		WeightFunction::multiply_by_sqrt_weights(matrix, Base::m_sqrt_weights, Base::m_standardized_matrix);
-		Base::standardized_compute(Base::m_standardized_matrix);
+		return WeightFunction::multiply_by_sqrt_weights(x, m_sqrt_weights);
+	}
+
+	template<typename MatrixType, typename ArrayType>
+	template<typename Derived>
+	ComputeHolderWeight<Derived, ArrayType> ComputeHolderWeight<MatrixType, ArrayType>::compute_holder(const DenseBase<Derived>& std_matrix) const
+	{
+		return ComputeHolderWeight<Derived, ArrayType>(std_matrix, m_weights, m_sqrt_weights);
+	}
+
+	template<typename MatrixType, typename ArrayType>
+	const ArrayType& ComputeHolderWeight<MatrixType, ArrayType>::weights() const
+	{
+		return m_weights;
+	}
+
+	template<typename MatrixType, typename ArrayType>
+	ArrayType& ComputeHolderWeight<MatrixType, ArrayType>::const_cast_weights() const
+	{
+		return const_cast<ArrayType&>(m_weights);
+	}
+
+	template<typename MatrixType, typename ArrayType>
+	const Array& ComputeHolderWeight<MatrixType, ArrayType>::sqrt_weights() const
+	{
+		return m_sqrt_weights;
+	}
+
+	template<typename MatrixType, typename ArrayType>
+	Array& ComputeHolderWeight<MatrixType, ArrayType>::const_cast_sqrt_weights() const
+	{
+		return m_sqrt_weights;
+	}
+
+	template<typename DerivedA, typename DerivedB>
+	ComputeHolderWeight<DerivedA, DerivedB> compute_holder(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights)
+	{
+		return ComputeHolderWeight<DerivedA, DerivedB>(std_matrix, weights);
 	}
 } // namespace kanalysis::stats

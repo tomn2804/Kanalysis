@@ -6,6 +6,9 @@
 
 namespace kanalysis::stats
 {
+	template<typename MatrixType, typename ArrayType>
+	class ComputeHolderWeight;
+
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class CoefficientWeight : public CoefficientBase<CoefficientWeight<ComputeHolderType, RegressionFunctionType>>
 	{
@@ -14,9 +17,6 @@ namespace kanalysis::stats
 	public:
 		using Base::Base;
 		CoefficientWeight() = default;
-
-		template<typename Derived>
-		const Vector& solve(const VectorBase<Derived>& standardized_y);
 	};
 
 	template<typename ComputeHolderType_, typename RegressionFunctionType_>
@@ -25,14 +25,16 @@ namespace kanalysis::stats
 		using ComputeHolderType = ComputeHolderType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
+
+	template<typename MatrixType, typename RegressionFunctionType>
+	CoefficientWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> coefficient(const ComputeHolderWeight<MatrixType, Array>& compute_holder);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	template<typename Derived>
-	const Vector& CoefficientWeight<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& standardized_y)
+	template<typename MatrixType, typename RegressionFunctionType>
+	CoefficientWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> coefficient(const ComputeHolderWeight<MatrixType, Array>& compute_holder)
 	{
-		return Base::solve(standardized_y);
+		return CoefficientWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(compute_holder);
 	}
-} // namespace kanalysis::stats
+}

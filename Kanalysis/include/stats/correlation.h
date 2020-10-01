@@ -6,11 +6,18 @@
 
 namespace kanalysis::stats
 {
+	template<typename MatrixType>
+	class ComputeHolder;
+
+	template<typename ComputeHolderType, typename RegressionFunctionType>
+	class FittedValue;
+
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class Correlation : public CorrelationBase<Correlation<ComputeHolderType, RegressionFunctionType>>
 	{
 	protected:
 		using Base = CorrelationBase<Correlation<ComputeHolderType, RegressionFunctionType>>;
+		using typename Base::ComputeHolderDecayType;
 	public:
 		using Base::Base;
 		Correlation() = default;
@@ -19,10 +26,14 @@ namespace kanalysis::stats
 		Scalar cor(const VectorBase<DerivedA>& x, const VectorBase<DerivedB>& y);
 
 		template<typename Derived>
-		Scalar solve(const VectorBase<Derived>& y);
+		Scalar solve(const VectorBase<Derived>& std_y);
+	protected:
+		FittedValue<const ComputeHolderDecayType&, RegressionFunctionType> m_fitted_value = FittedValue<const ComputeHolderDecayType&, RegressionFunctionType>(Base::compute_holder());
 	private:
 		using Base::m_mean_deviations_x;
 		using Base::m_mean_deviations_y;
+	private:
+		friend class Base;
 	};
 
 	template<typename ComputeHolderType_, typename RegressionFunctionType_>
@@ -31,6 +42,9 @@ namespace kanalysis::stats
 		using ComputeHolderType = ComputeHolderType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
+
+	template<typename MatrixType, typename RegressionFunctionType>
+	Correlation<ComputeHolder<MatrixType>, RegressionFunctionType> correlation(const ComputeHolder<MatrixType>& compute_holder);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
@@ -58,8 +72,14 @@ namespace kanalysis::stats
 
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	template<typename Derived>
-	Scalar Correlation<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& y)
+	Scalar Correlation<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y)
 	{
-		return Base::standardized_solve(y);
+		return cor(m_fitted_value.solve(std_y), std_y);
+	}
+
+	template<typename MatrixType, typename RegressionFunctionType>
+	Correlation<ComputeHolder<MatrixType>, RegressionFunctionType> correlation(const ComputeHolder<MatrixType>& compute_holder)
+	{
+		return Correlation<ComputeHolder<MatrixType>, RegressionFunctionType>(compute_holder);
 	}
 } // namespace kanalysis::stats

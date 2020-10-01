@@ -19,23 +19,13 @@ namespace kanalysis::stats
 		using Base = SolveHolderBase<DerivedType>;
 		using typename Base::ComputeHolderDecayType;
 		using typename Base::RegressionFunctionType;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using ResidualTemplateType = typename ComputeHolderTraits<ComputeHolderDecayType>::template ResidualTemplateType<ComputeHolderType_, RegressionFunctionType_>;
-
 		using Base::Base;
 	public:
 		template<typename Derived>
-		Scalar solve(const VectorBase<Derived>& y);
+		Scalar solve(const VectorBase<Derived>& std_y);
 
 		template<typename DerivedA, typename DerivedB>
-		Scalar solve(const VectorBase<DerivedA>& x, const VectorBase<DerivedB>& y);
-
-		template<typename Derived>
-		Scalar standardized_solve(const VectorBase<Derived>& standardized_y);
-
-		template<typename DerivedA, typename DerivedB>
-		Scalar standardized_solve(const VectorBase<DerivedA>& standardized_x, const VectorBase<DerivedB>& standardized_y);
+		Scalar solve(const VectorBase<DerivedA>& std_y, const VectorBase<DerivedB>& std_x);
 
 		const auto& correlation() const;
 		const auto& residual() const;
@@ -46,12 +36,13 @@ namespace kanalysis::stats
 		PartialCorrelationBase() = default;
 
 		Correlation<const ComputeHolderDecayType&, RegressionFunctionType> m_correlation = Correlation<const ComputeHolderDecayType&, RegressionFunctionType>(Base::compute_holder());
-		ResidualTemplateType<const ComputeHolderDecayType&, RegressionFunctionType> m_residual = ResidualTemplateType<const ComputeHolderDecayType&, RegressionFunctionType>(Base::compute_holder());
 
-		Vector m_residuals_x;
-		Vector m_residuals_y;
+		Vector m_residuals_x = Vector::Constant(Base::rows(), 0);;
+		Vector m_residuals_y = Vector::Constant(Base::rows(), 0);;
 
-		Scalar m_results;
+		Scalar m_results = 0;
+
+		bool m_is_x_initialized = false;
 	private:
 		friend class Base;
 	};
@@ -61,44 +52,21 @@ namespace kanalysis::stats
 {
 	template<typename DerivedType>
 	template<typename Derived>
-	Scalar PartialCorrelationBase<DerivedType>::solve(const VectorBase<Derived>& y)
+	Scalar PartialCorrelationBase<DerivedType>::solve(const VectorBase<Derived>& std_y)
 	{
-		assert(y.rows() == Base::rows());
-		assert(y.rows() == m_residuals_y.rows());
-		m_residuals_x = m_residual.solve(y);
+		assert(m_is_x_initialized);
+		m_residuals_y = Base::derived().m_residual.solve(std_y);
 		m_results = m_correlation.cor(m_residuals_x, m_residuals_y);
 		return m_results;
 	}
 
 	template<typename DerivedType>
 	template<typename DerivedA, typename DerivedB>
-	Scalar PartialCorrelationBase<DerivedType>::solve(const VectorBase<DerivedA>& x, const VectorBase<DerivedB>& y)
+	Scalar PartialCorrelationBase<DerivedType>::solve(const VectorBase<DerivedA>& std_y, const VectorBase<DerivedB>& std_x)
 	{
-		assert(x.rows() == Base::rows());
-		assert(y.rows() == Base::rows());
-		m_residuals_y = m_residual.solve(y);
-		return solve(x);
-	}
-
-	template<typename DerivedType>
-	template<typename Derived>
-	Scalar PartialCorrelationBase<DerivedType>::standardized_solve(const VectorBase<Derived>& standardized_y)
-	{
-		assert(standardized_y.rows() == Base::rows());
-		assert(standardized_y.rows() == m_residuals_y.rows());
-		m_residuals_x = m_residual.standardized_solve(standardized_y);
-		m_results = m_correlation.cor(m_residuals_x, m_residuals_y);
-		return m_results;
-	}
-
-	template<typename DerivedType>
-	template<typename DerivedA, typename DerivedB>
-	Scalar PartialCorrelationBase<DerivedType>::standardized_solve(const VectorBase<DerivedA>& standardized_x, const VectorBase<DerivedB>& standardized_y)
-	{
-		assert(standardized_x.rows() == Base::rows());
-		assert(standardized_y.rows() == Base::rows());
-		m_residuals_y = m_residual.standardized_solve(standardized_y);
-		return standardized_solve(standardized_x);
+		m_residuals_x = Base::derived().m_residual.solve(std_x);
+		m_is_x_initialized = true;
+		return solve(std_y);
 	}
 
 	template<typename DerivedType>
@@ -110,7 +78,7 @@ namespace kanalysis::stats
 	template<typename DerivedType>
 	const auto& PartialCorrelationBase<DerivedType>::residual() const
 	{
-		return m_residual;
+		return Base::derived().m_residual;
 	}
 
 	template<typename DerivedType>

@@ -6,6 +6,9 @@
 
 namespace kanalysis::stats
 {
+	template<typename MatrixType>
+	class ComputeHolder;
+
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class Coefficient : public CoefficientBase<Coefficient<ComputeHolderType, RegressionFunctionType>>
 	{
@@ -22,4 +25,16 @@ namespace kanalysis::stats
 		using ComputeHolderType = ComputeHolderType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
+
+	template<typename MatrixType, typename RegressionFunctionType>
+	Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType> coefficient(const ComputeHolder<MatrixType>& compute_holder);
+} // namespace kanalysis::stats
+
+namespace kanalysis::stats
+{
+	template<typename MatrixType, typename RegressionFunctionType>
+	Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType> coefficient(const ComputeHolder<MatrixType>& compute_holder)
+	{
+		return Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType>(compute_holder);
+	}
 } // namespace kanalysis::stats

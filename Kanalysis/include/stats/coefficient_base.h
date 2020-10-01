@@ -15,10 +15,10 @@ namespace kanalysis::stats
 		using Base::Base;
 	public:
 		template<typename Derived>
-		const Vector& solve(const VectorBase<Derived>& y);
+		const Vector& solve(const VectorBase<Derived>& std_y);
 	protected:
 		CoefficientBase() = default;
-		Vector m_results;
+		Vector m_results = Vector::Constant(Base::cols(), 0);
 	private:
 		friend class Base;
 	};
@@ -28,10 +28,10 @@ namespace kanalysis::stats
 {
 	template<typename DerivedType>
 	template<typename Derived>
-	const Vector& CoefficientBase<DerivedType>::solve(const VectorBase<Derived>& y)
+	const Vector& CoefficientBase<DerivedType>::solve(const VectorBase<Derived>& std_y)
 	{
-		assert(y.rows() == Base::rows());
-		RegressionFunctionType::coefficients(Base::decomposition(), y, m_results);
+		assert(std_y.rows() == Base::rows());
+		RegressionFunctionType::coefficients(Base::decomposition(), std_y, m_results);
 		return m_results;
 	}
 } // namespace kanalysis::stats

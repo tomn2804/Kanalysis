@@ -41,7 +41,7 @@ namespace kanalysis::stats
 	const Vector& KruskalWeight<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& y, int threads)
 	{
 		assert(y.rows() == Base::rows());
-		WeightFunction::multiply_by_sqrt_weights(y, Base::sqrt_weights(), m_standardized_y);
+		WeightFunction::multiply_by_sqrt_weights(y, Base::compute_holder().sqrt_weights(), m_standardized_y);
 		return Base::standardized_solve(m_standardized_y, threads);
 	}
 

@@ -18,14 +18,15 @@ namespace kanalysis::stats
 		using typename Base::RegressionFunctionType;
 		using Base::Base;
 	public:
-		template<typename Derived>
-		const Vector& solve(const VectorBase<Derived>& y);
-
 		const auto& coefficient() const;
 	protected:
 		FittedValueBase() = default;
+
+		template<typename Derived>
+		Vector& std_solve(const VectorBase<Derived>& std_y);
+
 		Coefficient<const ComputeHolderDecayType&, RegressionFunctionType> m_coefficient = Coefficient<const ComputeHolderDecayType&, RegressionFunctionType>(Base::compute_holder());
-		Vector m_results;
+		Vector m_results = Vector::Constant(Base::rows(), 0);
 	private:
 		friend class Base;
 	};
@@ -34,18 +35,18 @@ namespace kanalysis::stats
 namespace kanalysis::stats
 {
 	template<typename DerivedType>
-	template<typename Derived>
-	const Vector& FittedValueBase<DerivedType>::solve(const VectorBase<Derived>& y)
-	{
-		assert(y.rows() == Base::rows());
-		const Vector& coefficients = m_coefficient.solve(y);
-		RegressionFunctionType::fitted_values(Base::standardized_matrix(), coefficients, m_results);
-		return m_results;
-	}
-
-	template<typename DerivedType>
 	const auto& FittedValueBase<DerivedType>::coefficient() const
 	{
 		return m_coefficient;
+	}
+
+	template<typename DerivedType>
+	template<typename Derived>
+	Vector& FittedValueBase<DerivedType>::std_solve(const VectorBase<Derived>& std_y)
+	{
+		assert(std_y.rows() == Base::rows());
+		const Vector& coefficients = m_coefficient.solve(std_y);
+		RegressionFunctionType::fitted_values(Base::std_matrix(), coefficients, m_results);
+		return m_results;
 	}
 } // namespace kanalysis::stats

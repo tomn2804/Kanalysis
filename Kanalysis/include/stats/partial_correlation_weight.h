@@ -6,13 +6,24 @@
 
 namespace kanalysis::stats
 {
+	template<typename MatrixType, typename ArrayType>
+	class ComputeHolderWeight;
+
+	template<typename ComputeHolderType, typename RegressionFunctionType>
+	class ResidualWeight;
+
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class PartialCorrelationWeight : public PartialCorrelationBase<PartialCorrelationWeight<ComputeHolderType, RegressionFunctionType>>
 	{
 	protected:
 		using Base = PartialCorrelationBase<PartialCorrelationWeight<ComputeHolderType, RegressionFunctionType>>;
+		using typename Base::ComputeHolderDecayType;
 	public:
 		using Base::Base;
+	protected:
+		ResidualWeight<const ComputeHolderDecayType&, RegressionFunctionType> m_residual = ResidualWeight<const ComputeHolderDecayType&, RegressionFunctionType>(Base::compute_holder());
+	private:
+		friend class Base;
 	};
 
 	template<typename ComputeHolderType_, typename RegressionFunctionType_>
@@ -21,4 +32,16 @@ namespace kanalysis::stats
 		using ComputeHolderType = ComputeHolderType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
+
+	template<typename MatrixType, typename RegressionFunctionType>
+	PartialCorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> partial_correlation(const ComputeHolderWeight<MatrixType, Array>& compute_holder);
+} // namespace kanalysis::stats
+
+namespace kanalysis::stats
+{
+	template<typename MatrixType, typename RegressionFunctionType>
+	PartialCorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> partial_correlation(const ComputeHolderWeight<MatrixType, Array>& compute_holder)
+	{
+		return PartialCorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(compute_holder);
+	}
 } // namespace kanalysis::stats

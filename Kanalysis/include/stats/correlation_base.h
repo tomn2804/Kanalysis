@@ -14,17 +14,8 @@ namespace kanalysis::stats
 	{
 	protected:
 		using Base = SolveHolderBase<DerivedType>;
-		using typename Base::ComputeHolderDecayType;
-		using typename Base::RegressionFunctionType;
-
-		template<typename ComputeHolderType_, typename RegressionFunctionType_>
-		using FittedValueTemplateType = typename ComputeHolderTraits<ComputeHolderDecayType>::template FittedValueTemplateType<ComputeHolderType_, RegressionFunctionType_>;
-
 		using Base::Base;
 	public:
-		template<typename Derived>
-		Scalar solve(const VectorBase<Derived>& y);
-
 		const auto& fitted_value() const;
 
 		const Array& mean_deviations_x() const;
@@ -32,12 +23,10 @@ namespace kanalysis::stats
 	protected:
 		CorrelationBase() = default;
 
-		FittedValueTemplateType<const ComputeHolderDecayType&, RegressionFunctionType> m_fitted_value = FittedValueTemplateType<const ComputeHolderDecayType&, RegressionFunctionType>(Base::compute_holder());
+		Array m_mean_deviations_x = Array::Constant(Base::rows(), 0);
+		Array m_mean_deviations_y = Array::Constant(Base::rows(), 0);
 
-		Array m_mean_deviations_x;
-		Array m_mean_deviations_y;
-
-		Scalar m_results;
+		Scalar m_results = 0;
 	private:
 		friend class Base;
 	};
@@ -46,17 +35,9 @@ namespace kanalysis::stats
 namespace kanalysis::stats
 {
 	template<typename DerivedType>
-	template<typename Derived>
-	Scalar CorrelationBase<DerivedType>::solve(const VectorBase<Derived>& y)
-	{
-		assert(standardized_y.rows() == Base::rows());
-		return Base::derived().cor(m_fitted_value.standardized_solve(standardized_y), standardized_y);
-	}
-
-	template<typename DerivedType>
 	const auto& CorrelationBase<DerivedType>::fitted_value() const
 	{
-		return m_fitted_value;
+		return Base::derived().m_fitted_value;
 	}
 
 	template<typename DerivedType>

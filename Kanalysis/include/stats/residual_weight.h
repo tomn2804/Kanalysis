@@ -3,10 +3,12 @@
 #include "include/config.h"
 
 #include "include/stats/residual_base.h"
+#include "include/stats/weight_function.h"
 
 namespace kanalysis::stats
 {
-	struct WeightFunction;
+	template<typename MatrixType, typename ArrayType>
+	class ComputeHolderWeight;
 
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class ResidualWeight : public ResidualBase<ResidualWeight<ComputeHolderType, RegressionFunctionType>>
@@ -18,7 +20,7 @@ namespace kanalysis::stats
 		ResidualWeight() = default;
 
 		template<typename Derived>
-		const Vector& solve(const VectorBase<Derived>& standardized_y);
+		const Vector& solve(const VectorBase<Derived>& std_y);
 	};
 
 	template<typename ComputeHolderType_, typename RegressionFunctionType_>
@@ -27,17 +29,25 @@ namespace kanalysis::stats
 		using ComputeHolderType = ComputeHolderType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
+
+	template<typename MatrixType, typename RegressionFunctionType>
+	ResidualWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> residual(const ComputeHolderWeight<MatrixType, Array>& compute_holder);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	template<typename Derived>
-	const Vector& ResidualWeight<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& standardized_y)
+	const Vector& ResidualWeight<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y)
 	{
-		assert(standardized_y.rows() == Base::rows());
-		Vector& results = const_cast<Vector&>(Base::standardized_solve(standardized_y));
-		WeightFunction::divide_by_sqrt_weights(Base::sqrt_weights(), results);
+		Vector& results = Base::std_solve(std_y);;
+		WeightFunction::divide_by_sqrt_weights(results, Base::compute_holder().sqrt_weights(), results);
 		return results;
+	}
+
+	template<typename MatrixType, typename RegressionFunctionType>
+	ResidualWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> residual(const ComputeHolderWeight<MatrixType, Array>& compute_holder)
+	{
+		return ResidualWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(compute_holder);
 	}
 } // namespace kanalysis::stats

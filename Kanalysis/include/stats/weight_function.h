@@ -9,29 +9,38 @@ namespace kanalysis::stats
 		template<typename DerivedA, typename DerivedB>
 		static void sqrt_weights(const DenseBase<DerivedA>& weights, DenseBase<DerivedB>& out);
 
-		template<typename DerivedA, typename DerivedB, typename DerivedC>
-		static void multiply_by_weights(const DenseBase<DerivedA>& in, const DenseBase<DerivedB>& weights, DenseBase<DerivedC>& out);
-
-		template<typename DerivedA, typename DerivedB>
-		static void multiply_by_weights(const DenseBase<DerivedA>& weights, DenseBase<DerivedB>& in_out);
+		template<typename Derived>
+		static Array sqrt_weights(const DenseBase<Derived>& weights);
 
 		template<typename DerivedA, typename DerivedB, typename DerivedC>
-		static void multiply_by_sqrt_weights(const DenseBase<DerivedA>& in, const DenseBase<DerivedB>& sqrt_weights, DenseBase<DerivedC>& out);
+		static void multiply_by_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights, DenseBase<DerivedC>& out);
 
 		template<typename DerivedA, typename DerivedB>
-		static void multiply_by_sqrt_weights(const DenseBase<DerivedA>& sqrt_weights, DenseBase<DerivedB>& in_out);
+		static Matrix multiply_by_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights);
 
 		template<typename DerivedA, typename DerivedB, typename DerivedC>
-		static void divide_by_weights(const DenseBase<DerivedA>& in, const DenseBase<DerivedB>& weights, DenseBase<DerivedC>& out);
+		static void multiply_by_sqrt_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& sqrt_weights, DenseBase<DerivedC>& out);
 
 		template<typename DerivedA, typename DerivedB>
-		static void divide_by_weights(const DenseBase<DerivedA>& weights, DenseBase<DerivedB>& in_out);
+		static Matrix multiply_by_sqrt_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& sqrt_weights);
 
 		template<typename DerivedA, typename DerivedB, typename DerivedC>
-		static void divide_by_sqrt_weights(const DenseBase<DerivedA>& in, const DenseBase<DerivedB>& sqrt_weights, DenseBase<DerivedC>& out);
+		static void divide_by_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights, DenseBase<DerivedC>& out);
 
 		template<typename DerivedA, typename DerivedB>
-		static void divide_by_sqrt_weights(const DenseBase<DerivedA>& sqrt_weights, DenseBase<DerivedB>& in_out);
+		static Matrix divide_by_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights);
+
+		template<typename DerivedA, typename DerivedB, typename DerivedC>
+		static void divide_by_sqrt_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& sqrt_weights, DenseBase<DerivedC>& out);
+
+		template<typename DerivedA, typename DerivedB>
+		static Matrix divide_by_sqrt_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& sqrt_weights);
+
+		template<typename DerivedA, typename DerivedB, typename DerivedC>
+		static void standardize(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights, DenseBase<DerivedC>& out);
+
+		template<typename DerivedA, typename DerivedB>
+		static Matrix standardize(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights);
 	};
 } // namespace kanalysis::stats
 
@@ -43,59 +52,86 @@ namespace kanalysis::stats
 		out.derived() = weights.derived().array().sqrt();
 	}
 
-	template<typename DerivedA, typename DerivedB, typename DerivedC>
-	void WeightFunction::multiply_by_weights(const DenseBase<DerivedA>& in, const DenseBase<DerivedB>& weights, DenseBase<DerivedC>& out)
+	template<typename Derived>
+	Array WeightFunction::sqrt_weights(const DenseBase<Derived>& weights)
 	{
-		assert(in.rows() == weights.rows());
-		out.derived() = in.derived().array().colwise() * weights.derived().array();
-	}
-
-	template<typename DerivedA, typename DerivedB>
-	void WeightFunction::multiply_by_weights(const DenseBase<DerivedA>& weights, DenseBase<DerivedB>& in_out)
-	{
-		assert(weights.rows() == in_out.rows());
-		in_out.derived().array().colwise() *= weights.derived().array();
+		Array out;
+		sqrt_weights(weights, out);
+		return out;
 	}
 
 	template<typename DerivedA, typename DerivedB, typename DerivedC>
-	void WeightFunction::multiply_by_sqrt_weights(const DenseBase<DerivedA>& in, const DenseBase<DerivedB>& sqrt_weights, DenseBase<DerivedC>& out)
+	void WeightFunction::multiply_by_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights, DenseBase<DerivedC>& out)
 	{
-		assert(in.rows() == sqrt_weights.rows());
-		multiply_by_weights(in, sqrt_weights, out);
+		assert(x.rows() == weights.rows());
+		out.derived() = x.derived().array().colwise() * weights.derived().array();
 	}
 
 	template<typename DerivedA, typename DerivedB>
-	void WeightFunction::multiply_by_sqrt_weights(const DenseBase<DerivedA>& sqrt_weights, DenseBase<DerivedB>& in_out)
+	Matrix WeightFunction::multiply_by_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights)
 	{
-		assert(sqrt_weights.rows() == in_out.rows());
-		multiply_by_weights(sqrt_weights, in_out);
+		Matrix out;
+		multiply_by_weights(x, weights, out);
+		return out;
 	}
 
 	template<typename DerivedA, typename DerivedB, typename DerivedC>
-	void WeightFunction::divide_by_weights(const DenseBase<DerivedA>& in, const DenseBase<DerivedB>& weights, DenseBase<DerivedC>& out)
+	void WeightFunction::multiply_by_sqrt_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& sqrt_weights, DenseBase<DerivedC>& out)
 	{
-		assert(in.rows() == weights.rows());
-		out.derived() = in.derived().array().colwise() / weights.derived().array();
+		assert(x.rows() == sqrt_weights.rows());
+		multiply_by_weights(x, sqrt_weights, out);
 	}
 
 	template<typename DerivedA, typename DerivedB>
-	void WeightFunction::divide_by_weights(const DenseBase<DerivedA>& weights, DenseBase<DerivedB>& in_out)
+	Matrix WeightFunction::multiply_by_sqrt_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& sqrt_weights)
 	{
-		assert(weights.rows() == in_out.rows());
-		in_out.derived().array().colwise() /= weights.derived().array();
+		Matrix out;
+		multiply_by_sqrt_weights(x, sqrt_weights, out);
+		return out;
 	}
 
 	template<typename DerivedA, typename DerivedB, typename DerivedC>
-	void WeightFunction::divide_by_sqrt_weights(const DenseBase<DerivedA>& in, const DenseBase<DerivedB>& sqrt_weights, DenseBase<DerivedC>& out)
+	void WeightFunction::divide_by_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights, DenseBase<DerivedC>& out)
 	{
-		assert(in.rows() == sqrt_weights.rows());
-		divide_by_weights(in, sqrt_weights, out);
+		assert(x.rows() == weights.rows());
+		out.derived() = x.derived().array().colwise() / weights.derived().array();
 	}
 
 	template<typename DerivedA, typename DerivedB>
-	void WeightFunction::divide_by_sqrt_weights(const DenseBase<DerivedA>& sqrt_weights, DenseBase<DerivedB>& in_out)
+	Matrix WeightFunction::divide_by_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights)
 	{
-		assert(sqrt_weights.rows() == in_out.rows());
-		divide_by_weights(sqrt_weights, in_out);
+		Matrix out;
+		divide_by_weights(x, weights, out);
+		return out;
+	}
+
+	template<typename DerivedA, typename DerivedB, typename DerivedC>
+	void WeightFunction::divide_by_sqrt_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& sqrt_weights, DenseBase<DerivedC>& out)
+	{
+		assert(x.rows() == sqrt_weights.rows());
+		divide_by_weights(x, sqrt_weights, out);
+	}
+
+	template<typename DerivedA, typename DerivedB>
+	Matrix WeightFunction::divide_by_sqrt_weights(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& sqrt_weights)
+	{
+		Matrix out;
+		divide_by_sqrt_weights(x, sqrt_weights, out);
+		return out;
+	}
+
+	template<typename DerivedA, typename DerivedB, typename DerivedC>
+	void WeightFunction::standardize(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights, DenseBase<DerivedC>& out)
+	{
+		assert(x.rows() == weights.rows());
+		multiply_by_sqrt_weights(x, sqrt_weights(weights), out);
+	}
+
+	template<typename DerivedA, typename DerivedB>
+	Matrix WeightFunction::standardize(const DenseBase<DerivedA>& x, const DenseBase<DerivedB>& weights)
+	{
+		Matrix out;
+		standardize(x, weights, out);
+		return out;
 	}
 } // namespace kanalysis::stats
