@@ -61,27 +61,6 @@
     <ClInclude Include="tests\tests.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\stats\coefficient.cpp" />
-    <ClCompile Include="src\stats\coefficient_base.cpp" />
-    <ClCompile Include="src\stats\coefficient_weight.cpp" />
-    <ClCompile Include="src\stats\compute_holder.cpp" />
-    <ClCompile Include="src\stats\compute_holder_base.cpp" />
-    <ClCompile Include="src\stats\compute_holder_weight.cpp" />
-    <ClCompile Include="src\stats\correlation.cpp" />
-    <ClCompile Include="src\stats\correlation_base.cpp" />
-    <ClCompile Include="src\stats\correlation_weight.cpp" />
-    <ClCompile Include="src\stats\fitted_value.cpp" />
-    <ClCompile Include="src\stats\fitted_value_base.cpp" />
-    <ClCompile Include="src\stats\fitted_value_weight.cpp" />
-    <ClCompile Include="src\stats\linear_regression_function.cpp" />
-    <ClCompile Include="src\stats\partial_correlation.cpp" />
-    <ClCompile Include="src\stats\partial_correlation_base.cpp" />
-    <ClCompile Include="src\stats\partial_correlation_weight.cpp" />
-    <ClCompile Include="src\stats\residual.cpp" />
-    <ClCompile Include="src\stats\residual_base.cpp" />
-    <ClCompile Include="src\stats\residual_weight.cpp" />
-    <ClCompile Include="src\stats\solve_holder_base.cpp" />
-    <ClCompile Include="src\stats\weight_function.cpp" />
     <ClCompile Include="tests\main.cpp" />
     <ClCompile Include="tests\tests.cpp" />
   </ItemGroup>

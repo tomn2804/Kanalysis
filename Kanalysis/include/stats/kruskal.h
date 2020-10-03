@@ -6,6 +6,9 @@
 
 namespace kanalysis::stats
 {
+	template<typename MatrixType>
+	class ComputeHolder;
+
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class Kruskal : public KruskalBase<Kruskal<ComputeHolderType, RegressionFunctionType>>
 	{
@@ -14,12 +17,6 @@ namespace kanalysis::stats
 	public:
 		using Base::Base;
 		Kruskal() = default;
-
-		template<typename Derived>
-		const Vector& solve(const VectorBase<Derived>& y, int threads);
-
-		template<typename Derived>
-		const Vector& solve(const VectorBase<Derived>& y);
 	};
 
 	template<typename ComputeHolderType_, typename RegressionFunctionType_>
@@ -28,22 +25,16 @@ namespace kanalysis::stats
 		using ComputeHolderType = ComputeHolderType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
+
+	template<typename MatrixType, typename RegressionFunctionType>
+	Kruskal<ComputeHolder<MatrixType>, RegressionFunctionType> kruskal(const ComputeHolder<MatrixType>& compute_holder);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	template<typename Derived>
-	const Vector& Kruskal<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& y, int threads)
+	template<typename MatrixType, typename RegressionFunctionType>
+	Kruskal<ComputeHolder<MatrixType>, RegressionFunctionType> kruskal(const ComputeHolder<MatrixType>& compute_holder)
 	{
-		assert(y.rows() == Base::rows());
-		return Base::standardized_solve(y, threads);
-	}
-
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	template<typename Derived>
-	const Vector& Kruskal<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& y)
-	{
-		return solve(y, 1);
+		return Kruskal<ComputeHolder<MatrixType>, RegressionFunctionType>(compute_holder);
 	}
 } // namespace kanalysis::stats

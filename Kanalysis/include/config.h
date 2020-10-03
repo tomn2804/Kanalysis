@@ -52,5 +52,5 @@ namespace kanalysis
 	using MapBase = Eigen::MapBase<Derived>;
 
 	template<typename MatrixType>
-	using Decomposition = Eigen::HouseholderQR<MatrixType>;
+	using HouseholderQR = Eigen::HouseholderQR<MatrixType>;
 }

@@ -31,35 +31,32 @@ namespace kanalysis::stats
 		using ArrayType = typename ComputeHolderTraits::ArrayType;
 
 		template<typename Derived>
-		SolveHolderBase(const ComputeHolderBase<Derived>& compute_holder);
+		SolveHolderBase(const ComputeHolderBase<Derived>& decomposition);
 
 		template<typename Derived>
-		SolveHolderBase(ComputeHolderBase<Derived>& compute_holder);
+		SolveHolderBase(ComputeHolderBase<Derived>& decomposition);
 
 		template<typename Derived>
-		void compute(const DenseBase<Derived>& std_matrix);
+		void compute(const DenseBase<Derived>& std_x);
 
 		template<typename Derived>
-		decltype(auto) solve(const VectorBase<Derived>& std_y);
+		decltype(auto) solve(const VectorBase<Derived>& std_y) const;
 
-		const auto& results() const;
-		auto& const_cast_results() const;
+		const auto& recent_results() const;
+		auto& const_cast_recent_results() const;
 
 		Index rows() const;
 		Index cols() const;
 
-		const MatrixType& std_matrix() const;
-		MatrixType& const_cast_std_matrix() const;
+		const MatrixType& std_x() const;
+		MatrixType& const_cast_std_x() const;
 
-		const Decomposition<Matrix>& decomposition() const;
-		Decomposition<Matrix>& const_cast_decomposition() const;
-
-		const ComputeHolderType& compute_holder() const;
-		ComputeHolderType& const_cast_computer_holder() const;
+		const ComputeHolderType& decomposition() const;
+		ComputeHolderType& const_cast_decomposition() const;
 	protected:
 		SolveHolderBase() = default;
 	private:
-		ComputeHolderType m_compute_holder;
+		ComputeHolderType m_decomposition;
 	};
 } // namespace kanalysis::stats
 
@@ -67,38 +64,38 @@ namespace kanalysis::stats
 {
 	template<typename DerivedType>
 	template<typename Derived>
-	SolveHolderBase<DerivedType>::SolveHolderBase(const ComputeHolderBase<Derived>& compute_holder)
-		: m_compute_holder(compute_holder.derived())
+	SolveHolderBase<DerivedType>::SolveHolderBase(const ComputeHolderBase<Derived>& decomposition)
+		: m_decomposition(decomposition.derived())
 	{}
 
 	template<typename DerivedType>
 	template<typename Derived>
-	SolveHolderBase<DerivedType>::SolveHolderBase(ComputeHolderBase<Derived>& compute_holder)
-		: m_compute_holder(compute_holder.derived())
+	SolveHolderBase<DerivedType>::SolveHolderBase(ComputeHolderBase<Derived>& decomposition)
+		: m_decomposition(decomposition.derived())
 	{}
 
 	template<typename DerivedType>
 	template<typename Derived>
-	void SolveHolderBase<DerivedType>::compute(const DenseBase<Derived>& std_matrix)
+	void SolveHolderBase<DerivedType>::compute(const DenseBase<Derived>& std_x)
 	{
-		m_compute_holder.compute(std_matrix);
+		m_decomposition.compute(std_x);
 	}
 
 	template<typename DerivedType>
 	template<typename Derived>
-	decltype(auto) SolveHolderBase<DerivedType>::solve(const VectorBase<Derived>& std_y)
+	decltype(auto) SolveHolderBase<DerivedType>::solve(const VectorBase<Derived>& std_y) const
 	{
 		return Base::derived().solve(std_y);
 	}
 
 	template<typename DerivedType>
-	const auto& SolveHolderBase<DerivedType>::results() const
+	const auto& SolveHolderBase<DerivedType>::recent_results() const
 	{
 		return Base::derived().m_results;
 	}
 
 	template<typename DerivedType>
-	auto& SolveHolderBase<DerivedType>::const_cast_results() const
+	auto& SolveHolderBase<DerivedType>::const_cast_recent_results() const
 	{
 		return const_cast<decltype(Base::derived().m_results)>(Base::derived().m_results);
 	}
@@ -106,48 +103,36 @@ namespace kanalysis::stats
 	template<typename DerivedType>
 	Index SolveHolderBase<DerivedType>::rows() const
 	{
-		return m_compute_holder.rows();
+		return m_decomposition.rows();
 	}
 
 	template<typename DerivedType>
 	Index SolveHolderBase<DerivedType>::cols() const
 	{
-		return m_compute_holder.cols();
+		return m_decomposition.cols();
 	}
 
 	template<typename DerivedType>
-	const typename SolveHolderBase<DerivedType>::MatrixType& SolveHolderBase<DerivedType>::std_matrix() const
+	const typename SolveHolderBase<DerivedType>::MatrixType& SolveHolderBase<DerivedType>::std_x() const
 	{
-		return m_compute_holder.std_matrix();
+		return m_decomposition.std_x();
 	}
 
 	template<typename DerivedType>
-	typename SolveHolderBase<DerivedType>::MatrixType& SolveHolderBase<DerivedType>::const_cast_std_matrix() const
+	typename SolveHolderBase<DerivedType>::MatrixType& SolveHolderBase<DerivedType>::const_cast_std_x() const
 	{
-		return m_compute_holder.const_cast_std_matrix();
+		return m_decomposition.const_cast_std_x();
 	}
 
 	template<typename DerivedType>
-	const Decomposition<Matrix>& SolveHolderBase<DerivedType>::decomposition() const
+	const typename SolveHolderBase<DerivedType>::ComputeHolderType& SolveHolderBase<DerivedType>::decomposition() const
 	{
-		return m_compute_holder.decomposition();
+		return m_decomposition;
 	}
 
 	template<typename DerivedType>
-	Decomposition<Matrix>& SolveHolderBase<DerivedType>::const_cast_decomposition() const
+	typename SolveHolderBase<DerivedType>::ComputeHolderType& SolveHolderBase<DerivedType>::const_cast_decomposition() const
 	{
-		return m_compute_holder.const_cast_decomposition();
-	}
-
-	template<typename DerivedType>
-	const typename SolveHolderBase<DerivedType>::ComputeHolderType& SolveHolderBase<DerivedType>::compute_holder() const
-	{
-		return m_compute_holder;
-	}
-
-	template<typename DerivedType>
-	typename SolveHolderBase<DerivedType>::ComputeHolderType& SolveHolderBase<DerivedType>::const_cast_computer_holder() const
-	{
-		return const_cast<ComputeHolderType&>(m_compute_holder);
+		return const_cast<ComputeHolderType&>(m_decomposition);
 	}
 } // namespace kanalysis::stats

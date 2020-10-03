@@ -4,6 +4,8 @@
 
 #include "include/stats/solve_holder_base.h"
 
+#include "include/stats/coefficient.h"
+
 namespace kanalysis::stats
 {
 	template<typename ComputeHolderType, typename RegressionFunctionType>
@@ -23,10 +25,10 @@ namespace kanalysis::stats
 		FittedValueBase() = default;
 
 		template<typename Derived>
-		Vector& std_solve(const VectorBase<Derived>& std_y);
+		Vector& std_solve(const VectorBase<Derived>& std_y) const;
 
-		Coefficient<const ComputeHolderDecayType&, RegressionFunctionType> m_coefficient = Coefficient<const ComputeHolderDecayType&, RegressionFunctionType>(Base::compute_holder());
-		Vector m_results = Vector::Constant(Base::rows(), 0);
+		Coefficient<const ComputeHolderDecayType&, RegressionFunctionType> m_coefficient = Coefficient<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
+		mutable Vector m_results = Vector::Constant(Base::rows(), 0);
 	private:
 		friend class Base;
 	};
@@ -42,11 +44,11 @@ namespace kanalysis::stats
 
 	template<typename DerivedType>
 	template<typename Derived>
-	Vector& FittedValueBase<DerivedType>::std_solve(const VectorBase<Derived>& std_y)
+	Vector& FittedValueBase<DerivedType>::std_solve(const VectorBase<Derived>& std_y) const
 	{
 		assert(std_y.rows() == Base::rows());
 		const Vector& coefficients = m_coefficient.solve(std_y);
-		RegressionFunctionType::fitted_values(Base::std_matrix(), coefficients, m_results);
+		RegressionFunctionType::fitted_values(Base::std_x(), coefficients, m_results);
 		return m_results;
 	}
 } // namespace kanalysis::stats

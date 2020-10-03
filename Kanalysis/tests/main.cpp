@@ -3,52 +3,9 @@
 #include <discreture.hpp>
 //#include "include/kanalysis.h"
 #include "tests/tests.h"
-//#include "include/arithmetic/col_functor.h"
-//
-//#include "include/threads/thread_pool.h"
-//
-//#include "include/arithmetic/two_hands_side_col_functor.h"
 
-//using discreture::operator<<;
+using discreture::operator<<;
 
-//class Functor
-//{
-//public:
-//	int operator()(discreture::Combinations<int>::iterator first1, discreture::Combinations<int>::iterator last1,
-//				   discreture::Combinations<int>::reverse_iterator first2, discreture::Combinations<int>::reverse_iterator last2,
-//				   int worker_id)
-//	{
-//		assert(std::distance(first1, last1) == std::distance(first2, last2));
-//
-//		using discreture::combinations;
-//
-//		std::unique_lock<std::mutex> lock(m_mutex);
-//
-//		for (; first1 != last1; ++first1, ++first2)
-//		{
-//			std::cout << *first1 << ' ';
-//			std::cout << *first2 << '\n';
-//		}
-//
-//		return ++q;
-//	}
-//	int q = 0;
-//	std::mutex m_mutex;
-//};
-//
-//class FormulaFunctor
-//{
-//public:
-//	void operator()(int i)
-//	{
-//		std::unique_lock<std::mutex> lock(m_mutex);
-//
-//		//std::cout << i << '\n';
-//	}
-//	std::mutex m_mutex;
-//};
-//
-#include <discreture.hpp>
 #include "include/stats/compute_holder.h"
 #include "include/stats/compute_holder_weight.h"
 #include "include/stats/weight_function.h"
@@ -63,12 +20,40 @@
 #include "include/stats/correlation_weight.h"
 #include "include/stats/partial_correlation.h"
 #include "include/stats/partial_correlation_weight.h"
+#include "include/stats/kruskal.h"
+#include "include/stats/kruskal_weight.h"
 
-void test()
+int main()
 {
 	using namespace kanalysis;
 	using namespace kanalysis::stats;
 	using namespace kanalysis::tests;
+	//using namespace kanalysis::utils;
+	//using namespace kanalysis::arithmetic;
+
+	//using namespace discreture;
+	////Matrix mx = Matrix::Constant(5, 5, 3);
+	////Vector w = Vector::Constant(5, 2);
+	////Vector out = Vector::Constant(5, 2);
+	//int n = 5;
+	//int k = 4;
+	//int threads = 5;
+	//Combinations<Index> c(n, k);
+	//auto works = discreture::divide_work_in_equal_parts(c.begin(), c.end(), threads);
+	//std::cout << works.size() << '\n';
+
+	//for (size_t i = 0; i < threads; ++i)
+	//{
+	//	auto local_first = works[i];
+	//	auto local_last = works[i + 1];
+
+	//	//std::cout << *local_first << '\n';
+	//	for (; local_first != local_last; ++local_first)
+	//	{
+	//		std::cout << *local_first << '\n';
+	//	}
+	//	std::cout << "i\n";
+	//}
 
 	int threads = 8;
 
@@ -79,99 +64,152 @@ void test()
 		filename += "test_data_1.csv";
 		Data data(filename, variables);
 
-		Matrix temp = data.model_matrix();
-		Matrix model_matrix = temp.leftCols(temp.cols() - 1);
+		Matrix model_matrix = data.model_matrix();
 		Vector y = data.y();
 
 		std::cout << "Number of Variables: " << variables << '\n';
 		std::cout << "Number of Threads: " << threads << '\n';
-		std::cout << "Unweighted:" << '\n';
+
 		{
 			DEBUG_TIME();
 
-			ComputeHolder<Matrix> c(model_matrix);
-			PartialCorrelation<ComputeHolder<Matrix>, LinearRegressionFunction> k(c);
-			std::cout << k.solve(y, temp.col(temp.cols() - 1)) << '\n';
+			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+			// Correct results: 0.30766828 0.19547034 0.20683219 0.05496811 0.23506109
+			Vector yy = c.standardize(y);
+			std::cout << k.solve(yy, threads) << '\n';
 		}
-		std::system("pause");
-
-		std::cout << "Weighted:" << '\n';
-		{
-			DEBUG_TIME();
-			Matrix std_matrix = WeightFunction::standardize(model_matrix, data.weights());
-			ComputeHolderWeight<Matrix, Array> c(std_matrix, data.weights());
-			PartialCorrelationWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
-			std::cout << k.solve(c.standardize(y), c.standardize(temp.col(temp.cols() - 1))) << '\n';
-		}
-		std::system("pause");
 	}
-}
 
-int main()
-{
-	using namespace kanalysis;
-	using namespace kanalysis::stats;
-	//using namespace kanalysis::utils;
-	//using namespace kanalysis::arithmetic;
+	{
+		int variables = 10;
 
-	Matrix mx = Matrix::Constant(5, 5, 3);
-	Vector w = Vector::Constant(5, 2);
-	Vector out = Vector::Constant(5, 2);
+		std::string filename = DATA_DIRECTORY;
+		filename += "test_data_2.csv";
+		Data data(filename, variables);
 
-	test();
+		Matrix model_matrix = data.model_matrix();
+		Vector y = data.y();
 
-	//ComputeHolder<Matrix> ye(mx);
-	////Ref<Matrix> temp = mx;
-	////auto huh = coefficient<Ref<Matrix>, LinearRegressionFunction>(ye.compute_holder(temp));
+		std::cout << "Number of Variables: " << variables << '\n';
+		std::cout << "Number of Threads: " << threads << '\n';
 
-	//Map<Matrix> ye2(mx.data(), 5, 5);
-	//auto z = coefficient<Map<Matrix>, LinearRegressionFunction>(ye.compute_holder(ye2));
-	//auto huh = discreture::combinations(z);
+		{
+			DEBUG_TIME();
 
-	//{
-	//	Matrix mx = Matrix::Constant(5, 5, 3);
-	//	Vector w = Vector::Constant(5, 2);
-	//	Vector out = Vector::Constant(5, 2);
+			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+			Vector yy = c.standardize(y);
+			std::cout << k.solve(yy, threads) << '\n';
+		}
+	}
 
-	//	ComputeHolder<Ref<Matrix>> cc(mx);
+	{
+		int variables = 18;
 
-	//	Ref<Matrix> mxx = mx;
-	//	Vector zz = cc.standardize(w);
+		std::string filename = DATA_DIRECTORY;
+		filename += "test_data_2.csv";
+		Data data(filename, variables);
 
-	//	mxx.fill(99);
-	//	std::cout << zz << '\n';
-	//	auto ye = cc.compute_holder(cc.standardize(mx));
-	//}
+		Matrix model_matrix = data.model_matrix();
+		Vector y = data.y();
 
-	//{
-	//	Matrix mx = Matrix::Constant(5, 5, 3);
-	//	Vector w = Vector::Constant(5, 2);
+		std::cout << "Number of Variables: " << variables << '\n';
+		std::cout << "Number of Threads: " << threads << '\n';
 
-	//	Matrix ye = WeightFunction::divide_by_sqrt_weights(mx, w);
+		{
+			DEBUG_TIME();
 
-	//	ComputeHolderWeight<Ref<Matrix>, Array> cc(mx, w);
+			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+			Vector yy = c.standardize(y);
+			std::cout << k.solve(yy, threads) << '\n';
+		}
+	}
 
-	//	Ref<Matrix> mxx = mx;
-	//	cc.standardize(mx, mxx);
-	//	auto ye = cc.compute_holder(mxx);
-	//	mx.fill(123);
-	//	std::cout << ye.std_matrix() << '\n';
-	//}
-	//Matrix mx(1, 5);
-	//std::iota(mx.data(), mx.data() + mx.size(), 0);
+	{
+		int variables = 20;
 
-	//kanalysis::arithmetic::TwoHandsSideColFunctor<Matrix, Matrix> col(mx, mx);
+		std::string filename = DATA_DIRECTORY;
+		filename += "test_data_3.csv";
+		Data data(filename, variables);
 
-	//auto lhs = discreture::combinations(mx.cols(), mx.cols() / 2);
+		Matrix model_matrix = data.model_matrix();
+		Vector y = data.y();
+
+		std::cout << "Number of Variables: " << variables << '\n';
+		std::cout << "Number of Threads: " << threads << '\n';
+
+		{
+			DEBUG_TIME();
+
+			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+			Vector yy = c.standardize(y);
+			std::cout << k.solve(yy, threads) << '\n';
+		}
+	}
+
+	{
+		int variables = 25;
+
+		std::string filename = DATA_DIRECTORY;
+		filename += "test_data_3.csv";
+		Data data(filename, variables);
+
+		Matrix model_matrix = data.model_matrix();
+		Vector y = data.y();
+
+		std::cout << "Number of Variables: " << variables << '\n';
+		std::cout << "Number of Threads: " << threads << '\n';
+
+		{
+			DEBUG_TIME();
+
+			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+			Vector yy = c.standardize(y);
+			std::cout << k.solve(yy, threads) << '\n';
+		}
+	}
+
+	{
+		int variables = 30;
+
+		std::string filename = DATA_DIRECTORY;
+		filename += "test_data_3.csv";
+		Data data(filename, variables);
+
+		Matrix model_matrix = data.model_matrix();
+		Vector y = data.y();
+
+		std::cout << "Number of Variables: " << variables << '\n';
+		std::cout << "Number of Threads: " << threads << '\n';
+
+		{
+			DEBUG_TIME();
+
+			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+			Vector yy = c.standardize(y);
+			std::cout << k.solve(yy, threads) << '\n';
+		}
+	}
+
 	//auto rhs = discreture::reversed(discreture::combinations(mx.cols(), mx.cols() - mx.cols() / 2));
 
-	//auto test = discreture::divide_work_in_equal_parts(lhs, 4);
-
 	//{
-	//	DEBUG_TIME();
 	//	auto lhs_first = lhs.begin();
 	//	auto lhs_last = lhs.end();
+
 	//	auto rhs_first = rhs.begin();
+	//	auto rhs_last = rhs.end();
 
 	//	col.reset(*lhs_first, *rhs_first);
 
@@ -182,6 +220,8 @@ int main()
 	//		std::cout << col.rhs().matrix() << '\n';
 	//		std::cout << '\n';
 	//	}
+
+	//	assert(lhs_first == rhs_last);
 	//}
 
 	//kanalysis::arithmetic::TwoHandsSideColFunctor<Matrix, discreture::Combinations<Index>> col(mx);

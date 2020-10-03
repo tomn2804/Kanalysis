@@ -19,7 +19,7 @@ namespace kanalysis::stats
 		Residual() = default;
 
 		template<typename Derived>
-		const Vector& solve(const VectorBase<Derived>& std_y);
+		const Vector& solve(const VectorBase<Derived>& std_y) const;
 	};
 
 	template<typename ComputeHolderType_, typename RegressionFunctionType_>
@@ -37,7 +37,7 @@ namespace kanalysis::stats
 {
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	template<typename Derived>
-	const Vector& Residual<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y)
+	const Vector& Residual<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
 	{
 		return Base::std_solve(std_y);
 	}

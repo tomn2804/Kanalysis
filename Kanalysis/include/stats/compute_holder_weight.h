@@ -17,16 +17,16 @@ namespace kanalysis::stats
 		ComputeHolderWeight() = default;
 
 		template<typename DerivedA, typename DerivedB>
-		ComputeHolderWeight(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights);
+		ComputeHolderWeight(const DenseBase<DerivedA>& std_x, const DenseBase<DerivedB>& weights);
 
 		template<typename DerivedA, typename DerivedB>
-		ComputeHolderWeight(DenseBase<DerivedA>& std_matrix, DenseBase<DerivedB>& weights);
+		ComputeHolderWeight(DenseBase<DerivedA>& std_x, DenseBase<DerivedB>& weights);
 
 		template<typename DerivedA, typename DerivedB, typename DerivedC>
-		ComputeHolderWeight(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights, const DenseBase<DerivedC>& sqrt_weights);
+		ComputeHolderWeight(const DenseBase<DerivedA>& std_x, const DenseBase<DerivedB>& weights, const DenseBase<DerivedC>& sqrt_weights);
 
 		template<typename DerivedA, typename DerivedB, typename DerivedC>
-		ComputeHolderWeight(DenseBase<DerivedA>& std_matrix, DenseBase<DerivedB>& weights, DenseBase<DerivedC>& sqrt_weights);
+		ComputeHolderWeight(DenseBase<DerivedA>& std_x, DenseBase<DerivedB>& weights, DenseBase<DerivedC>& sqrt_weights);
 
 		template<typename DerivedA, typename DerivedB>
 		void standardize(const DenseBase<DerivedA>& x, DenseBase<DerivedB>& out) const;
@@ -35,7 +35,7 @@ namespace kanalysis::stats
 		Matrix standardize(const DenseBase<Derived>& x) const;
 
 		template<typename Derived>
-		ComputeHolderWeight<Derived, ArrayType> compute_holder(const DenseBase<Derived>& std_matrix) const;
+		ComputeHolderWeight<Derived, ArrayType> compute_holder(const DenseBase<Derived>& std_x) const;
 
 		const ArrayType& weights() const;
 		ArrayType& const_cast_weights() const;
@@ -55,37 +55,37 @@ namespace kanalysis::stats
 	};
 
 	template<typename DerivedA, typename DerivedB>
-	ComputeHolderWeight<DerivedA, DerivedB> compute_holder(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights);
+	ComputeHolderWeight<DerivedA, DerivedB> compute_holder(const DenseBase<DerivedA>& std_x, const DenseBase<DerivedB>& weights);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename ArrayType>
 	template<typename DerivedA, typename DerivedB>
-	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights)
-		: Base(std_matrix)
+	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(const DenseBase<DerivedA>& std_x, const DenseBase<DerivedB>& weights)
+		: Base(std_x)
 		, m_weights(weights.derived())
 	{}
 
 	template<typename MatrixType, typename ArrayType>
 	template<typename DerivedA, typename DerivedB>
-	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(DenseBase<DerivedA>& std_matrix, DenseBase<DerivedB>& weights)
-		: Base(std_matrix)
+	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(DenseBase<DerivedA>& std_x, DenseBase<DerivedB>& weights)
+		: Base(std_x)
 		, m_weights(weights.derived())
 	{}
 
 	template<typename MatrixType, typename ArrayType>
 	template<typename DerivedA, typename DerivedB, typename DerivedC>
-	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights, const DenseBase<DerivedC>& sqrt_weights)
-		: Base(std_matrix)
+	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(const DenseBase<DerivedA>& std_x, const DenseBase<DerivedB>& weights, const DenseBase<DerivedC>& sqrt_weights)
+		: Base(std_x)
 		, m_weights(weights.derived())
 		, m_sqrt_weights(sqrt_weights.derived())
 	{}
 
 	template<typename MatrixType, typename ArrayType>
 	template<typename DerivedA, typename DerivedB, typename DerivedC>
-	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(DenseBase<DerivedA>& std_matrix, DenseBase<DerivedB>& weights, DenseBase<DerivedC>& sqrt_weights)
-		: Base(std_matrix)
+	ComputeHolderWeight<MatrixType, ArrayType>::ComputeHolderWeight(DenseBase<DerivedA>& std_x, DenseBase<DerivedB>& weights, DenseBase<DerivedC>& sqrt_weights)
+		: Base(std_x)
 		, m_weights(weights.derived())
 		, m_sqrt_weights(sqrt_weights.derived())
 	{}
@@ -106,9 +106,9 @@ namespace kanalysis::stats
 
 	template<typename MatrixType, typename ArrayType>
 	template<typename Derived>
-	ComputeHolderWeight<Derived, ArrayType> ComputeHolderWeight<MatrixType, ArrayType>::compute_holder(const DenseBase<Derived>& std_matrix) const
+	ComputeHolderWeight<Derived, ArrayType> ComputeHolderWeight<MatrixType, ArrayType>::compute_holder(const DenseBase<Derived>& std_x) const
 	{
-		return ComputeHolderWeight<Derived, ArrayType>(std_matrix, m_weights, m_sqrt_weights);
+		return ComputeHolderWeight<Derived, ArrayType>(std_x, m_weights, m_sqrt_weights);
 	}
 
 	template<typename MatrixType, typename ArrayType>
@@ -136,8 +136,8 @@ namespace kanalysis::stats
 	}
 
 	template<typename DerivedA, typename DerivedB>
-	ComputeHolderWeight<DerivedA, DerivedB> compute_holder(const DenseBase<DerivedA>& std_matrix, const DenseBase<DerivedB>& weights)
+	ComputeHolderWeight<DerivedA, DerivedB> compute_holder(const DenseBase<DerivedA>& std_x, const DenseBase<DerivedB>& weights)
 	{
-		return ComputeHolderWeight<DerivedA, DerivedB>(std_matrix, weights);
+		return ComputeHolderWeight<DerivedA, DerivedB>(std_x, weights);
 	}
 } // namespace kanalysis::stats

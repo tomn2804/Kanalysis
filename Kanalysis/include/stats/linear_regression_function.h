@@ -9,17 +9,17 @@ namespace kanalysis::stats
 	{
 		// b
 		template<typename DerivedA, typename DerivedB, typename DerivedC>
-		static void coefficients(const Decomposition<DerivedA>& X, const VectorBase<DerivedB>& y, VectorBase<DerivedC>& out);
+		static void coefficients(const HouseholderQR<DerivedA>& x, const VectorBase<DerivedB>& y, VectorBase<DerivedC>& out);
 
 		template<typename DerivedA, typename DerivedB>
-		static Vector coefficients(const Decomposition<DerivedA>& X, const VectorBase<DerivedB>& y);
+		static Vector coefficients(const HouseholderQR<DerivedA>& x, const VectorBase<DerivedB>& y);
 
 		// y^ = bX
 		template<typename DerivedA, typename DerivedB, typename DerivedC>
-		static void fitted_values(const MatrixBase<DerivedA>& X, const VectorBase<DerivedB>& coefficients, VectorBase<DerivedC>& out);
+		static void fitted_values(const MatrixBase<DerivedA>& x, const VectorBase<DerivedB>& coefficients, VectorBase<DerivedC>& out);
 
 		template<typename DerivedA, typename DerivedB>
-		static Vector fitted_values(const MatrixBase<DerivedA>& X, const VectorBase<DerivedB>& coefficients);
+		static Vector fitted_values(const MatrixBase<DerivedA>& x, const VectorBase<DerivedB>& coefficients);
 
 		// e = y - y^
 		template<typename DerivedA, typename DerivedB, typename DerivedC>
@@ -33,32 +33,32 @@ namespace kanalysis::stats
 namespace kanalysis::stats
 {
 	template<typename DerivedA, typename DerivedB, typename DerivedC>
-	void LinearRegressionFunction::coefficients(const Decomposition<DerivedA>& X, const VectorBase<DerivedB>& y, VectorBase<DerivedC>& out)
+	void LinearRegressionFunction::coefficients(const HouseholderQR<DerivedA>& x, const VectorBase<DerivedB>& y, VectorBase<DerivedC>& out)
 	{
-		assert(X.rows() == y.rows());
-		out.derived().noalias() = X.solve(y);
+		assert(x.rows() == y.rows());
+		out.derived().noalias() = x.solve(y);
 	}
 
 	template<typename DerivedA, typename DerivedB>
-	Vector LinearRegressionFunction::coefficients(const Decomposition<DerivedA>& X, const VectorBase<DerivedB>& y)
+	Vector LinearRegressionFunction::coefficients(const HouseholderQR<DerivedA>& x, const VectorBase<DerivedB>& y)
 	{
 		Vector out;
-		coefficients(X, y, out);
+		coefficients(x, y, out);
 		return out;
 	}
 
 	template<typename DerivedA, typename DerivedB, typename DerivedC>
-	void LinearRegressionFunction::fitted_values(const MatrixBase<DerivedA>& X, const VectorBase<DerivedB>& coefficients, VectorBase<DerivedC>& out)
+	void LinearRegressionFunction::fitted_values(const MatrixBase<DerivedA>& x, const VectorBase<DerivedB>& coefficients, VectorBase<DerivedC>& out)
 	{
-		assert(X.cols() == coefficients.rows());
-		out.derived().noalias() = X.derived() * coefficients.derived();
+		assert(x.cols() == coefficients.rows());
+		out.derived().noalias() = x.derived() * coefficients.derived();
 	}
 
 	template<typename DerivedA, typename DerivedB>
-	Vector LinearRegressionFunction::fitted_values(const MatrixBase<DerivedA>& X, const VectorBase<DerivedB>& coefficients)
+	Vector LinearRegressionFunction::fitted_values(const MatrixBase<DerivedA>& x, const VectorBase<DerivedB>& coefficients)
 	{
 		Vector out;
-		fitted_values(X, coefficients, out);
+		fitted_values(x, coefficients, out);
 		return out;
 	}
 

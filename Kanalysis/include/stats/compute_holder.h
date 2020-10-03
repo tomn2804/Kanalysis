@@ -22,7 +22,7 @@ namespace kanalysis::stats
 		static Matrix standardize(const DenseBase<Derived>& x);
 
 		template<typename Derived>
-		static ComputeHolder<Derived> compute_holder(const DenseBase<Derived>& std_matrix);
+		static ComputeHolder<Derived> compute_holder(const DenseBase<Derived>& std_x);
 	};
 
 	template<typename MatrixType_>
@@ -33,7 +33,7 @@ namespace kanalysis::stats
 	};
 
 	template<typename Derived>
-	ComputeHolder<Derived> compute_holder(const DenseBase<Derived>& std_matrix);
+	ComputeHolder<Derived> compute_holder(const DenseBase<Derived>& std_x);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
@@ -54,14 +54,14 @@ namespace kanalysis::stats
 
 	template<typename MatrixType>
 	template<typename Derived>
-	ComputeHolder<Derived> ComputeHolder<MatrixType>::compute_holder(const DenseBase<Derived>& std_matrix)
+	ComputeHolder<Derived> ComputeHolder<MatrixType>::compute_holder(const DenseBase<Derived>& std_x)
 	{
-		return ComputeHolder<Derived>(std_matrix);
+		return ComputeHolder<Derived>(std_x);
 	}
 
 	template<typename Derived>
-	ComputeHolder<Derived> compute_holder(const DenseBase<Derived>& std_matrix)
+	ComputeHolder<Derived> compute_holder(const DenseBase<Derived>& std_x)
 	{
-		return ComputeHolder<Derived>(std_matrix);
+		return ComputeHolder<Derived>(std_x);
 	}
 } // namespace kanalysis::stats

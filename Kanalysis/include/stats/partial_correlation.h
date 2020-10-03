@@ -20,8 +20,9 @@ namespace kanalysis::stats
 		using typename Base::ComputeHolderDecayType;
 	public:
 		using Base::Base;
+		PartialCorrelation() = default;
 	protected:
-		Residual<const ComputeHolderDecayType&, RegressionFunctionType> m_residual = Residual<const ComputeHolderDecayType&, RegressionFunctionType>(Base::compute_holder());
+		Residual<const ComputeHolderDecayType&, RegressionFunctionType> m_residual = Residual<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
 	private:
 		friend class Base;
 	};

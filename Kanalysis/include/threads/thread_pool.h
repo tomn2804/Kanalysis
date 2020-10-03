@@ -25,6 +25,7 @@
 #include "include/config.h"
 
 #include "include/threads/safe_queue.h"
+#include "include/utils/console/progress.h"
 
 namespace kanalysis::threads
 {
@@ -64,6 +65,8 @@ namespace kanalysis::threads
 		bool m_shutdown;
 		std::vector<std::thread> m_threads;
 		SafeQueue<std::function<void(int)>> m_queue;
+
+		utils::console::Progress m_status;
 	};
 } // namespace kanalysis::threads
 
@@ -77,6 +80,7 @@ namespace kanalysis::threads
 
 	KANALYSIS_INLINE void ThreadPool::start()
 	{
+		m_status.start();
 		m_shutdown = false;
 		for (int i = 0; i < m_threads.size(); ++i)
 		{
@@ -92,11 +96,13 @@ namespace kanalysis::threads
 		{
 			if (thread.joinable()) thread.join();
 		}
+		m_status.stop();
 	}
 
 	KANALYSIS_INLINE void ThreadPool::reserve(std::size_t size)
 	{
 		m_queue.reserve(size);
+		m_status = utils::console::Progress(size);
 	}
 
 	template<typename F, typename...Args>
@@ -134,7 +140,14 @@ namespace kanalysis::threads
 				if (m_pool.m_queue.empty()) m_pool.m_conditional_lock.wait(lock);
 				dequeued = m_pool.m_queue.dequeue(func);
 			}
-			if (dequeued) func(m_id);
+			if (dequeued)
+			{
+				func(m_id);
+				{
+					std::unique_lock<std::mutex> lock(m_pool.m_conditional_mutex);
+					m_pool.m_status.increment();
+				}
+			}
 		}
 	}
 } // namespace kanalysis::threads

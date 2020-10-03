@@ -23,10 +23,10 @@ namespace kanalysis::stats
 	protected:
 		CorrelationBase() = default;
 
-		Array m_mean_deviations_x = Array::Constant(Base::rows(), 0);
-		Array m_mean_deviations_y = Array::Constant(Base::rows(), 0);
+		mutable Array m_mean_deviations_x = Array::Constant(Base::rows(), 0);
+		mutable Array m_mean_deviations_y = Array::Constant(Base::rows(), 0);
 
-		Scalar m_results = 0;
+		mutable Scalar m_results = 0;
 	private:
 		friend class Base;
 	};

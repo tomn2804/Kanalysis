@@ -20,7 +20,7 @@ namespace kanalysis::stats
 		FittedValueWeight() = default;
 
 		template<typename Derived>
-		const Vector& solve(const VectorBase<Derived>& std_y);
+		const Vector& solve(const VectorBase<Derived>& std_y) const;
 	};
 
 	template<typename ComputeHolderType_, typename RegressionFunctionType_>
@@ -38,10 +38,10 @@ namespace kanalysis::stats
 {
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	template<typename Derived>
-	const Vector& FittedValueWeight<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y)
+	const Vector& FittedValueWeight<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
 	{
 		Vector& results = Base::std_solve(std_y);
-		WeightFunction::divide_by_sqrt_weights(results, Base::compute_holder().sqrt_weights(), results);
+		WeightFunction::divide_by_sqrt_weights(results, Base::decomposition().sqrt_weights(), results);
 		return results;
 	}
 

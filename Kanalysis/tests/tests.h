@@ -9,7 +9,7 @@
 #define BENCHMARK_WARMUP_RUNS 10
 #define DATA_DIRECTORY "../../../../tests/data/"
 
-#define DEBUG_COUT(X) std::cout << X
+#define DEBUG_COUT(x) std::cout << x
 #define DEBUG_PRINT(...) kanalysis::utils::console::print(__VA_ARGS__)
 #define DEBUG_TIME() kanalysis::tests::Time T
 

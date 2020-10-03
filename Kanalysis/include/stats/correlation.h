@@ -23,12 +23,12 @@ namespace kanalysis::stats
 		Correlation() = default;
 
 		template<typename DerivedA, typename DerivedB>
-		Scalar cor(const VectorBase<DerivedA>& x, const VectorBase<DerivedB>& y);
+		Scalar cor(const VectorBase<DerivedA>& x, const VectorBase<DerivedB>& y) const;
 
 		template<typename Derived>
-		Scalar solve(const VectorBase<Derived>& std_y);
+		Scalar solve(const VectorBase<Derived>& std_y) const;
 	protected:
-		FittedValue<const ComputeHolderDecayType&, RegressionFunctionType> m_fitted_value = FittedValue<const ComputeHolderDecayType&, RegressionFunctionType>(Base::compute_holder());
+		FittedValue<const ComputeHolderDecayType&, RegressionFunctionType> m_fitted_value = FittedValue<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
 	private:
 		using Base::m_mean_deviations_x;
 		using Base::m_mean_deviations_y;
@@ -51,7 +51,7 @@ namespace kanalysis::stats
 {
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	template<typename DerivedA, typename DerivedB>
-	Scalar Correlation<ComputeHolderType, RegressionFunctionType>::cor(const VectorBase<DerivedA>& x, const VectorBase<DerivedB>& y)
+	Scalar Correlation<ComputeHolderType, RegressionFunctionType>::cor(const VectorBase<DerivedA>& x, const VectorBase<DerivedB>& y) const
 	{
 		assert(x.rows() == y.rows());
 
@@ -72,7 +72,7 @@ namespace kanalysis::stats
 
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	template<typename Derived>
-	Scalar Correlation<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y)
+	Scalar Correlation<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
 	{
 		return cor(m_fitted_value.solve(std_y), std_y);
 	}

@@ -2,11 +2,10 @@
 
 #include "include/config.h"
 
+#include "include/arithmetic/col_functor.h"
+
 namespace kanalysis::arithmetic
 {
-	template<typename MatrixType>
-	class ColFunctor;
-
 	template<typename LhsMatrixType, typename RhsMatrixType>
 	class TwoHandsSideColFunctor
 	{
@@ -34,11 +33,11 @@ namespace kanalysis::arithmetic
 		const ColFunctor<LhsMatrixType>& lhs() const;
 		ColFunctor<LhsMatrixType>& const_cast_lhs() const;
 
-		const ColFunctor<Matrix>& rhs() const;
-		ColFunctor<Matrix>& const_cast_rhs() const;
+		const ColFunctor<RhsMatrixType>& rhs() const;
+		ColFunctor<RhsMatrixType>& const_cast_rhs() const;
 	private:
 		ColFunctor<LhsMatrixType> m_lhs;
-		ColFunctor<Matrix> m_rhs;
+		ColFunctor<RhsMatrixType> m_rhs;
 	};
 } // namespace kanalysis::arithmetic
 
@@ -101,14 +100,14 @@ namespace kanalysis::arithmetic
 	}
 
 	template<typename LhsMatrixType, typename RhsMatrixType>
-	const ColFunctor<Matrix>& TwoHandsSideColFunctor<LhsMatrixType, RhsMatrixType>::rhs() const
+	const ColFunctor<RhsMatrixType>& TwoHandsSideColFunctor<LhsMatrixType, RhsMatrixType>::rhs() const
 	{
 		return m_rhs;
 	}
 
 	template<typename LhsMatrixType, typename RhsMatrixType>
-	ColFunctor<Matrix>& TwoHandsSideColFunctor<LhsMatrixType, RhsMatrixType>::const_cast_rhs() const
+	ColFunctor<RhsMatrixType>& TwoHandsSideColFunctor<LhsMatrixType, RhsMatrixType>::const_cast_rhs() const
 	{
-		return const_cast<ColFunctor<Matrix>&>(m_rhs);
+		return const_cast<ColFunctor<RhsMatrixType>&>(m_rhs);
 	}
 } // namespace kanalysis::arithmetic

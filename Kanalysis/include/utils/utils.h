@@ -20,7 +20,7 @@ namespace kanalysis::utils
 	bool contains(ForwardIterator first, ForwardIterator last, Int value);
 
 	template<typename Derived>
-	Matrix as_model_matrix(const DenseBase<Derived>& matrix);
+	Matrix as_model_matrix(const DenseBase<Derived>& x);
 } // namespace kanalysis::utils
 
 namespace kanalysis::utils
@@ -65,11 +65,11 @@ namespace kanalysis::utils
 	}
 
 	template<typename Derived>
-	Matrix as_model_matrix(const DenseBase<Derived>& matrix)
+	Matrix as_model_matrix(const DenseBase<Derived>& x)
 	{
-		Matrix model_matrix(matrix.rows(), matrix.cols() + 1);
+		Matrix model_matrix(x.rows(), x.cols() + 1);
 		model_matrix.col(MODEL_MATRIX_INTERCEPT_COL_INDEX).fill(MODEL_MATRIX_INTERCEPT_COL_VALUE);
-		model_matrix.rightCols(model_matrix.cols() - 1) = matrix.derived();
+		model_matrix.rightCols(model_matrix.cols() - 1) = x.derived();
 		return model_matrix;
 	}
 } // namespace kanalysis::utils

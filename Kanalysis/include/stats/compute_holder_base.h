@@ -22,13 +22,13 @@ namespace kanalysis::stats
 		ComputeHolderBase(Index rows, Index cols);
 
 		template<typename Derived>
-		ComputeHolderBase(const DenseBase<Derived>& std_matrix);
+		ComputeHolderBase(const DenseBase<Derived>& std_x);
 
 		template<typename Derived>
-		ComputeHolderBase(DenseBase<Derived>& std_matrix);
+		ComputeHolderBase(DenseBase<Derived>& std_x);
 
 		template<typename Derived>
-		void compute(const DenseBase<Derived>& std_matrix);
+		void compute(const DenseBase<Derived>& std_x);
 
 		template<typename DerivedA, typename DerivedB>
 		static void standardize(const DenseBase<DerivedA>& x, DenseBase<DerivedB>& out);
@@ -37,21 +37,21 @@ namespace kanalysis::stats
 		static Matrix standardize(const DenseBase<Derived>& x);
 
 		template<typename Derived>
-		decltype(auto) compute_holder(const DenseBase<Derived>& std_matrix);
+		decltype(auto) compute_holder(const DenseBase<Derived>& std_x);
 
 		Index rows() const;
 		Index cols() const;
 
-		const MatrixType& std_matrix() const;
-		MatrixType& const_cast_std_matrix() const;
+		const MatrixType& std_x() const;
+		MatrixType& const_cast_std_x() const;
 
-		const Decomposition<Matrix>& decomposition() const;
-		Decomposition<Matrix>& const_cast_decomposition() const;
+		const HouseholderQR<Matrix>& householder_qr() const;
+		HouseholderQR<Matrix>& const_cast_householder_qr() const;
 	protected:
 		ComputeHolderBase() = default;
 
-		MatrixType m_std_matrix;
-		Decomposition<Matrix> m_decomposition = Decomposition<Matrix>(m_std_matrix.rows(), m_std_matrix.cols());
+		MatrixType m_std_x;
+		HouseholderQR<Matrix> m_householder_qr = HouseholderQR<Matrix>(m_std_x.rows(), m_std_x.cols());
 
 		bool m_is_initialized = false;
 	};
@@ -61,31 +61,31 @@ namespace kanalysis::stats
 {
 	template<typename DerivedType>
 	ComputeHolderBase<DerivedType>::ComputeHolderBase(Index rows, Index cols)
-		: m_std_matrix(rows, cols)
+		: m_std_x(rows, cols)
 	{}
 
 	template<typename DerivedType>
 	template<typename Derived>
-	ComputeHolderBase<DerivedType>::ComputeHolderBase(const DenseBase<Derived>& std_matrix)
-		: m_std_matrix(std_matrix.derived())
-		, m_decomposition(m_std_matrix)
+	ComputeHolderBase<DerivedType>::ComputeHolderBase(const DenseBase<Derived>& std_x)
+		: m_std_x(std_x.derived())
+		, m_householder_qr(m_std_x)
 		, m_is_initialized(true)
 	{}
 
 	template<typename DerivedType>
 	template<typename Derived>
-	ComputeHolderBase<DerivedType>::ComputeHolderBase(DenseBase<Derived>& std_matrix)
-		: m_std_matrix(std_matrix.derived())
-		, m_decomposition(m_std_matrix)
+	ComputeHolderBase<DerivedType>::ComputeHolderBase(DenseBase<Derived>& std_x)
+		: m_std_x(std_x.derived())
+		, m_householder_qr(m_std_x)
 		, m_is_initialized(true)
 	{}
 
 	template<typename DerivedType>
 	template<typename Derived>
-	void ComputeHolderBase<DerivedType>::compute(const DenseBase<Derived>& std_matrix)
+	void ComputeHolderBase<DerivedType>::compute(const DenseBase<Derived>& std_x)
 	{
-		m_std_matrix = std_matrix.derived();
-		m_decomposition.compute(m_std_matrix);
+		m_std_x = std_x.derived();
+		m_householder_qr.compute(m_std_x);
 		m_is_initialized = true;
 	}
 
@@ -105,50 +105,48 @@ namespace kanalysis::stats
 
 	template<typename DerivedType>
 	template<typename Derived>
-	decltype(auto) ComputeHolderBase<DerivedType>::compute_holder(const DenseBase<Derived>& std_matrix)
+	decltype(auto) ComputeHolderBase<DerivedType>::compute_holder(const DenseBase<Derived>& std_x)
 	{
-		return Base::derived().compute_holder(std_matrix);
+		return Base::derived().compute_holder(std_x);
 	}
 
 	template<typename DerivedType>
 	Index ComputeHolderBase<DerivedType>::rows() const
 	{
-		assert(m_is_initialized);
-		return m_std_matrix.rows();
+		return m_std_x.rows();
 	}
 
 	template<typename DerivedType>
 	Index ComputeHolderBase<DerivedType>::cols() const
 	{
-		assert(m_is_initialized);
-		return m_std_matrix.cols();
+		return m_std_x.cols();
 	}
 
 	template<typename DerivedType>
-	const typename ComputeHolderBase<DerivedType>::MatrixType& ComputeHolderBase<DerivedType>::std_matrix() const
+	const typename ComputeHolderBase<DerivedType>::MatrixType& ComputeHolderBase<DerivedType>::std_x() const
 	{
 		assert(m_is_initialized);
-		return m_std_matrix;
+		return m_std_x;
 	}
 
 	template<typename DerivedType>
-	typename ComputeHolderBase<DerivedType>::MatrixType& ComputeHolderBase<DerivedType>::const_cast_std_matrix() const
+	typename ComputeHolderBase<DerivedType>::MatrixType& ComputeHolderBase<DerivedType>::const_cast_std_x() const
 	{
 		assert(m_is_initialized);
-		return const_cast<MatrixType&>(m_std_matrix);
+		return const_cast<MatrixType&>(m_std_x);
 	}
 
 	template<typename DerivedType>
-	const Decomposition<Matrix>& ComputeHolderBase<DerivedType>::decomposition() const
+	const HouseholderQR<Matrix>& ComputeHolderBase<DerivedType>::householder_qr() const
 	{
 		assert(m_is_initialized);
-		return m_decomposition;
+		return m_householder_qr;
 	}
 
 	template<typename DerivedType>
-	Decomposition<Matrix>& ComputeHolderBase<DerivedType>::const_cast_decomposition() const
+	HouseholderQR<Matrix>& ComputeHolderBase<DerivedType>::const_cast_householder_qr() const
 	{
 		assert(m_is_initialized);
-		return m_decomposition;
+		return m_householder_qr;
 	}
 } // namespace kanalysis::stats

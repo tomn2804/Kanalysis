@@ -23,10 +23,10 @@ namespace kanalysis::stats
 		ResidualBase() = default;
 
 		template<typename Derived>
-		Vector& std_solve(const VectorBase<Derived>& std_y);
+		Vector& std_solve(const VectorBase<Derived>& std_y) const;
 
-		FittedValue<const ComputeHolderDecayType&, RegressionFunctionType> m_fitted_value = FittedValue<const ComputeHolderDecayType&, RegressionFunctionType>(Base::compute_holder());
-		Vector m_results = Vector::Constant(Base::rows(), 0);
+		FittedValue<const ComputeHolderDecayType&, RegressionFunctionType> m_fitted_value = FittedValue<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
+		mutable Vector m_results = Vector::Constant(Base::rows(), 0);
 	private:
 		friend class Base;
 	};
@@ -42,7 +42,7 @@ namespace kanalysis::stats
 
 	template<typename DerivedType>
 	template<typename Derived>
-	Vector& ResidualBase<DerivedType>::std_solve(const VectorBase<Derived>& std_y)
+	Vector& ResidualBase<DerivedType>::std_solve(const VectorBase<Derived>& std_y) const
 	{
 		assert(std_y.rows() == Base::rows());
 		const Vector& fitted_values = m_fitted_value.solve(std_y);
