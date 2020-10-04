@@ -15,46 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\arithmetic\combination\combination.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\arithmetic\combination\next_combination.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\arithmetic\permutation\next_permutation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\arithmetic\permutation\permutation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\arithmetic\col_functor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\arithmetic\combination_functor_iterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\arithmetic\combination_iterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\arithmetic\combination_iterator_base.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\arithmetic\combination_model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\arithmetic\index_vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\arithmetic\iterator_base.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\arithmetic\permutation_functor_iterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\arithmetic\permutation_iterator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\arithmetic\permutation_iterator_base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\arithmetic\two_hands_side_col_functor.h">
@@ -138,12 +102,6 @@
     <ClInclude Include="include\threads\thread_pool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\utils\console\console.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\utils\console\progress.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\utils\crtp_base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -159,12 +117,123 @@
     <ClInclude Include="tests\tests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\arithmetic\combination.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\arithmetic\permutation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utils\progress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tests\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tests\tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arithmetic\col_functor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arithmetic\combination.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arithmetic\combination_model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arithmetic\two_hands_side_col_functor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\coefficient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\coefficient_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\coefficient_weight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\compute_holder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\compute_holder_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\compute_holder_weight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\correlation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\correlation_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\correlation_weight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\fitted_value.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\fitted_value_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\fitted_value_weight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\kruskal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\kruskal_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\kruskal_weight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\linear_regression_function.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\partial_correlation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\partial_correlation_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\partial_correlation_weight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\residual.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\residual_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\residual_weight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\solve_holder_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\weight_function.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\threads\safe_queue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\threads\thread_pool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\crtp_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\arithmetic\permutation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\progress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

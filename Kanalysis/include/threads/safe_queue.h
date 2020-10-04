@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// https://github.com/mtrebi/thread-pool/blob/master/include/SafeQueue.h
+
 #pragma once
 
 #include "include/config.h"
@@ -41,7 +43,6 @@ namespace kanalysis::threads
 	};
 } // namespace kanalysis::threads
 
-// https://github.com/mtrebi/thread-pool/blob/master/include/SafeQueue.h
 namespace kanalysis::threads
 {
 	template<typename T>
@@ -69,7 +70,7 @@ namespace kanalysis::threads
 	void SafeQueue<T>::enqueue(T& t)
 	{
 		std::unique_lock<std::mutex> lock(m_mutex);
-		m_queue.push_back(t);
+		m_queue.push_back(t); // To-do: emplace_back
 	}
 
 	template<typename T>

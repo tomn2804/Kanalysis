@@ -54,7 +54,7 @@ int main()
 	//	}
 	//	std::cout << "i\n";
 	//}
-
+	discreture::choose(5, 3);
 	int threads = 8;
 
 	{

@@ -4,7 +4,7 @@
 
 #include "include/arithmetic/combination/combination.h"
 
-namespace kanalysis::arithmetic::permutation
+namespace kanalysis::arithmetic
 {
 	namespace detail
 	{
@@ -16,9 +16,9 @@ namespace kanalysis::arithmetic::permutation
 
 	UInt factorial(int n);
 	UInt factorial(int n, int r);
-} // namespace kanalysis::arithmetic::permutation
+} // namespace kanalysis::arithmetic
 
-namespace kanalysis::arithmetic::permutation
+namespace kanalysis::arithmetic
 {
 	namespace detail
 	{
@@ -69,4 +69,4 @@ namespace kanalysis::arithmetic::permutation
 		}
 		return result;
 	}
-} // namespace kanalysis::arithmetic::permutation
+} // namespace kanalysis::arithmetic

@@ -2,12 +2,10 @@
 
 //#define BREG_USE_MKL
 
-#if defined(BREG_USE_MKL) || defined(__INTEL_COMPILER)
+#if defined(BREG_USE_MKL)
 #include <mkl.h>
 #define EIGEN_USE_MKL_ALL
-#endif // defined(BREG_USE_MKL) || defined(__INTEL_COMPILER)
-
-#define NOMINMAX
+#endif // defined(BREG_USE_MKL)
 
 #include <algorithm>
 #include <discreture.hpp>
@@ -16,7 +14,6 @@
 #include <iostream>
 #include <mutex>
 #include <vector>
-#include <Windows.h>
 
 #define KANALYSIS_INLINE __forceinline
 

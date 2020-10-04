@@ -2,7 +2,7 @@
 
 #include "include/config.h"
 
-namespace kanalysis::arithmetic::combination
+namespace kanalysis::arithmetic
 {
 	namespace detail
 	{
@@ -25,11 +25,9 @@ namespace kanalysis::arithmetic::combination
 
 	template<typename Int>
 	std::vector<Int> combinations(int n, int r, UInt k);
-} // namespace kanalysis::arithmetic::combination
+} // namespace kanalysis::arithmetic
 
-// https://vlkan.com/blog/post/2013/12/04/combinations/
-// https://github.com/vy/combination/blob/master/src/main/java/com/vlkan/combination/Combination.java
-namespace kanalysis::arithmetic::combination
+namespace kanalysis::arithmetic
 {
 	namespace detail
 	{
@@ -132,4 +130,4 @@ namespace kanalysis::arithmetic::combination
 		combinations(n, r, k, results.begin());
 		return results;
 	}
-} // namespace kanalysis::arithmetic::combination
+} // namespace kanalysis::arithmetic

@@ -12,19 +12,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\arithmetic\col_functor.h" />
-    <ClInclude Include="include\arithmetic\combination\combination.h" />
-    <ClInclude Include="include\arithmetic\combination\next_combination.h" />
-    <ClInclude Include="include\arithmetic\combination_functor_iterator.h" />
-    <ClInclude Include="include\arithmetic\combination_iterator.h" />
-    <ClInclude Include="include\arithmetic\combination_iterator_base.h" />
+    <ClInclude Include="include\arithmetic\combination.h" />
     <ClInclude Include="include\arithmetic\combination_model.h" />
-    <ClInclude Include="include\arithmetic\index_vector.h" />
-    <ClInclude Include="include\arithmetic\iterator_base.h" />
-    <ClInclude Include="include\arithmetic\permutation\next_permutation.h" />
-    <ClInclude Include="include\arithmetic\permutation\permutation.h" />
-    <ClInclude Include="include\arithmetic\permutation_functor_iterator.h" />
-    <ClInclude Include="include\arithmetic\permutation_iterator.h" />
-    <ClInclude Include="include\arithmetic\permutation_iterator_base.h" />
+    <ClInclude Include="include\arithmetic\permutation.h" />
     <ClInclude Include="include\arithmetic\two_hands_side_col_functor.h" />
     <ClInclude Include="include\config.h" />
     <ClInclude Include="include\kanalysis.h" />
@@ -54,13 +44,46 @@
     <ClInclude Include="include\stats\weight_function.h" />
     <ClInclude Include="include\threads\safe_queue.h" />
     <ClInclude Include="include\threads\thread_pool.h" />
-    <ClInclude Include="include\utils\console\console.h" />
-    <ClInclude Include="include\utils\console\progress.h" />
+    <ClInclude Include="include\utils\progress.h" />
     <ClInclude Include="include\utils\crtp_base.h" />
     <ClInclude Include="include\utils\utils.h" />
     <ClInclude Include="tests\tests.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\arithmetic\col_functor.cpp" />
+    <ClCompile Include="src\arithmetic\combination.cpp" />
+    <ClCompile Include="src\arithmetic\combination_model.cpp" />
+    <ClCompile Include="src\arithmetic\permutation.cpp" />
+    <ClCompile Include="src\arithmetic\two_hands_side_col_functor.cpp" />
+    <ClCompile Include="src\stats\coefficient.cpp" />
+    <ClCompile Include="src\stats\coefficient_base.cpp" />
+    <ClCompile Include="src\stats\coefficient_weight.cpp" />
+    <ClCompile Include="src\stats\compute_holder.cpp" />
+    <ClCompile Include="src\stats\compute_holder_base.cpp" />
+    <ClCompile Include="src\stats\compute_holder_weight.cpp" />
+    <ClCompile Include="src\stats\correlation.cpp" />
+    <ClCompile Include="src\stats\correlation_base.cpp" />
+    <ClCompile Include="src\stats\correlation_weight.cpp" />
+    <ClCompile Include="src\stats\fitted_value.cpp" />
+    <ClCompile Include="src\stats\fitted_value_base.cpp" />
+    <ClCompile Include="src\stats\fitted_value_weight.cpp" />
+    <ClCompile Include="src\stats\kruskal.cpp" />
+    <ClCompile Include="src\stats\kruskal_base.cpp" />
+    <ClCompile Include="src\stats\kruskal_weight.cpp" />
+    <ClCompile Include="src\stats\linear_regression_function.cpp" />
+    <ClCompile Include="src\stats\partial_correlation.cpp" />
+    <ClCompile Include="src\stats\partial_correlation_base.cpp" />
+    <ClCompile Include="src\stats\partial_correlation_weight.cpp" />
+    <ClCompile Include="src\stats\residual.cpp" />
+    <ClCompile Include="src\stats\residual_base.cpp" />
+    <ClCompile Include="src\stats\residual_weight.cpp" />
+    <ClCompile Include="src\stats\solve_holder_base.cpp" />
+    <ClCompile Include="src\stats\weight_function.cpp" />
+    <ClCompile Include="src\threads\safe_queue.cpp" />
+    <ClCompile Include="src\threads\thread_pool.cpp" />
+    <ClCompile Include="src\utils\progress.cpp" />
+    <ClCompile Include="src\utils\crtp_base.cpp" />
+    <ClCompile Include="src\utils\utils.cpp" />
     <ClCompile Include="tests\main.cpp" />
     <ClCompile Include="tests\tests.cpp" />
   </ItemGroup>

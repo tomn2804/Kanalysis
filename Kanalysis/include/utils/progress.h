@@ -2,7 +2,7 @@
 
 #include "include/config.h"
 
-namespace kanalysis::utils::console
+namespace kanalysis::utils
 {
 	class Progress
 	{
@@ -13,15 +13,16 @@ namespace kanalysis::utils::console
 		~Progress();
 
 		void start();
+		void increment(UInt i);
 		void increment();
-		void stop();
+		void complete();
 	private:
 		UInt m_i;
 		UInt m_n;
 	};
-} // namespace kanalysis::utils::console
+} // namespace kanalysis::utils
 
-namespace kanalysis::utils::console
+namespace kanalysis::utils
 {
 	KANALYSIS_INLINE Progress::Progress(UInt i, UInt n)
 		: m_i(i)
@@ -42,16 +43,21 @@ namespace kanalysis::utils::console
 		std::cout << "Progress: 0%\r";
 	}
 
-	KANALYSIS_INLINE void Progress::increment()
+	KANALYSIS_INLINE void Progress::increment(UInt i)
 	{
-		++m_i;
+		m_i += i;
 		int percent = double(m_i) / double(m_n) * 100;
+		assert(percent <= 100);
 		std::cout << "Progress: " << percent << "%\r";
-		assert(m_i <= m_n);
 	}
 
-	KANALYSIS_INLINE void Progress::stop()
+	KANALYSIS_INLINE void Progress::increment()
+	{
+		increment(1);
+	}
+
+	KANALYSIS_INLINE void Progress::complete()
 	{
 		std::cout << "Progress: 100%\r" << std::endl;
 	}
-} // namespace kanalysis::utils::console
+} // namespace kanalysis::utils

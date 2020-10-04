@@ -20,12 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// https://github.com/mtrebi/thread-pool/blob/master/include/ThreadPool.h
+
 #pragma once
 
 #include "include/config.h"
 
 #include "include/threads/safe_queue.h"
-#include "include/utils/console/progress.h"
+#include "include/utils/progress.h"
 
 namespace kanalysis::threads
 {
@@ -66,11 +68,10 @@ namespace kanalysis::threads
 		std::vector<std::thread> m_threads;
 		SafeQueue<std::function<void(int)>> m_queue;
 
-		utils::console::Progress m_status;
+		utils::Progress m_status;
 	};
 } // namespace kanalysis::threads
 
-// https://github.com/mtrebi/thread-pool/blob/master/include/ThreadPool.h
 namespace kanalysis::threads
 {
 	KANALYSIS_INLINE ThreadPool::ThreadPool(int threads)
@@ -96,13 +97,13 @@ namespace kanalysis::threads
 		{
 			if (thread.joinable()) thread.join();
 		}
-		m_status.stop();
+		m_status.complete();
 	}
 
 	KANALYSIS_INLINE void ThreadPool::reserve(std::size_t size)
 	{
 		m_queue.reserve(size);
-		m_status = utils::console::Progress(size);
+		m_status = utils::Progress(size);
 	}
 
 	template<typename F, typename...Args>
