@@ -1,27 +1,10 @@
 #include "include/config.h"
 
 #include <discreture.hpp>
-//#include "include/kanalysis.h"
+#include "include/kanalysis.h"
 #include "tests/tests.h"
 
 using discreture::operator<<;
-
-#include "include/stats/compute_holder.h"
-#include "include/stats/compute_holder_weight.h"
-#include "include/stats/weight_function.h"
-#include "include/stats/coefficient.h"
-#include "include/stats/linear_regression_function.h"
-#include "include/stats/coefficient_weight.h"
-#include "include/stats/fitted_value.h"
-#include "include/stats/fitted_value_weight.h"
-#include "include/stats/residual.h"
-#include "include/stats/residual_weight.h"
-#include "include/stats/correlation.h"
-#include "include/stats/correlation_weight.h"
-#include "include/stats/partial_correlation.h"
-#include "include/stats/partial_correlation_weight.h"
-#include "include/stats/kruskal.h"
-#include "include/stats/kruskal_weight.h"
 
 int main()
 {
@@ -54,7 +37,7 @@ int main()
 	//	}
 	//	std::cout << "i\n";
 	//}
-	discreture::choose(5, 3);
+
 	int threads = 8;
 
 	{

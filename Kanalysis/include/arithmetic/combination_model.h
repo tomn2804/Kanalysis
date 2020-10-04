@@ -2,18 +2,13 @@
 
 #include "include/config.h"
 
-#include "include/arithmetic/combination/combination.h"
-#include "include/arithmetic/permutation/permutation.h"
+#include "include/arithmetic/base_functions.h"
 
 namespace kanalysis::arithmetic
 {
-	class ForwardCombinationIterator;
-
 	class CombinationModel
 	{
 	public:
-		using Iterator = ForwardCombinationIterator;
-
 		CombinationModel();
 		CombinationModel(int n);
 		CombinationModel(int n, int r);
@@ -49,9 +44,9 @@ namespace kanalysis::arithmetic
 	KANALYSIS_INLINE CombinationModel::CombinationModel(int n, int r)
 		: m_n(n)
 		, m_r(r)
-		, m_c(combination::choose(n, r))
-		, m_p(permutation::factorial(n))
-		, m_cumulative_c(combination::cumulative_choose(n, r))
+		, m_c(choose(n, r))
+		, m_p(factorial(n))
+		, m_cumulative_c(cumulative_choose(n, r))
 		, m_multipliers(n)
 		, m_is_initialized(true)
 	{
@@ -59,10 +54,10 @@ namespace kanalysis::arithmetic
 
 		m_multipliers[0] = m_p / m_n; // Multiplier value when nth_order is 0.
 
-		UInt ctrl_permutations = permutation::factorial(crtl_variables);
+		UInt ctrl_permutations = factorial(crtl_variables);
 		for (int i = 1; i < m_n; ++i)
 		{
-			m_multipliers[i] = ctrl_permutations / combination::choose(crtl_variables, i);
+			m_multipliers[i] = ctrl_permutations / choose(crtl_variables, i);
 		}
 	}
 

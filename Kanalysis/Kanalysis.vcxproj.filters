@@ -117,13 +117,10 @@
     <ClInclude Include="tests\tests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\arithmetic\combination.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\arithmetic\permutation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\utils\progress.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\arithmetic\base_functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -135,9 +132,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\arithmetic\col_functor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\arithmetic\combination.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\arithmetic\combination_model.cpp">
@@ -230,10 +224,10 @@
     <ClCompile Include="src\utils\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\arithmetic\permutation.cpp">
+    <ClCompile Include="src\utils\progress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utils\progress.cpp">
+    <ClCompile Include="src\arithmetic\base_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

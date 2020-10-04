@@ -2,9 +2,7 @@
 
 // namespace kanalysis::arithmetic
 #include "include/arithmetic/col_functor.h"
-#include "include/arithmetic/col_functor.h"
 #include "include/arithmetic/combination_model.h"
-#include "include/arithmetic/permutation.h"
 #include "include/arithmetic/two_hands_side_col_functor.h"
 
 // namespace kanalysis::stats

@@ -4,11 +4,11 @@
 
 #include "include/arithmetic/combination_model.h"
 #include "include/arithmetic/two_hands_side_col_functor.h"
-#include "include/stats/solve_holder_base.h"
-#include "include/threads/thread_pool.h"
-#include "include/utils/console/progress.h"
+#include "include/stats/correlation.h"
+#include "include/stats/correlation_weight.h"
 #include "include/stats/partial_correlation.h"
 #include "include/stats/partial_correlation_weight.h"
+#include "include/threads/thread_pool.h"
 
 namespace kanalysis::arithmetic
 {
@@ -162,7 +162,7 @@ namespace kanalysis::stats
 			Combination lhs_combinations(x_variables, nth_order);
 			ReverseCombination rhs_combinations(Combination(x_variables, x_variables - nth_order));
 
-			UInt c = arithmetic::combination::choose(x_variables, nth_order);
+			UInt c = arithmetic::choose(x_variables, nth_order);
 			int parts = (threads <= c) ? threads : c;
 
 			std::vector<Iterator> lhs_works = discreture::divide_work_in_equal_parts(lhs_combinations.begin(), lhs_combinations.end(), parts);

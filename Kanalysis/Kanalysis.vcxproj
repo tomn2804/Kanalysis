@@ -12,9 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\arithmetic\col_functor.h" />
-    <ClInclude Include="include\arithmetic\combination.h" />
+    <ClInclude Include="include\arithmetic\base_functions.h" />
     <ClInclude Include="include\arithmetic\combination_model.h" />
-    <ClInclude Include="include\arithmetic\permutation.h" />
     <ClInclude Include="include\arithmetic\two_hands_side_col_functor.h" />
     <ClInclude Include="include\config.h" />
     <ClInclude Include="include\kanalysis.h" />
@@ -51,9 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\arithmetic\col_functor.cpp" />
-    <ClCompile Include="src\arithmetic\combination.cpp" />
+    <ClCompile Include="src\arithmetic\base_functions.cpp" />
     <ClCompile Include="src\arithmetic\combination_model.cpp" />
-    <ClCompile Include="src\arithmetic\permutation.cpp" />
     <ClCompile Include="src\arithmetic\two_hands_side_col_functor.cpp" />
     <ClCompile Include="src\stats\coefficient.cpp" />
     <ClCompile Include="src\stats\coefficient_base.cpp" />
