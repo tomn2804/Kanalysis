@@ -24,7 +24,7 @@ namespace kanalysis::stats
 	protected:
 		Residual<const ComputeHolderDecayType&, RegressionFunctionType> m_residual = Residual<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
 	private:
-		friend class Base;
+		friend class PartialCorrelationBase<PartialCorrelation<ComputeHolderType, RegressionFunctionType>>;
 	};
 
 	template<typename ComputeHolderType_, typename RegressionFunctionType_>

@@ -30,7 +30,7 @@ namespace kanalysis::stats
 		Coefficient<const ComputeHolderDecayType&, RegressionFunctionType> m_coefficient = Coefficient<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
 		mutable Vector m_results = Vector::Constant(Base::rows(), 0);
 	private:
-		friend class Base;
+		friend class SolveHolderBase<DerivedType>;
 	};
 } // namespace kanalysis::stats
 

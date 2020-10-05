@@ -36,7 +36,7 @@ namespace kanalysis::stats
 
 		mutable Vector m_normalized_y = Vector::Constant(Base::rows(), 0);
 	private:
-		friend class Base;
+		friend class CorrelationBase<CorrelationWeight<ComputeHolderType, RegressionFunctionType>>;
 	};
 
 	template<typename ComputeHolderType_, typename RegressionFunctionType_>

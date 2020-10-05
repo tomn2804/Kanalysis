@@ -7,6 +7,3 @@
 [submodule "Kanalysis/external/discreture"]
 	path = Kanalysis/external/discreture
 	url = https://github.com/mraggi/discreture.git
-[submodule "Kanalysis/external/lapack"]
-	path = Kanalysis/external/lapack
-	url = https://github.com/Reference-LAPACK/lapack.git

@@ -89,6 +89,8 @@ namespace kanalysis::stats
 
 			std::vector<Vector>& m_out;
 		};
+
+		friend class SolveHolderBase<DerivedType>;
 	};
 } // namespace kanalysis::stats
 

@@ -20,7 +20,7 @@ namespace kanalysis::stats
 		CoefficientBase() = default;
 		mutable Vector m_results = Vector::Constant(Base::cols(), 0);
 	private:
-		friend class Base;
+		friend class SolveHolderBase<DerivedType>;
 	};
 } // namespace kanalysis::stats
 

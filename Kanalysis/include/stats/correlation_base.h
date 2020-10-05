@@ -28,7 +28,7 @@ namespace kanalysis::stats
 
 		mutable Scalar m_results = 0;
 	private:
-		friend class Base;
+		friend class SolveHolderBase<DerivedType>;
 	};
 } // namespace kanalysis::stats
 

@@ -33,7 +33,7 @@ namespace kanalysis::stats
 		using Base::m_mean_deviations_x;
 		using Base::m_mean_deviations_y;
 	private:
-		friend class Base;
+		friend class CorrelationBase<Correlation<ComputeHolderType, RegressionFunctionType>>;
 	};
 
 	template<typename ComputeHolderType_, typename RegressionFunctionType_>

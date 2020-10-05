@@ -7,6 +7,8 @@
 #define EIGEN_USE_MKL_ALL
 #endif // defined(BREG_USE_MKL)
 
+#define EIGEN_MAX_CPP_VER 17
+
 #include <algorithm>
 #include <discreture.hpp>
 #include <Eigen/Dense>
@@ -16,6 +18,7 @@
 #include <vector>
 
 #define KANALYSIS_INLINE __forceinline
+//#define KANALYSIS_INLINE inline
 
 namespace kanalysis
 {

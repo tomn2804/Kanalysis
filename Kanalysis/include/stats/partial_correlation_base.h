@@ -44,7 +44,7 @@ namespace kanalysis::stats
 
 		mutable bool m_is_x_initialized = false;
 	private:
-		friend class Base;
+		friend class SolveHolderBase<DerivedType>;
 	};
 } // namespace kanalysis::stats
 

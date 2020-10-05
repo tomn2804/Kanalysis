@@ -2,7 +2,7 @@
 
 #include <discreture.hpp>
 #include "include/kanalysis.h"
-#include "tests/tests.h"
+//#include "tests/tests.h"
 
 using discreture::operator<<;
 
@@ -10,7 +10,12 @@ int main()
 {
 	using namespace kanalysis;
 	using namespace kanalysis::stats;
-	using namespace kanalysis::tests;
+	//using namespace kanalysis::tests;
+
+	//A q = test(5);
+	//std::cout << q.i << '\n';
+	//std::system("pause");
+
 	//using namespace kanalysis::utils;
 	//using namespace kanalysis::arithmetic;
 
@@ -38,28 +43,22 @@ int main()
 	//	std::cout << "i\n";
 	//}
 
-	int threads = 8;
+	int threads = 16;
 
 	{
 		int variables = 5;
 
-		std::string filename = DATA_DIRECTORY;
-		filename += "test_data_1.csv";
-		Data data(filename, variables);
-
-		Matrix model_matrix = data.model_matrix();
-		Vector y = data.y();
+		Matrix model_matrix = Matrix::Random(200, variables);
+		Vector y = Vector::Random(200);
+		Vector w = Vector::Constant(200, 1);
 
 		std::cout << "Number of Variables: " << variables << '\n';
 		std::cout << "Number of Threads: " << threads << '\n';
 
 		{
-			DEBUG_TIME();
-
-			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			Matrix mx = WeightFunction::standardize(model_matrix, w);
+			ComputeHolderWeight<Matrix, Array> c(mx, w);
 			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
-			// Correct results: 0.30766828 0.19547034 0.20683219 0.05496811 0.23506109
 			Vector yy = c.standardize(y);
 			std::cout << k.solve(yy, threads) << '\n';
 		}
@@ -68,21 +67,16 @@ int main()
 	{
 		int variables = 10;
 
-		std::string filename = DATA_DIRECTORY;
-		filename += "test_data_2.csv";
-		Data data(filename, variables);
-
-		Matrix model_matrix = data.model_matrix();
-		Vector y = data.y();
+		Matrix model_matrix = Matrix::Random(200, variables);
+		Vector y = Vector::Random(200);
+		Vector w = Vector::Constant(200, 1);
 
 		std::cout << "Number of Variables: " << variables << '\n';
 		std::cout << "Number of Threads: " << threads << '\n';
 
 		{
-			DEBUG_TIME();
-
-			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			Matrix mx = WeightFunction::standardize(model_matrix, w);
+			ComputeHolderWeight<Matrix, Array> c(mx, w);
 			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 			Vector yy = c.standardize(y);
 			std::cout << k.solve(yy, threads) << '\n';
@@ -92,21 +86,16 @@ int main()
 	{
 		int variables = 18;
 
-		std::string filename = DATA_DIRECTORY;
-		filename += "test_data_2.csv";
-		Data data(filename, variables);
-
-		Matrix model_matrix = data.model_matrix();
-		Vector y = data.y();
+		Matrix model_matrix = Matrix::Random(200, variables);
+		Vector y = Vector::Random(200);
+		Vector w = Vector::Constant(200, 1);
 
 		std::cout << "Number of Variables: " << variables << '\n';
 		std::cout << "Number of Threads: " << threads << '\n';
 
 		{
-			DEBUG_TIME();
-
-			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			Matrix mx = WeightFunction::standardize(model_matrix, w);
+			ComputeHolderWeight<Matrix, Array> c(mx, w);
 			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 			Vector yy = c.standardize(y);
 			std::cout << k.solve(yy, threads) << '\n';
@@ -116,21 +105,16 @@ int main()
 	{
 		int variables = 20;
 
-		std::string filename = DATA_DIRECTORY;
-		filename += "test_data_3.csv";
-		Data data(filename, variables);
-
-		Matrix model_matrix = data.model_matrix();
-		Vector y = data.y();
+		Matrix model_matrix = Matrix::Random(200, variables);
+		Vector y = Vector::Random(200);
+		Vector w = Vector::Constant(200, 1);
 
 		std::cout << "Number of Variables: " << variables << '\n';
 		std::cout << "Number of Threads: " << threads << '\n';
 
 		{
-			DEBUG_TIME();
-
-			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			Matrix mx = WeightFunction::standardize(model_matrix, w);
+			ComputeHolderWeight<Matrix, Array> c(mx, w);
 			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 			Vector yy = c.standardize(y);
 			std::cout << k.solve(yy, threads) << '\n';
@@ -140,21 +124,16 @@ int main()
 	{
 		int variables = 25;
 
-		std::string filename = DATA_DIRECTORY;
-		filename += "test_data_3.csv";
-		Data data(filename, variables);
-
-		Matrix model_matrix = data.model_matrix();
-		Vector y = data.y();
+		Matrix model_matrix = Matrix::Random(200, variables);
+		Vector y = Vector::Random(200);
+		Vector w = Vector::Constant(200, 1);
 
 		std::cout << "Number of Variables: " << variables << '\n';
 		std::cout << "Number of Threads: " << threads << '\n';
 
 		{
-			DEBUG_TIME();
-
-			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			Matrix mx = WeightFunction::standardize(model_matrix, w);
+			ComputeHolderWeight<Matrix, Array> c(mx, w);
 			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 			Vector yy = c.standardize(y);
 			std::cout << k.solve(yy, threads) << '\n';
@@ -164,26 +143,166 @@ int main()
 	{
 		int variables = 30;
 
-		std::string filename = DATA_DIRECTORY;
-		filename += "test_data_3.csv";
-		Data data(filename, variables);
-
-		Matrix model_matrix = data.model_matrix();
-		Vector y = data.y();
+		Matrix model_matrix = Matrix::Random(200, variables);
+		Vector y = Vector::Random(200);
+		Vector w = Vector::Constant(200, 1);
 
 		std::cout << "Number of Variables: " << variables << '\n';
 		std::cout << "Number of Threads: " << threads << '\n';
 
 		{
-			DEBUG_TIME();
-
-			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+			Matrix mx = WeightFunction::standardize(model_matrix, w);
+			ComputeHolderWeight<Matrix, Array> c(mx, w);
 			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 			Vector yy = c.standardize(y);
 			std::cout << k.solve(yy, threads) << '\n';
 		}
 	}
+
+	//{
+	//	int variables = 5;
+
+	//	std::string filename = DATA_DIRECTORY;
+	//	filename += "test_data_1.csv";
+	//	Data data(filename, variables);
+
+	//	Matrix model_matrix = data.model_matrix();
+	//	Vector y = data.y();
+
+	//	std::cout << "Number of Variables: " << variables << '\n';
+	//	std::cout << "Number of Threads: " << threads << '\n';
+
+	//	{
+	//		DEBUG_TIME();
+
+	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+	//		ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		// Correct results: 0.30766828 0.19547034 0.20683219 0.05496811 0.23506109
+	//		Vector yy = c.standardize(y);
+	//		std::cout << k.solve(yy, threads) << '\n';
+	//	}
+	//}
+
+	//{
+	//	int variables = 10;
+
+	//	std::string filename = DATA_DIRECTORY;
+	//	filename += "test_data_2.csv";
+	//	Data data(filename, variables);
+
+	//	Matrix model_matrix = data.model_matrix();
+	//	Vector y = data.y();
+
+	//	std::cout << "Number of Variables: " << variables << '\n';
+	//	std::cout << "Number of Threads: " << threads << '\n';
+
+	//	{
+	//		DEBUG_TIME();
+
+	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+	//		ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		Vector yy = c.standardize(y);
+	//		std::cout << k.solve(yy, threads) << '\n';
+	//	}
+	//}
+
+	//{
+	//	int variables = 18;
+
+	//	std::string filename = DATA_DIRECTORY;
+	//	filename += "test_data_2.csv";
+	//	Data data(filename, variables);
+
+	//	Matrix model_matrix = data.model_matrix();
+	//	Vector y = data.y();
+
+	//	std::cout << "Number of Variables: " << variables << '\n';
+	//	std::cout << "Number of Threads: " << threads << '\n';
+
+	//	{
+	//		DEBUG_TIME();
+
+	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+	//		ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		Vector yy = c.standardize(y);
+	//		std::cout << k.solve(yy, threads) << '\n';
+	//	}
+	//}
+
+	//{
+	//	int variables = 20;
+
+	//	std::string filename = DATA_DIRECTORY;
+	//	filename += "test_data_3.csv";
+	//	Data data(filename, variables);
+
+	//	Matrix model_matrix = data.model_matrix();
+	//	Vector y = data.y();
+
+	//	std::cout << "Number of Variables: " << variables << '\n';
+	//	std::cout << "Number of Threads: " << threads << '\n';
+
+	//	{
+	//		DEBUG_TIME();
+
+	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+	//		ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		Vector yy = c.standardize(y);
+	//		std::cout << k.solve(yy, threads) << '\n';
+	//	}
+	//}
+
+	//{
+	//	int variables = 25;
+
+	//	std::string filename = DATA_DIRECTORY;
+	//	filename += "test_data_3.csv";
+	//	Data data(filename, variables);
+
+	//	Matrix model_matrix = data.model_matrix();
+	//	Vector y = data.y();
+
+	//	std::cout << "Number of Variables: " << variables << '\n';
+	//	std::cout << "Number of Threads: " << threads << '\n';
+
+	//	{
+	//		DEBUG_TIME();
+
+	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+	//		ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		Vector yy = c.standardize(y);
+	//		std::cout << k.solve(yy, threads) << '\n';
+	//	}
+	//}
+
+	//{
+	//	int variables = 30;
+
+	//	std::string filename = DATA_DIRECTORY;
+	//	filename += "test_data_3.csv";
+	//	Data data(filename, variables);
+
+	//	Matrix model_matrix = data.model_matrix();
+	//	Vector y = data.y();
+
+	//	std::cout << "Number of Variables: " << variables << '\n';
+	//	std::cout << "Number of Threads: " << threads << '\n';
+
+	//	{
+	//		DEBUG_TIME();
+
+	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+	//		ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		Vector yy = c.standardize(y);
+	//		std::cout << k.solve(yy, threads) << '\n';
+	//	}
+	//}
 
 	//auto rhs = discreture::reversed(discreture::combinations(mx.cols(), mx.cols() - mx.cols() / 2));
 

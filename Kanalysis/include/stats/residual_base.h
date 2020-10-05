@@ -28,7 +28,7 @@ namespace kanalysis::stats
 		FittedValue<const ComputeHolderDecayType&, RegressionFunctionType> m_fitted_value = FittedValue<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
 		mutable Vector m_results = Vector::Constant(Base::rows(), 0);
 	private:
-		friend class Base;
+		friend class SolveHolderBase<DerivedType>;
 	};
 } // namespace kanalysis::stats
 

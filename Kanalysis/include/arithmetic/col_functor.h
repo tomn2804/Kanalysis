@@ -32,7 +32,7 @@ namespace kanalysis::arithmetic
 		void relocate_matrix(const DenseBase<Derived>& matrix);
 
 		template<typename Derived>
-		void relocate_matrix(const MapBase<Derived>& matrix);
+		void relocate_matrix(const Map<Derived>& matrix);
 
 		const MatrixType& matrix() const;
 		MatrixType& const_cast_matrix() const;
@@ -49,7 +49,7 @@ namespace kanalysis::arithmetic
 		void resize_matrix(DenseBase<Derived>& matrix, Index cols);
 
 		template<typename Derived>
-		void resize_matrix(MapBase<Derived>& matrix, Index cols);
+		void resize_matrix(Map<Derived>& matrix, Index cols);
 
 		MatrixType m_matrix;
 		Matrix m_read_only_matrix = Matrix(m_matrix);
@@ -182,12 +182,11 @@ namespace kanalysis::arithmetic
 
 	template<typename MatrixType>
 	template<typename Derived>
-	void ColFunctor<MatrixType>::relocate_matrix(const MapBase<Derived>& matrix)
+	void ColFunctor<MatrixType>::relocate_matrix(const Map<Derived>& matrix)
 	{
 		assert(matrix.rows() == m_read_only_matrix.rows());
 		assert(matrix.cols() <= m_read_only_matrix.cols());
-		using MapBaseType = typename std::decay<Derived>::type;
-		new (&m_matrix) MapBaseType(matrix.derived().data(), matrix.rows(), matrix.cols());
+		new (&m_matrix) Map<Derived>(matrix.derived().data(), matrix.rows(), matrix.cols());
 	}
 
 	template<typename MatrixType>
@@ -249,11 +248,10 @@ namespace kanalysis::arithmetic
 
 	template<typename MatrixType>
 	template<typename Derived>
-	void ColFunctor<MatrixType>::resize_matrix(MapBase<Derived>& matrix, Index cols)
+	void ColFunctor<MatrixType>::resize_matrix(Map<Derived>& matrix, Index cols)
 	{
 		assert(matrix.rows() == m_read_only_matrix.rows());
 		assert(cols <= m_read_only_matrix.cols());
-		using MapBaseType = typename std::decay<Derived>::type;
-		new (&matrix.derived()) MapBaseType(matrix.derived().data(), matrix.rows(), cols);
+		new (&matrix.derived()) Map<Derived>(matrix.derived().data(), matrix.rows(), cols);
 	}
 } // namespace kanalysis::arithmetic
