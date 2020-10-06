@@ -4,6 +4,9 @@
 
 namespace kanalysis::utils
 {
+	///
+	/// \brief A base class for all Curiously Recurring Template Pattern (CRTP) design.
+	///
 	template<typename DerivedType>
 	class CrtpBase
 	{
@@ -11,6 +14,7 @@ namespace kanalysis::utils
 		DerivedType& derived();
 		const DerivedType& derived() const;
 		const DerivedType& const_derived() const;
+		DerivedType& const_cast_derived() const;
 	protected:
 		CrtpBase() = default;
 	};
@@ -34,5 +38,11 @@ namespace kanalysis::utils
 	const DerivedType& CrtpBase<DerivedType>::const_derived() const
 	{
 		return static_cast<const DerivedType&>(*this);
+	}
+
+	template<typename DerivedType>
+	DerivedType& CrtpBase<DerivedType>::const_cast_derived() const
+	{
+		return static_cast<DerivedType&>(const_cast<CrtpBase&>(*this));
 	}
 } // namespace kanalysis::utils

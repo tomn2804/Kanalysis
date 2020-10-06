@@ -28,13 +28,16 @@
 
 namespace kanalysis::threads
 {
+	///
+	/// \brief A thread-safe implementation of std::queue.
+	///
 	template<typename T>
 	class SafeQueue
 	{
 	public:
 		bool empty();
 		std::size_t size();
-		void reserve(std::size_t size);
+		void reserve(std::size_t n);
 		void enqueue(T& t);
 		bool dequeue(T& t);
 	private:
@@ -45,6 +48,11 @@ namespace kanalysis::threads
 
 namespace kanalysis::threads
 {
+	///
+	/// \brief Checks whether the underlying container is empty.
+	///
+	/// \return \a true if the container is empty, else \a false .
+	///
 	template<typename T>
 	bool SafeQueue<T>::empty()
 	{
@@ -52,6 +60,11 @@ namespace kanalysis::threads
 		return m_queue.empty();
 	}
 
+	///
+	/// \brief Returns the number of elements of the underlying container.
+	///
+	/// \return The number of elements in the container.
+	///
 	template<typename T>
 	std::size_t SafeQueue<T>::size()
 	{
@@ -59,20 +72,36 @@ namespace kanalysis::threads
 		return m_queue.size();
 	}
 
+	///
+	/// \brief Increase the allocated capacity or number of elements that the underlying container can hold.
+	///
+	/// \param n An integer representing the number of elements to be reserved by.
+	///
 	template<typename T>
-	void SafeQueue<T>::reserve(std::size_t size)
+	void SafeQueue<T>::reserve(std::size_t n)
 	{
 		std::unique_lock<std::mutex> lock(m_mutex);
-		m_queue.reserve(size);
+		m_queue.reserve(n);
 	}
 
+	///
+	/// \brief Appends the object \a t into the back of the queue.
+	///
+	/// \param t An object of type \a T .
+	///
 	template<typename T>
-	void SafeQueue<T>::enqueue(T& t)
+	void SafeQueue<T>::enqueue(T& t) // To-do: T&&
 	{
 		std::unique_lock<std::mutex> lock(m_mutex);
 		m_queue.push_back(t); // To-do: emplace_back
 	}
 
+	///
+	/// \brief std::move the queued object at the front of the queue to \a t .
+	///
+	/// \param t An empty object of type \a T . This is the \a out parameter.
+	/// \return \a true if \a t now holds the dequeued object, else \a false .
+	///
 	template<typename T>
 	bool SafeQueue<T>::dequeue(T& t)
 	{

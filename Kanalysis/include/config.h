@@ -1,11 +1,18 @@
 #pragma once
 
-//#define BREG_USE_MKL
+//
+// User settings
+//
+//#define KANALYSIS_USE_MKL
+#define KANALYSIS_FORCE_INLINE
 
-#if defined(BREG_USE_MKL)
+//
+// Global macros and headers
+//
+#ifdef KANALYSIS_USE_MKL
 #include <mkl.h>
 #define EIGEN_USE_MKL_ALL
-#endif // defined(BREG_USE_MKL)
+#endif // KANALYSIS_USE_MKL
 
 #define EIGEN_MAX_CPP_VER 17
 
@@ -17,12 +24,18 @@
 #include <mutex>
 #include <vector>
 
+#ifdef KANALYSIS_FORCE_INLINE
 #define KANALYSIS_INLINE __forceinline
-//#define KANALYSIS_INLINE inline
+#else
+#define KANALYSIS_INLINE inline
+#endif // KANALYSIS_FORCE_INLINE
 
+//
+// Global types and aliases
+//
 namespace kanalysis
 {
-	using Index = Eigen::Index;
+	using Index = Eigen::Index; // Signed interger
 	using Scalar = float;
 	using UInt = std::uintmax_t;
 
