@@ -11,23 +11,23 @@ namespace kanalysis::arithmetic
 	public:
 		CombinationModel();
 		CombinationModel(int n);
-		CombinationModel(int n, int r);
+		CombinationModel(int n, int k);
 
 		int n() const;
-		int r() const;
+		int k() const;
 
 		UInt c() const;
 		UInt p() const;
-		UInt cumulative_c() const;
+		UInt binomial_sums() const;
 
 		const std::vector<UInt>& multipliers() const;
 	private:
 		int m_n;
-		int m_r;
+		int m_k;
 
 		UInt m_c;
 		UInt m_p;
-		UInt m_cumulative_c;
+		UInt m_binomial_sums;
 
 		std::vector<UInt> m_multipliers;
 
@@ -41,12 +41,12 @@ namespace kanalysis::arithmetic
 		: m_is_initialized(false)
 	{}
 
-	KANALYSIS_INLINE CombinationModel::CombinationModel(int n, int r)
+	KANALYSIS_INLINE CombinationModel::CombinationModel(int n, int k)
 		: m_n(n)
-		, m_r(r)
-		, m_c(choose(n, r))
+		, m_k(k)
+		, m_c(choose(n, k))
 		, m_p(factorial(n))
-		, m_cumulative_c(cumulative_choose(n, r))
+		, m_binomial_sums(sums_of_binomial_coefficients(n, k))
 		, m_multipliers(n)
 		, m_is_initialized(true)
 	{
@@ -71,10 +71,10 @@ namespace kanalysis::arithmetic
 		return m_n;
 	}
 
-	KANALYSIS_INLINE int CombinationModel::r() const
+	KANALYSIS_INLINE int CombinationModel::k() const
 	{
 		assert(m_is_initialized);
-		return m_r;
+		return m_k;
 	}
 
 	KANALYSIS_INLINE UInt CombinationModel::c() const
@@ -89,10 +89,10 @@ namespace kanalysis::arithmetic
 		return m_p;
 	}
 
-	KANALYSIS_INLINE UInt CombinationModel::cumulative_c() const
+	KANALYSIS_INLINE UInt CombinationModel::binomial_sums() const
 	{
 		assert(m_is_initialized);
-		return m_cumulative_c;
+		return m_binomial_sums;
 	}
 
 	KANALYSIS_INLINE const std::vector<UInt>& CombinationModel::multipliers() const
