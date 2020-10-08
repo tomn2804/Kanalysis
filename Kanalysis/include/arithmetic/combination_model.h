@@ -6,11 +6,13 @@
 
 namespace kanalysis::arithmetic
 {
+	///
+	/// \brief A class to store all of the necessary components to calculate combinations.
+	///
 	class CombinationModel
 	{
 	public:
-		CombinationModel();
-		CombinationModel(int n);
+		CombinationModel() = default;
 		CombinationModel(int n, int k);
 
 		int n() const;
@@ -22,82 +24,100 @@ namespace kanalysis::arithmetic
 
 		const std::vector<UInt>& multipliers() const;
 	private:
-		int m_n;
-		int m_k;
+		int m_n = 0;
+		int m_k = 0;
 
-		UInt m_c;
-		UInt m_p;
-		UInt m_binomial_sums;
+		UInt m_c = choose(m_n, m_k);
+		UInt m_p = factorial(m_n);
+		UInt m_binomial_sums = sums_of_binomial_coefficients(m_n, m_k);
 
 		std::vector<UInt> m_multipliers;
-
-		bool m_is_initialized;
 	};
 } // namespace kanalysis::arithmetic
 
 namespace kanalysis::arithmetic
 {
-	KANALYSIS_INLINE CombinationModel::CombinationModel()
-		: m_is_initialized(false)
-	{}
-
+	///
+	/// \brief A constructor.
+	///
+	/// \param n An interger.
+	/// \param k An interger.
+	///
 	KANALYSIS_INLINE CombinationModel::CombinationModel(int n, int k)
 		: m_n(n)
 		, m_k(k)
-		, m_c(choose(n, k))
-		, m_p(factorial(n))
-		, m_binomial_sums(sums_of_binomial_coefficients(n, k))
 		, m_multipliers(n)
-		, m_is_initialized(true)
 	{
-		int crtl_variables = m_n - 1;
+		int r = m_n - 1; // Number of controlled variables.
 
 		m_multipliers[0] = m_p / m_n; // Multiplier value when nth_order is 0.
 
-		UInt ctrl_permutations = factorial(crtl_variables);
+		UInt p = factorial(r);
 		for (int i = 1; i < m_n; ++i)
 		{
-			m_multipliers[i] = ctrl_permutations / choose(crtl_variables, i);
+			m_multipliers[i] = p / choose(r, i); // Multiplier value when nth_order is i.
 		}
 	}
 
-	KANALYSIS_INLINE CombinationModel::CombinationModel(int n)
-		: CombinationModel(n, n - 1)
-	{}
-
+	///
+	/// \brief Returns \a n.
+	///
+	/// \return The value \a n .
+	///
 	KANALYSIS_INLINE int CombinationModel::n() const
 	{
-		assert(m_is_initialized);
 		return m_n;
 	}
 
+	///
+	/// \brief Returns \a k.
+	///
+	/// \return The value \a k .
+	///
 	KANALYSIS_INLINE int CombinationModel::k() const
 	{
-		assert(m_is_initialized);
 		return m_k;
 	}
 
+	///
+	/// \brief Returns the binomial coefficient of \a n given \a k .
+	///
+	/// \return The value of \a n choose \a k .
+	///
 	KANALYSIS_INLINE UInt CombinationModel::c() const
 	{
-		assert(m_is_initialized);
 		return m_c;
 	}
 
+	///
+	/// \brief Returns the factorial of \a n .
+	///
+	/// \return The value of \a factorial(n) .
+	///
 	KANALYSIS_INLINE UInt CombinationModel::p() const
 	{
-		assert(m_is_initialized);
 		return m_p;
 	}
 
+	///
+	/// \brief Returns the sums of binomial cofficients of \a n given \a k .
+	///
+	/// \return The value of \a sums_of_binomial_coefficients(n, k) .
+	///
 	KANALYSIS_INLINE UInt CombinationModel::binomial_sums() const
 	{
-		assert(m_is_initialized);
 		return m_binomial_sums;
 	}
 
+	///
+	/// \brief Returns the vector of multipliers.
+	///
+	/// \details To-do: Expand on this.
+	///
+	/// \return A vector of multipliers.
+	///
 	KANALYSIS_INLINE const std::vector<UInt>& CombinationModel::multipliers() const
 	{
-		assert(m_is_initialized);
 		return m_multipliers;
 	}
 } // namespace kanalysis::arithmetic

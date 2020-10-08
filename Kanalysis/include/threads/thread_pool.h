@@ -81,6 +81,7 @@ namespace kanalysis::threads
 {
 	///
 	/// \brief A constructor.
+	///
 	/// \details The pool is not active until \a start() is called.
 	///
 	/// \param threads Number of threads to be allocated.
@@ -91,6 +92,7 @@ namespace kanalysis::threads
 
 	///
 	/// \brief Starts the thread pool.
+	///
 	/// \details if \a reserve() is called beforehand then the console will display the progress percentage.
 	///
 	KANALYSIS_INLINE void ThreadPool::start()
@@ -129,6 +131,7 @@ namespace kanalysis::threads
 
 	///
 	/// \brief Increase the allocated capacity or number of elements that the queue can hold.
+	///
 	/// \details Calling this function will enables (not yet display) the progress percentage in console.
 	/// To display the progress percentage, \a start() or \a shutdown() must be called.
 	///
@@ -143,6 +146,7 @@ namespace kanalysis::threads
 	///
 	/// \brief Submit a task into the pool.
 	/// And an idling worker thread will automatically retrieve the task and execute it asynchronously.
+	///
 	/// \details The task can be a function or a functor.
 	///
 	/// \details Additionally, the task function can know which thread is currently calling on it by accepting an id number of the worker thread as argument.
@@ -184,6 +188,7 @@ namespace kanalysis::threads
 
 	///
 	/// \brief A call operator for worker thread.
+	///
 	/// \details If the pool is not empty, the worker thread will keep retrieving and executing tasks until the pool is empty. Once empty, the worker thread will go into an idle state.
 	/// To wake up an idling worker thread, the pool must call \a m_conditional_lock.notify_one() or \a m_conditional_lock.notify_all() .
 	///

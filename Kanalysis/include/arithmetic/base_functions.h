@@ -17,6 +17,7 @@ namespace kanalysis::arithmetic
 {
 	///
 	/// \brief Calculate the factorial of \a n .
+	///
 	/// \details https://en.wikipedia.org/wiki/Factorial
 	///
 	/// \param n An interger.
@@ -33,6 +34,7 @@ namespace kanalysis::arithmetic
 
 	///
 	/// \brief Calculate the factorial of \a n given \a k .
+	///
 	/// \details https://en.wikipedia.org/wiki/Factorial
 	///
 	/// \param n An interger.
@@ -50,6 +52,7 @@ namespace kanalysis::arithmetic
 
 	///
 	/// \brief Calculate the binomial coefficient of \a n given \a k .
+	///
 	/// \details https://stackoverflow.com/a/9331125
 	///
 	/// \param n An interger.
@@ -72,6 +75,7 @@ namespace kanalysis::arithmetic
 
 	///
 	/// \brief Calculate the sums of the binomial coefficients of \a n .
+	///
 	/// \details https://en.wikipedia.org/wiki/Binomial_coefficient
 	///
 	/// \param n An interger.
@@ -83,6 +87,7 @@ namespace kanalysis::arithmetic
 
 	///
 	/// \brief Calculate the sums of the binomial coefficients of \a n given \a k .
+	///
 	/// \details https://en.wikipedia.org/wiki/Binomial_coefficient
 	///
 	/// \param n An interger.

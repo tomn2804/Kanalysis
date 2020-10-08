@@ -22,24 +22,42 @@ namespace kanalysis::utils
 
 namespace kanalysis::utils
 {
+	///
+	/// \brief Returns the \a DerivedType .
+	///
+	/// \return The \a DerivedType .
+	///
 	template<typename DerivedType>
 	DerivedType& CrtpBase<DerivedType>::derived()
 	{
 		return static_cast<DerivedType&>(*this);
 	}
 
+	///
+	/// \overload CrtpBase<DerivedType>::derived()
+	///
 	template<typename DerivedType>
 	const DerivedType& CrtpBase<DerivedType>::derived() const
 	{
 		return static_cast<const DerivedType&>(*this);
 	}
 
+	///
+	/// \brief Returns the \a DerivedType as const.
+	///
+	/// \return The \a DerivedType as const.
+	///
 	template<typename DerivedType>
 	const DerivedType& CrtpBase<DerivedType>::const_derived() const
 	{
 		return static_cast<const DerivedType&>(*this);
 	}
 
+	///
+	/// \brief Returns the const casted of \a DerivedType .
+	///
+	/// \return The const casted of \a DerivedType .
+	///
 	template<typename DerivedType>
 	DerivedType& CrtpBase<DerivedType>::const_cast_derived() const
 	{

@@ -57,6 +57,7 @@ namespace kanalysis::utils
 
 	///
 	/// \brief Increment the percentage by \a i.
+	///
 	/// \details The updated percentage will be i divide by n.
 	///
 	/// \param i An unsigned interger. Default is 1.
