@@ -21,6 +21,7 @@ namespace kanalysis::arithmetic
 	/// \details https://en.wikipedia.org/wiki/Factorial
 	///
 	/// \param n An interger.
+	/// \return An unsigned interger.
 	///
 	KANALYSIS_INLINE UInt factorial(int n)
 	{
@@ -39,6 +40,7 @@ namespace kanalysis::arithmetic
 	///
 	/// \param n An interger.
 	/// \param k An interger.
+	/// \return An unsigned interger.
 	///
 	KANALYSIS_INLINE UInt factorial(int n, int k)
 	{
@@ -57,6 +59,7 @@ namespace kanalysis::arithmetic
 	///
 	/// \param n An interger.
 	/// \param k An interger.
+	/// \return An unsigned interger.
 	///
 	KANALYSIS_INLINE UInt choose(int n, int k)
 	{
@@ -79,6 +82,7 @@ namespace kanalysis::arithmetic
 	/// \details https://en.wikipedia.org/wiki/Binomial_coefficient
 	///
 	/// \param n An interger.
+	/// \return An unsigned interger.
 	///
 	KANALYSIS_INLINE UInt sums_of_binomial_coefficients(int n)
 	{
@@ -92,6 +96,7 @@ namespace kanalysis::arithmetic
 	///
 	/// \param n An interger.
 	/// \param k An interger.
+	/// \return An unsigned interger.
 	///
 	KANALYSIS_INLINE UInt sums_of_binomial_coefficients(int n, int k)
 	{

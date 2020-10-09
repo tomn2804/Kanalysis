@@ -32,7 +32,7 @@
 namespace kanalysis::threads
 {
 	///
-	/// \brief A thread pool that manages and assigns tasks to worker threads to be execute asynchronously.
+	/// \brief A thread pool that manages and assigns tasks to worker threads to be executed asynchronously.
 	///
 	class ThreadPool
 	{
@@ -119,8 +119,6 @@ namespace kanalysis::threads
 		if (m_status.n() != 0) m_status.complete();
 	}
 
-	///
-	/// \brief Returns the number of elements of the queue.
 	///
 	/// \return The number of elements in the queue.
 	///

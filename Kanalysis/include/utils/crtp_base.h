@@ -23,8 +23,6 @@ namespace kanalysis::utils
 namespace kanalysis::utils
 {
 	///
-	/// \brief Returns the \a DerivedType .
-	///
 	/// \return The \a DerivedType .
 	///
 	template<typename DerivedType>
@@ -43,8 +41,6 @@ namespace kanalysis::utils
 	}
 
 	///
-	/// \brief Returns the \a DerivedType as const.
-	///
 	/// \return The \a DerivedType as const.
 	///
 	template<typename DerivedType>
@@ -54,9 +50,7 @@ namespace kanalysis::utils
 	}
 
 	///
-	/// \brief Returns the const casted of \a DerivedType .
-	///
-	/// \return The const casted of \a DerivedType .
+	/// \return The const casted \a DerivedType .
 	///
 	template<typename DerivedType>
 	DerivedType& CrtpBase<DerivedType>::const_cast_derived() const

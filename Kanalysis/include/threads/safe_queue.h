@@ -61,8 +61,6 @@ namespace kanalysis::threads
 	}
 
 	///
-	/// \brief Returns the number of elements of the underlying container.
-	///
 	/// \return The number of elements in the container.
 	///
 	template<typename T>
@@ -97,7 +95,7 @@ namespace kanalysis::threads
 	}
 
 	///
-	/// \brief std::move the queued object at the front of the queue to \a t .
+	/// \brief \a std::move the queued object at the front of the queue to \a t .
 	///
 	/// \param t An empty object of type \a T . This is the \a out parameter.
 	/// \return \a true if \a t now holds the dequeued object, else \a false .

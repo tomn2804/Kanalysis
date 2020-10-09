@@ -7,7 +7,7 @@
 namespace kanalysis::arithmetic
 {
 	///
-	/// \brief A class to store all of the necessary components to calculate combinations.
+	/// \brief A class to store the necessary components to calculate combinations.
 	///
 	class CombinationModel
 	{
@@ -60,8 +60,6 @@ namespace kanalysis::arithmetic
 	}
 
 	///
-	/// \brief Returns \a n.
-	///
 	/// \return The value \a n .
 	///
 	KANALYSIS_INLINE int CombinationModel::n() const
@@ -69,8 +67,6 @@ namespace kanalysis::arithmetic
 		return m_n;
 	}
 
-	///
-	/// \brief Returns \a k.
 	///
 	/// \return The value \a k .
 	///
@@ -80,8 +76,6 @@ namespace kanalysis::arithmetic
 	}
 
 	///
-	/// \brief Returns the binomial coefficient of \a n given \a k .
-	///
 	/// \return The value of \a n choose \a k .
 	///
 	KANALYSIS_INLINE UInt CombinationModel::c() const
@@ -89,8 +83,6 @@ namespace kanalysis::arithmetic
 		return m_c;
 	}
 
-	///
-	/// \brief Returns the factorial of \a n .
 	///
 	/// \return The value of \a factorial(n) .
 	///
@@ -100,8 +92,6 @@ namespace kanalysis::arithmetic
 	}
 
 	///
-	/// \brief Returns the sums of binomial cofficients of \a n given \a k .
-	///
 	/// \return The value of \a sums_of_binomial_coefficients(n, k) .
 	///
 	KANALYSIS_INLINE UInt CombinationModel::binomial_sums() const
@@ -110,9 +100,7 @@ namespace kanalysis::arithmetic
 	}
 
 	///
-	/// \brief Returns the vector of multipliers.
-	///
-	/// \details To-do: Expand on this.
+	/// \brief To-do: Expand on this.
 	///
 	/// \return A vector of multipliers.
 	///

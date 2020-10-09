@@ -6,7 +6,7 @@ namespace kanalysis::utils
 {
 	///
 	/// \brief A class for displaying the progress percentage status to the console.
-	/// \details Example console output would be "Progress: 50%"
+	/// \details Example of console output: "Progress: 50%"
 	///
 	class Progress
 	{
@@ -33,7 +33,7 @@ namespace kanalysis::utils
 	///
 	/// \brief A constructor.
 	///
-	/// \param n An unsigned interger representing the total amount of tasks or size of something.
+	/// \param n An unsigned interger to be used as the demoninator for calculating percentage.
 	///
 	KANALYSIS_INLINE Progress::Progress(UInt n)
 		: m_n(n)
@@ -48,7 +48,7 @@ namespace kanalysis::utils
 	}
 
 	///
-	/// \brief Display the progress percentage at 0%.
+	/// \brief Displays the progress percentage at 0%.
 	///
 	KANALYSIS_INLINE void Progress::start()
 	{
@@ -56,9 +56,8 @@ namespace kanalysis::utils
 	}
 
 	///
-	/// \brief Increment the percentage by \a i.
-	///
-	/// \details The updated percentage will be i divide by n.
+	/// \brief Increments the percentage by \a i.
+	/// Where the percentage will be this \a i plus the previous i and divided by \a n .
 	///
 	/// \param i An unsigned interger. Default is 1.
 	///
@@ -79,7 +78,7 @@ namespace kanalysis::utils
 	}
 
 	///
-	/// \brief Display the progress percentage at 100%.
+	/// \brief Displays the progress percentage at 100%.
 	///
 	KANALYSIS_INLINE void Progress::complete()
 	{
@@ -87,8 +86,7 @@ namespace kanalysis::utils
 	}
 
 	///
-	/// \brief Returns \a n , which is the total number of tasks.
-	/// \a n is used as the denomintor when calculating percentage.
+	/// \return The demoninator.
 	///
 	KANALYSIS_INLINE UInt Progress::n() const
 	{
@@ -96,8 +94,7 @@ namespace kanalysis::utils
 	}
 
 	///
-	/// \brief Returns \a r , which is the current number of completed tasks.
-	/// \a i is used as the numerator when calculating percentage.
+	/// \return The current numerator.
 	///
 	KANALYSIS_INLINE UInt Progress::i() const
 	{

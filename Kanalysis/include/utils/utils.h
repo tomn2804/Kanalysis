@@ -14,9 +14,9 @@ namespace kanalysis::utils
 namespace kanalysis::utils
 {
 	///
-	/// \brief Build a model matrix, also known as design matrix, for a simple linear regression or a multiple regression.
+	/// \brief Build a model matrix for a multiple or single linear regression.
 	///
-	/// \param x A non-model matrix.
+	/// \param x A matrix.
 	/// \return A model matrix.
 	///
 	template<typename Derived>
