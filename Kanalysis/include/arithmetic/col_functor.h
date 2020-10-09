@@ -98,8 +98,6 @@ namespace kanalysis::arithmetic
 	}
 
 	///
-	/// \brief A constructor for when \a MatrixType is a non-const reference type.
-	///
 	/// \overload ColFunctor<MatrixType>::ColFunctor(const DenseBase<Derived>& matrix)
 	///
 	template<typename MatrixType>
@@ -286,7 +284,7 @@ namespace kanalysis::arithmetic
 	}
 
 	///
-	/// \return The const casted of the underlying matrix.
+	/// \return The const casted underlying matrix.
 	///
 	template<typename MatrixType>
 	MatrixType& ColFunctor<MatrixType>::const_cast_matrix() const
@@ -304,7 +302,7 @@ namespace kanalysis::arithmetic
 	}
 
 	///
-	/// \return The const casted of the read-only matrix.
+	/// \return The const casted read-only matrix.
 	///
 	template<typename MatrixType>
 	Matrix& ColFunctor<MatrixType>::const_cast_read_only_matrix() const

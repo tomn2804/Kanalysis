@@ -63,8 +63,6 @@ namespace kanalysis::arithmetic
 	{}
 
 	///
-	/// \brief A constructor for when \a LhsMatrixType is a non-const reference type.
-	///
 	/// \overload TwoHandsSideColFunctor<LhsMatrixType, RhsMatrixType>::TwoHandsSideColFunctor(const DenseBase<Derived>& lhs_matrix)
 	///
 	template<typename LhsMatrixType, typename RhsMatrixType>
@@ -87,8 +85,6 @@ namespace kanalysis::arithmetic
 		, m_rhs(rhs_matrix)
 	{}
 
-	///
-	/// \brief A constructor for when \a LhsMatrixType and \a RhsMatrixType are a non-const reference type.
 	///
 	/// \overload TwoHandsSideColFunctor<LhsMatrixType, RhsMatrixType>::TwoHandsSideColFunctor(const DenseBase<DerivedA>& lhs_matrix, const DenseBase<DerivedB>& rhs_matrix)
 	///

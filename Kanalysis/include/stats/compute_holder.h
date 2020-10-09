@@ -7,7 +7,7 @@
 namespace kanalysis::stats
 {
 	///
-	/// \brief A wrapper class for keeping the model matrix and it's decomposition in sync.
+	/// \brief A wrapper class for a decomposition from \a the Eigen library.
 	///
 	template<typename MatrixType>
 	class ComputeHolder : public ComputeHolderBase<ComputeHolder<MatrixType>>
@@ -45,13 +45,7 @@ namespace kanalysis::stats
 namespace kanalysis::stats
 {
 	///
-	/// \brief A conversion function that will standardize the values stored in \a x .
-	/// The standardized values can be used for all other objects within the \a stats namespace.
-	///
-	/// \details This function does nothing beside prodiving a consistent interface for \a ComputeHolderWeight and semantic reasons.
-	///
-	/// \param x A matrix or vector.
-	/// \param out The standardized values are outputted here.
+	/// \overload void ComputeHolderBase<DerivedType>::standardize(const DenseBase<DerivedA>& x, DenseBase<DerivedB>& out)
 	///
 	template<typename MatrixType>
 	template<typename DerivedA, typename DerivedB>
@@ -61,13 +55,7 @@ namespace kanalysis::stats
 	}
 
 	///
-	/// \brief A conversion function that will standardize the values stored in \a x .
-	/// The standardized values can be used for all other objects within the \a stats namespace.
-	///
-	/// \details This function does nothing beside prodiving a consistent interface for \a ComputeHolderWeight and semantic reasons.
-	///
-	/// \param x A matrix or vector.
-	/// \return A matrix with standardized values.
+	/// \overload Matrix ComputeHolderBase<DerivedType>::standardize(const DenseBase<Derived>& x)
 	///
 	template<typename MatrixType>
 	template<typename Derived>
@@ -77,10 +65,7 @@ namespace kanalysis::stats
 	}
 
 	///
-	/// \brief A factory function.
-	///
-	/// \param std_x A matrix or vector.
-	/// \return A new \a ComputeHolder where \a MatrixType is equal to the \a Derived type of \a std_x .
+	/// \overload decltype(auto) ComputeHolderBase<DerivedType>::compute_holder(const DenseBase<Derived>& std_x)
 	///
 	template<typename MatrixType>
 	template<typename Derived>
