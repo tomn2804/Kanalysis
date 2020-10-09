@@ -45,10 +45,10 @@ namespace kanalysis::stats
 namespace kanalysis::stats
 {
 	///
-	/// \brief A conversion function that will take the values stored in a matrix or vector \a x ,
-	/// and standardize it so that it can be used for all other objects within the \a stats namespace.
+	/// \brief A conversion function that will standardize the values stored in \a x .
+	/// The standardized values can be used for all other objects within the \a stats namespace.
 	///
-	/// \details This function does nothing beside prodiving consistent interface with \a ComputeHolderWeight and sementic reasons.
+	/// \details This function does nothing beside prodiving a consistent interface for \a ComputeHolderWeight and semantic reasons.
 	///
 	/// \param x A matrix or vector.
 	/// \param out The standardized values are outputted here.
@@ -61,10 +61,10 @@ namespace kanalysis::stats
 	}
 
 	///
-	/// \brief A conversion function that will take the values stored in a matrix or vector \a x ,
-	/// and standardize it so that it can be used for all other objects within the \a stats namespace.
+	/// \brief A conversion function that will standardize the values stored in \a x .
+	/// The standardized values can be used for all other objects within the \a stats namespace.
 	///
-	/// \details This function does nothing beside prodiving consistent interface with \a ComputeHolderWeight and sementic reasons.
+	/// \details This function does nothing beside prodiving a consistent interface for \a ComputeHolderWeight and semantic reasons.
 	///
 	/// \param x A matrix or vector.
 	/// \return A matrix with standardized values.
@@ -80,7 +80,7 @@ namespace kanalysis::stats
 	/// \brief A factory function.
 	///
 	/// \param std_x A matrix or vector.
-	/// \return A new \a ComputeHolder where \a MatrixType is equals to the \a Derived type of \a std_x .
+	/// \return A new \a ComputeHolder where \a MatrixType is equal to the \a Derived type of \a std_x .
 	///
 	template<typename MatrixType>
 	template<typename Derived>
@@ -93,7 +93,7 @@ namespace kanalysis::stats
 	/// \brief A global factory function.
 	///
 	/// \param std_x A matrix or vector.
-	/// \return A new \a ComputeHolder where \a MatrixType is equals to the \a Derived type of \a std_x .
+	/// \return A new \a ComputeHolder where \a MatrixType is equal to \a std_x type.
 	///
 	template<typename Derived>
 	ComputeHolder<Derived> compute_holder(const DenseBase<Derived>& std_x)

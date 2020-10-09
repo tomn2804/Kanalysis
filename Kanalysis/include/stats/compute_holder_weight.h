@@ -10,7 +10,7 @@ namespace kanalysis::stats
 	///
 	/// \brief A wrapper class for keeping the model matrix and it's decomposition in sync.
 	///
-	/// \details The difference between this class and \a ComputeHolder is that all data stored is weighted.
+	/// \details The difference between this class and \a ComputeHolder is that all data stored in here is weighted.
 	///
 	template<typename MatrixType, typename ArrayType>
 	class ComputeHolderWeight : public ComputeHolderBase<ComputeHolderWeight<MatrixType, ArrayType>>
@@ -122,8 +122,8 @@ namespace kanalysis::stats
 	{}
 
 	///
-	/// \brief A conversion function that will take the values stored in a matrix or vector \a x ,
-	/// and standardize it so that it can be used for all other objects within the \a stats namespace.
+	/// \brief A conversion function that will standardize the values stored in \a x .
+	/// The standardized values can be used for all other objects within the \a stats namespace.
 	///
 	/// \param x A matrix or vector.
 	/// \param out The standardized values are outputted here.
@@ -136,8 +136,8 @@ namespace kanalysis::stats
 	}
 
 	///
-	/// \brief A conversion function that will take the values stored in a matrix or vector \a x ,
-	/// and standardize it so that it can be used for all other objects within the \a stats namespace.
+	/// \brief A conversion function that will standardize the values stored in \a x .
+	/// The standardized values can be used for all other objects within the \a stats namespace.
 	///
 	/// \param x A matrix or vector.
 	/// \return A matrix with standardized values.
@@ -153,7 +153,7 @@ namespace kanalysis::stats
 	/// \brief A factory function.
 	///
 	/// \param std_x A matrix or vector.
-	/// \return A new \a ComputeHolderWeight where \a MatrixType is equals to the \a Derived type of \a std_x and \a ArrayType remains the same.
+	/// \return A new \a ComputeHolderWeight where \a MatrixType is equal to \a std_x type, and \a ArrayType remains the same.
 	///
 	template<typename MatrixType, typename ArrayType>
 	template<typename Derived>
@@ -163,9 +163,7 @@ namespace kanalysis::stats
 	}
 
 	///
-	/// \brief Returns the \a weights array.
-	///
-	/// \return the \a weights array.
+	/// \return The \a weights array.
 	///
 	template<typename MatrixType, typename ArrayType>
 	const ArrayType& ComputeHolderWeight<MatrixType, ArrayType>::weights() const
@@ -174,9 +172,7 @@ namespace kanalysis::stats
 	}
 
 	///
-	/// \brief Returns the const casted \a weights array.
-	///
-	/// \return the \a weights array.
+	/// \return The const casted \a weights array.
 	///
 	template<typename MatrixType, typename ArrayType>
 	ArrayType& ComputeHolderWeight<MatrixType, ArrayType>::const_cast_weights() const
@@ -184,18 +180,31 @@ namespace kanalysis::stats
 		return const_cast<ArrayType&>(m_weights);
 	}
 
+	///
+	/// \return The \a sqrt_weights array.
+	///
 	template<typename MatrixType, typename ArrayType>
 	const Array& ComputeHolderWeight<MatrixType, ArrayType>::sqrt_weights() const
 	{
 		return m_sqrt_weights;
 	}
 
+	///
+	/// \return The const casted \a sqrt_weights array.
+	///
 	template<typename MatrixType, typename ArrayType>
 	Array& ComputeHolderWeight<MatrixType, ArrayType>::const_cast_sqrt_weights() const
 	{
 		return m_sqrt_weights;
 	}
 
+	///
+	/// \brief A global factory function.
+	///
+	/// \param std_x A matrix or vector.
+	/// \param weights An array.
+	/// \return A new \a ComputeHolderWeight where \a MatrixType is equal to \a std_x type, and \a ArrayType is equal to \a weights .
+	///
 	template<typename DerivedA, typename DerivedB>
 	ComputeHolderWeight<DerivedA, DerivedB> compute_holder(const DenseBase<DerivedA>& std_x, const DenseBase<DerivedB>& weights)
 	{
