@@ -12,6 +12,9 @@ namespace kanalysis::stats
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class Correlation;
 
+	///
+	/// \brief A CRTP base class for \a PartialCorrelation and \a PartialCorrelationWeight .
+	///
 	template<typename DerivedType>
 	class PartialCorrelationBase : public SolveHolderBase<DerivedType>
 	{

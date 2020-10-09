@@ -9,6 +9,9 @@ namespace kanalysis::stats
 	template<typename MatrixType>
 	class ComputeHolder;
 
+	///
+	/// \brief A class for computing the beta coefficients.
+	///
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class Coefficient : public CoefficientBase<Coefficient<ComputeHolderType, RegressionFunctionType>>
 	{

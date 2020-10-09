@@ -9,6 +9,9 @@ namespace kanalysis::stats
 	template<typename MatrixType, typename ArrayType>
 	class ComputeHolderWeight;
 
+	///
+	/// \brief A class for computing weighted Kruskal's relative importance.
+	///
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class KruskalWeight : public KruskalBase<KruskalWeight<ComputeHolderType, RegressionFunctionType>>
 	{

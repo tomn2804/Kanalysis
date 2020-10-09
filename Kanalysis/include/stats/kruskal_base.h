@@ -10,19 +10,11 @@
 #include "include/stats/partial_correlation_weight.h"
 #include "include/threads/thread_pool.h"
 
-namespace kanalysis::arithmetic
-{
-	namespace combination
-	{
-		UInt choose(int n, int r);
-	} // namespace combination
-
-	template<typename LhsMatrixType, typename RhsMatrixType>
-	class TwoHandsSideColFunctor;
-} // namespace kanalysis::arithmetic
-
 namespace kanalysis::stats
 {
+	///
+	/// \brief A CRTP base class for \a Kruskal and \a KruskalWeight .
+	///
 	template<typename DerivedType>
 	class KruskalBase : public SolveHolderBase<DerivedType>
 	{
@@ -147,7 +139,7 @@ namespace kanalysis::stats
 		using Iterator = Combination::iterator;
 		using ReverseIteartor = ReverseCombination::iterator;
 
-		int packages = (m_combination_model.r() / 2) * threads;
+		int packages = (m_combination_model.k() / 2) * threads;
 
 		threads::ThreadPool pool(threads);
 		pool.reserve(packages);
@@ -159,7 +151,7 @@ namespace kanalysis::stats
 		std::vector<Vector> out(threads, Vector::Constant(x_variables, 0));
 		NthOrderFunctor f(*this, threads, std_y, out);
 
-		for (int nth_order = 1; nth_order <= m_combination_model.r() / 2; ++nth_order)
+		for (int nth_order = 1; nth_order <= m_combination_model.k() / 2; ++nth_order)
 		{
 			Combination lhs_combinations(x_variables, nth_order);
 			ReverseCombination rhs_combinations(Combination(x_variables, x_variables - nth_order));

@@ -13,6 +13,9 @@ namespace kanalysis::stats
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class FittedValueWeight;
 
+	///
+	/// \brief A class for computing the weighted residuals.
+	///
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class CorrelationWeight : public CorrelationBase<CorrelationWeight<ComputeHolderType, RegressionFunctionType>>
 	{

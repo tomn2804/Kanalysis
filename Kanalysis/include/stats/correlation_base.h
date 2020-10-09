@@ -9,6 +9,9 @@ namespace kanalysis::stats
 	template<typename DerivedType>
 	struct ComputeHolderTraits;
 
+	///
+	/// \brief A CRTP base class for \a Correlation and \a CorrelationWeight .
+	///
 	template<typename DerivedType>
 	class CorrelationBase : public SolveHolderBase<DerivedType>
 	{

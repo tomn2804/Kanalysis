@@ -83,6 +83,10 @@
     <ClCompile Include="src\utils\crtp_base.cpp" />
     <ClCompile Include="src\utils\utils.cpp" />
     <ClCompile Include="tests\main.cpp" />
+    <ClCompile Include="tests\tests.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

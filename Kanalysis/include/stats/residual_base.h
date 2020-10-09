@@ -9,6 +9,9 @@ namespace kanalysis::stats
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class FittedValue;
 
+	///
+	/// \brief A CRTP base class for \a Residual and \a ResidualWeight .
+	///
 	template<typename DerivedType>
 	class ResidualBase : public SolveHolderBase<DerivedType>
 	{

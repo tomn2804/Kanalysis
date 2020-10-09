@@ -11,6 +11,9 @@ namespace kanalysis::stats
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class Coefficient;
 
+	///
+	/// \brief A CRTP base class for \a FittedValue and \a FittedValueWeight .
+	///
 	template<typename DerivedType>
 	class FittedValueBase : public SolveHolderBase<DerivedType>
 	{
@@ -36,12 +39,21 @@ namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
+	///
+	/// \return The \a Coefficient object used to solve for fitted values.
+	///
 	template<typename DerivedType>
 	const auto& FittedValueBase<DerivedType>::coefficient() const
 	{
 		return m_coefficient;
 	}
 
+	///
+	/// \brief Find the fitted values of \a std_y regressing on the underlying decomposition.
+	///
+	/// \param std_y A vector with standardized values.
+	/// \return A vector of fitted values.
+	///
 	template<typename DerivedType>
 	template<typename Derived>
 	Vector& FittedValueBase<DerivedType>::std_solve(const VectorBase<Derived>& std_y) const

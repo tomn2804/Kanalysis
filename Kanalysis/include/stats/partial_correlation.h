@@ -12,6 +12,9 @@ namespace kanalysis::stats
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class Residual;
 
+	///
+	/// \brief A class for computing the partial correlation.
+	///
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class PartialCorrelation : public PartialCorrelationBase<PartialCorrelation<ComputeHolderType, RegressionFunctionType>>
 	{

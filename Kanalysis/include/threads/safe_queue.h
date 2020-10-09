@@ -88,10 +88,10 @@ namespace kanalysis::threads
 	/// \param t An object of type \a T .
 	///
 	template<typename T>
-	void SafeQueue<T>::enqueue(T& t) // To-do: T&&
+	void SafeQueue<T>::enqueue(T& t)
 	{
 		std::unique_lock<std::mutex> lock(m_mutex);
-		m_queue.push_back(t); // To-do: emplace_back
+		m_queue.push_back(t); // Safer than emplace_back.
 	}
 
 	///

@@ -12,6 +12,9 @@ namespace kanalysis::stats
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class FittedValue;
 
+	///
+	/// \brief A class for computing the correlation.
+	///
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class Correlation : public CorrelationBase<Correlation<ComputeHolderType, RegressionFunctionType>>
 	{

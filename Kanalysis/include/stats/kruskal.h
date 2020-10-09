@@ -9,6 +9,9 @@ namespace kanalysis::stats
 	template<typename MatrixType>
 	class ComputeHolder;
 
+	///
+	/// \brief A class for computing Kruskal's relative importance.
+	///
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class Kruskal : public KruskalBase<Kruskal<ComputeHolderType, RegressionFunctionType>>
 	{

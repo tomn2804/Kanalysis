@@ -9,6 +9,9 @@ namespace kanalysis::stats
 	template<typename MatrixType, typename ArrayType>
 	class ComputeHolderWeight;
 
+	///
+	/// \brief A class for computing the weighted beta coefficients.
+	///
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class CoefficientWeight : public CoefficientBase<CoefficientWeight<ComputeHolderType, RegressionFunctionType>>
 	{

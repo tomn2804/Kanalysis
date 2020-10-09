@@ -10,6 +10,9 @@ namespace kanalysis::stats
 	template<typename MatrixType, typename ArrayType>
 	class ComputeHolderWeight;
 
+	///
+	/// \brief A class for computing the weighted fitted values.
+	///
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class FittedValueWeight : public FittedValueBase<FittedValueWeight<ComputeHolderType, RegressionFunctionType>>
 	{
@@ -36,6 +39,9 @@ namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
+	///
+	/// \overload Vector& FittedValueBase<DerivedType>::std_solve(const VectorBase<Derived>& std_y) const
+	///
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	template<typename Derived>
 	const Vector& FittedValueWeight<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
@@ -45,6 +51,12 @@ namespace kanalysis::stats
 		return results;
 	}
 
+	///
+	/// \brief A global factory function.
+	///
+	/// \param decomposition A \a ComputeHolderWeight .
+	/// \return A new \a FittedValueWeight .
+	///
 	template<typename MatrixType, typename RegressionFunctionType>
 	FittedValueWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> fitted_value(const ComputeHolderWeight<MatrixType, Array>& decomposition)
 	{

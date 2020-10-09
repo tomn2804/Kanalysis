@@ -9,6 +9,9 @@ namespace kanalysis::stats
 	template<typename MatrixType>
 	class ComputeHolder;
 
+	///
+	/// \brief A class for computing the residuals.
+	///
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class Residual : public ResidualBase<Residual<ComputeHolderType, RegressionFunctionType>>
 	{

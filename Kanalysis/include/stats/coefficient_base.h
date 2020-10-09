@@ -6,6 +6,9 @@
 
 namespace kanalysis::stats
 {
+	///
+	/// \brief A CRTP base class for \a Coefficient and \a CoefficientWeight .
+	///
 	template<typename DerivedType>
 	class CoefficientBase : public SolveHolderBase<DerivedType>
 	{
@@ -27,7 +30,7 @@ namespace kanalysis::stats
 namespace kanalysis::stats
 {
 	///
-	/// \brief Find the beta coefficients of \a std_y regress on the underlying decomposition \a x .
+	/// \brief Find the beta coefficients of \a std_y regressing on the underlying decomposition.
 	///
 	/// \param std_y A vector with standardized values.
 	/// \return A vector of beta coefficients.

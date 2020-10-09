@@ -10,6 +10,9 @@ namespace kanalysis::stats
 	template<typename MatrixType, typename ArrayType>
 	class ComputeHolderWeight;
 
+	///
+	/// \brief A class for computing the weighted residuals.
+	///
 	template<typename ComputeHolderType, typename RegressionFunctionType>
 	class ResidualWeight : public ResidualBase<ResidualWeight<ComputeHolderType, RegressionFunctionType>>
 	{
