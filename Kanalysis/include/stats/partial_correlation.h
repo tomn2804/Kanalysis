@@ -35,14 +35,14 @@ namespace kanalysis::stats
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	PartialCorrelation<ComputeHolder<MatrixType>, RegressionFunctionType> partial_correlation(const ComputeHolder<MatrixType>& compute_holder);
+	PartialCorrelation<ComputeHolder<MatrixType>, RegressionFunctionType> partial_correlation(const ComputeHolder<MatrixType>& decomposition);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename RegressionFunctionType>
-	PartialCorrelation<ComputeHolder<MatrixType>, RegressionFunctionType> partial_correlation(const ComputeHolder<MatrixType>& compute_holder)
+	PartialCorrelation<ComputeHolder<MatrixType>, RegressionFunctionType> partial_correlation(const ComputeHolder<MatrixType>& decomposition)
 	{
-		return PartialCorrelation<ComputeHolder<MatrixType>, RegressionFunctionType>(compute_holder);
+		return PartialCorrelation<ComputeHolder<MatrixType>, RegressionFunctionType>(decomposition);
 	}
 } // namespace kanalysis::stats

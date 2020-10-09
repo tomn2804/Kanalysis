@@ -188,7 +188,7 @@ namespace kanalysis::stats
 	///
 	/// \brief A global factory function.
 	///
-	/// \param std_x A matrix or vector.
+	/// \param std_x A matrix with standardized values.
 	/// \param weights An array.
 	/// \return A new \a ComputeHolderWeight where \a MatrixType is equal to \a std_x type, and \a ArrayType is equal to \a weights .
 	///

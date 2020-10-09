@@ -27,14 +27,14 @@ namespace kanalysis::stats
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	KruskalWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> kruskal(const ComputeHolderWeight<MatrixType, Array>& compute_holder);
+	KruskalWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> kruskal(const ComputeHolderWeight<MatrixType, Array>& decomposition);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename RegressionFunctionType>
-	KruskalWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> kruskal(const ComputeHolderWeight<MatrixType, Array>& compute_holder)
+	KruskalWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> kruskal(const ComputeHolderWeight<MatrixType, Array>& decomposition)
 	{
-		return KruskalWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(compute_holder);
+		return KruskalWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(decomposition);
 	}
 } // namespace kanalysis::stats

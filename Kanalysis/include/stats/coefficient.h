@@ -27,14 +27,20 @@ namespace kanalysis::stats
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType> coefficient(const ComputeHolder<MatrixType>& compute_holder);
+	Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType> coefficient(const ComputeHolder<MatrixType>& decomposition);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
+	///
+	/// \brief A global factory function.
+	///
+	/// \param decomposition A \a ComputeHolder .
+	/// \return A new \a Coefficient .
+	///
 	template<typename MatrixType, typename RegressionFunctionType>
-	Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType> coefficient(const ComputeHolder<MatrixType>& compute_holder)
+	Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType> coefficient(const ComputeHolder<MatrixType>& decomposition)
 	{
-		return Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType>(compute_holder);
+		return Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType>(decomposition);
 	}
 } // namespace kanalysis::stats

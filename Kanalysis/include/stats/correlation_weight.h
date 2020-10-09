@@ -47,7 +47,7 @@ namespace kanalysis::stats
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	CorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> correlation(const ComputeHolderWeight<MatrixType, Array>& compute_holder);
+	CorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> correlation(const ComputeHolderWeight<MatrixType, Array>& decomposition);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
@@ -85,8 +85,8 @@ namespace kanalysis::stats
 	}
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	CorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> correlation(const ComputeHolderWeight<MatrixType, Array>& compute_holder)
+	CorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> correlation(const ComputeHolderWeight<MatrixType, Array>& decomposition)
 	{
-		return CorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(compute_holder);
+		return CorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(decomposition);
 	}
 } // namespace kanalysis::stats

@@ -31,7 +31,7 @@ namespace kanalysis::stats
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	FittedValueWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> fitted_value(const ComputeHolderWeight<MatrixType, Array>& compute_holder);
+	FittedValueWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> fitted_value(const ComputeHolderWeight<MatrixType, Array>& decomposition);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
@@ -46,8 +46,8 @@ namespace kanalysis::stats
 	}
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	FittedValueWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> fitted_value(const ComputeHolderWeight<MatrixType, Array>& compute_holder)
+	FittedValueWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> fitted_value(const ComputeHolderWeight<MatrixType, Array>& decomposition)
 	{
-		return FittedValueWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(compute_holder);
+		return FittedValueWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(decomposition);
 	}
 } // namespace kanalysis::stats

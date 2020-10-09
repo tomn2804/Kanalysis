@@ -30,7 +30,7 @@ namespace kanalysis::stats
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType> fitted_value(const ComputeHolder<MatrixType>& compute_holder);
+	FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType> fitted_value(const ComputeHolder<MatrixType>& decomposition);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
@@ -43,8 +43,8 @@ namespace kanalysis::stats
 	}
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType> fitted_value(const ComputeHolder<MatrixType>& compute_holder)
+	FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType> fitted_value(const ComputeHolder<MatrixType>& decomposition)
 	{
-		return FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType>(compute_holder);
+		return FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType>(decomposition);
 	}
 } // namespace kanalysis::stats

@@ -30,7 +30,7 @@ namespace kanalysis::stats
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	Residual<ComputeHolder<MatrixType>, RegressionFunctionType> residual(const ComputeHolder<MatrixType>& compute_holder);
+	Residual<ComputeHolder<MatrixType>, RegressionFunctionType> residual(const ComputeHolder<MatrixType>& decomposition);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
@@ -43,8 +43,8 @@ namespace kanalysis::stats
 	}
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	Residual<ComputeHolder<MatrixType>, RegressionFunctionType> residual(const ComputeHolder<MatrixType>& compute_holder)
+	Residual<ComputeHolder<MatrixType>, RegressionFunctionType> residual(const ComputeHolder<MatrixType>& decomposition)
 	{
-		return Residual<ComputeHolder<MatrixType>, RegressionFunctionType>(compute_holder);
+		return Residual<ComputeHolder<MatrixType>, RegressionFunctionType>(decomposition);
 	}
 } // namespace kanalysis::stats

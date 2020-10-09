@@ -26,6 +26,12 @@ namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
+	///
+	/// \brief Find the beta coefficients of \a std_y regress on the underlying decomposition \a x .
+	///
+	/// \param std_y A vector with standardized values.
+	/// \return A vector of beta coefficients.
+	///
 	template<typename DerivedType>
 	template<typename Derived>
 	const Vector& CoefficientBase<DerivedType>::solve(const VectorBase<Derived>& std_y) const

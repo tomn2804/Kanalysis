@@ -27,14 +27,20 @@ namespace kanalysis::stats
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	CoefficientWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> coefficient(const ComputeHolderWeight<MatrixType, Array>& compute_holder);
+	CoefficientWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> coefficient(const ComputeHolderWeight<MatrixType, Array>& decomposition);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
+	///
+	/// \brief A global factory function.
+	///
+	/// \param decomposition A \a ComputeHolderWeight .
+	/// \return A new \a Coefficient .
+	///
 	template<typename MatrixType, typename RegressionFunctionType>
-	CoefficientWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> coefficient(const ComputeHolderWeight<MatrixType, Array>& compute_holder)
+	CoefficientWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> coefficient(const ComputeHolderWeight<MatrixType, Array>& decomposition)
 	{
-		return CoefficientWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(compute_holder);
+		return CoefficientWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(decomposition);
 	}
 }

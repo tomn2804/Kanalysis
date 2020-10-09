@@ -144,7 +144,7 @@ namespace kanalysis::stats
 	///
 	/// \brief A factory function.
 	///
-	/// \param std_x A matrix or vector.
+	/// \param std_x A matrix with standardized values.
 	/// \return A new \a ComputeHolder where \a MatrixType is equal to \a std_x type, and \a ArrayType remains the same.
 	///
 	template<typename DerivedType>
