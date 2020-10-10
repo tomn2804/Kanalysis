@@ -8,7 +8,7 @@
 
 namespace kanalysis::stats
 {
-	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType>
 	class Coefficient;
 
 	///
@@ -30,7 +30,7 @@ namespace kanalysis::stats
 		template<typename Derived>
 		Vector& std_solve(const VectorBase<Derived>& std_y) const;
 
-		Coefficient<const ComputeHolderDecayType&, RegressionFunctionType> m_coefficient = Coefficient<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
+		Coefficient<const ComputeHolderDecayType&, RegressionFunctionType> m_coefficient = Coefficient<const ComputeHolderDecayType&, RegressionFunctionType>(Base::qr());
 		mutable Vector m_results = Vector::Constant(Base::rows(), 0);
 	private:
 		friend class SolveHolderBase<DerivedType>;
@@ -49,7 +49,7 @@ namespace kanalysis::stats
 	}
 
 	///
-	/// \brief Find the fitted values of \a std_y regressing on the underlying decomposition.
+	/// \brief Find the fitted values of \a std_y regressing on the underlying qr.
 	///
 	/// \param std_y A vector with standardized values.
 	/// \return A vector of fitted values.

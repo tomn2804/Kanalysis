@@ -7,16 +7,16 @@
 namespace kanalysis::stats
 {
 	template<typename MatrixType>
-	class ComputeHolder;
+	class Decomposition;
 
 	///
 	/// \brief A class for computing the fitted values.
 	///
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	class FittedValue : public FittedValueBase<FittedValue<ComputeHolderType, RegressionFunctionType>>
+	template<typename DecompositionType, typename RegressionFunctionType>
+	class FittedValue : public FittedValueBase<FittedValue<DecompositionType, RegressionFunctionType>>
 	{
 	protected:
-		using Base = FittedValueBase<FittedValue<ComputeHolderType, RegressionFunctionType>>;
+		using Base = FittedValueBase<FittedValue<DecompositionType, RegressionFunctionType>>;
 	public:
 		using Base::Base;
 		FittedValue() = default;
@@ -25,15 +25,15 @@ namespace kanalysis::stats
 		const Vector& solve(const VectorBase<Derived>& std_y) const;
 	};
 
-	template<typename ComputeHolderType_, typename RegressionFunctionType_>
-	struct SolveHolderTraits<FittedValue<ComputeHolderType_, RegressionFunctionType_>>
+	template<typename DecompositionType_, typename RegressionFunctionType_>
+	struct SolveHolderTraits<FittedValue<DecompositionType_, RegressionFunctionType_>>
 	{
-		using ComputeHolderType = ComputeHolderType_;
+		using DecompositionType = DecompositionType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType> fitted_value(const ComputeHolder<MatrixType>& decomposition);
+	FittedValue<Decomposition<MatrixType>, RegressionFunctionType> fitted_value(const Decomposition<MatrixType>& qr);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
@@ -41,9 +41,9 @@ namespace kanalysis::stats
 	///
 	/// \overload Vector& FittedValueBase<DerivedType>::std_solve(const VectorBase<Derived>& std_y) const
 	///
-	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType>
 	template<typename Derived>
-	const Vector& FittedValue<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
+	const Vector& FittedValue<DecompositionType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
 	{
 		return Base::std_solve(std_y);
 	}
@@ -51,12 +51,12 @@ namespace kanalysis::stats
 	///
 	/// \brief A global factory function.
 	///
-	/// \param decomposition A \a ComputeHolder .
+	/// \param qr A \a Decomposition .
 	/// \return A new \a FittedValue .
 	///
 	template<typename MatrixType, typename RegressionFunctionType>
-	FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType> fitted_value(const ComputeHolder<MatrixType>& decomposition)
+	FittedValue<Decomposition<MatrixType>, RegressionFunctionType> fitted_value(const Decomposition<MatrixType>& qr)
 	{
-		return FittedValue<ComputeHolder<MatrixType>, RegressionFunctionType>(decomposition);
+		return FittedValue<Decomposition<MatrixType>, RegressionFunctionType>(qr);
 	}
 } // namespace kanalysis::stats

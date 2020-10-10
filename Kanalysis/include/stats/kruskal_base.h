@@ -24,10 +24,10 @@ namespace kanalysis::stats
 		using typename Base::RegressionFunctionType;
 	public:
 		template<typename Derived>
-		KruskalBase(const ComputeHolderBase<Derived>& decomposition);
+		KruskalBase(const DecompositionBase<Derived>& qr);
 
 		template<typename Derived>
-		KruskalBase(ComputeHolderBase<Derived>& decomposition);
+		KruskalBase(DecompositionBase<Derived>& qr);
 
 		template<typename Derived>
 		const Vector& solve(const VectorBase<Derived>& std_y, int threads) const;
@@ -64,7 +64,7 @@ namespace kanalysis::stats
 			void operator()(Iterator lhs_first, Iterator lhs_last, ReverseIterator rhs_first, ReverseIterator rhs_last, int worker_id);
 		private:
 			const KruskalBase& m_data;
-			using PartialCorrelationType = decltype(partial_correlation<Map<Matrix>, RegressionFunctionType>(m_data.decomposition().compute_holder(std::declval<Map<Matrix>>())));
+			using PartialCorrelationType = decltype(partial_correlation<Map<Matrix>, RegressionFunctionType>(m_data.qr().decomposition(std::declval<Map<Matrix>>())));
 
 			template<typename Derived>
 			void solve_each_y(const PartialCorrelationType& pcor, const MatrixBase<Derived>& std_y, std::vector<Index>::const_iterator d_first, Vector& out);
@@ -90,15 +90,15 @@ namespace kanalysis::stats
 {
 	template<typename DerivedType>
 	template<typename Derived>
-	KruskalBase<DerivedType>::KruskalBase(const ComputeHolderBase<Derived>& decomposition)
-		: Base(decomposition)
+	KruskalBase<DerivedType>::KruskalBase(const DecompositionBase<Derived>& qr)
+		: Base(qr)
 		, x_variables(Base::cols() - 1)
 	{}
 
 	template<typename DerivedType>
 	template<typename Derived>
-	KruskalBase<DerivedType>::KruskalBase(ComputeHolderBase<Derived>& decomposition)
-		: Base(decomposition)
+	KruskalBase<DerivedType>::KruskalBase(DecompositionBase<Derived>& qr)
+		: Base(qr)
 		, x_variables(Base::cols() - 1)
 	{}
 
@@ -202,8 +202,8 @@ namespace kanalysis::stats
 		Map<Matrix> std_x(model_matrix.data(), model_matrix.rows(), model_matrix.cols());
 
 		// Fence
-		auto decomposition = Base::decomposition().compute_holder(std_x);
-		auto cor = correlation<Map<Matrix>, RegressionFunctionType>(decomposition);
+		auto qr = Base::qr().decomposition(std_x);
+		auto cor = correlation<Map<Matrix>, RegressionFunctionType>(qr);
 
 		Scalar r = cor.solve(std_y);
 		m_partial_r_squared_sums[0] += std::pow(r, 2);
@@ -239,10 +239,10 @@ namespace kanalysis::stats
 			Map<Matrix> lhs_std_x(m_lhs_model_matrices[i].data(), m_lhs_model_matrices[i].rows(), m_lhs_model_matrices[i].cols());
 			Map<Matrix> rhs_std_x(m_rhs_model_matrices[i].data(), m_rhs_model_matrices[i].rows(), m_rhs_model_matrices[i].cols());
 
-			auto lhs_decomposition = m_data.decomposition().compute_holder(lhs_std_x);
+			auto lhs_decomposition = m_data.qr().decomposition(lhs_std_x);
 			m_lhs_pcor.emplace_back(lhs_decomposition);
 
-			auto rhs_decomposition = m_data.decomposition().compute_holder(rhs_std_x);
+			auto rhs_decomposition = m_data.qr().decomposition(rhs_std_x);
 			m_rhs_pcor.emplace_back(rhs_decomposition);
 
 			Map<Matrix> lhs_iteration(lhs_std_x.col(1).data(), lhs_std_x.rows(), lhs_std_x.cols() - 1);

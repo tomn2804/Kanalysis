@@ -8,10 +8,10 @@
 // namespace kanalysis::stats
 #include "include/stats/coefficient.h"
 #include "include/stats/coefficient_weight.h"
-#include "include/stats/compute_holder.h"
-#include "include/stats/compute_holder_weight.h"
 #include "include/stats/correlation.h"
 #include "include/stats/correlation_weight.h"
+#include "include/stats/decomposition.h"
+#include "include/stats/decomposition_weight.h"
 #include "include/stats/fitted_value.h"
 #include "include/stats/fitted_value_weight.h"
 #include "include/stats/kruskal.h"

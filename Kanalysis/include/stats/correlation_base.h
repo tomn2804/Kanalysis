@@ -7,7 +7,7 @@
 namespace kanalysis::stats
 {
 	template<typename DerivedType>
-	struct ComputeHolderTraits;
+	struct QrDecompositionTraits;
 
 	///
 	/// \brief A CRTP base class for \a Correlation and \a CorrelationWeight .

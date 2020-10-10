@@ -7,16 +7,16 @@
 namespace kanalysis::stats
 {
 	template<typename MatrixType>
-	class ComputeHolder;
+	class Decomposition;
 
 	///
 	/// \brief A class for computing the residuals.
 	///
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	class Residual : public ResidualBase<Residual<ComputeHolderType, RegressionFunctionType>>
+	template<typename DecompositionType, typename RegressionFunctionType>
+	class Residual : public ResidualBase<Residual<DecompositionType, RegressionFunctionType>>
 	{
 	protected:
-		using Base = ResidualBase<Residual<ComputeHolderType, RegressionFunctionType>>;
+		using Base = ResidualBase<Residual<DecompositionType, RegressionFunctionType>>;
 	public:
 		using Base::Base;
 		Residual() = default;
@@ -25,29 +25,29 @@ namespace kanalysis::stats
 		const Vector& solve(const VectorBase<Derived>& std_y) const;
 	};
 
-	template<typename ComputeHolderType_, typename RegressionFunctionType_>
-	struct SolveHolderTraits<Residual<ComputeHolderType_, RegressionFunctionType_>>
+	template<typename DecompositionType_, typename RegressionFunctionType_>
+	struct SolveHolderTraits<Residual<DecompositionType_, RegressionFunctionType_>>
 	{
-		using ComputeHolderType = ComputeHolderType_;
+		using DecompositionType = DecompositionType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	Residual<ComputeHolder<MatrixType>, RegressionFunctionType> residual(const ComputeHolder<MatrixType>& decomposition);
+	Residual<Decomposition<MatrixType>, RegressionFunctionType> residual(const Decomposition<MatrixType>& qr);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
-	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType>
 	template<typename Derived>
-	const Vector& Residual<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
+	const Vector& Residual<DecompositionType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
 	{
 		return Base::std_solve(std_y);
 	}
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	Residual<ComputeHolder<MatrixType>, RegressionFunctionType> residual(const ComputeHolder<MatrixType>& decomposition)
+	Residual<Decomposition<MatrixType>, RegressionFunctionType> residual(const Decomposition<MatrixType>& qr)
 	{
-		return Residual<ComputeHolder<MatrixType>, RegressionFunctionType>(decomposition);
+		return Residual<Decomposition<MatrixType>, RegressionFunctionType>(qr);
 	}
 } // namespace kanalysis::stats

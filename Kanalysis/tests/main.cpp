@@ -62,8 +62,8 @@ int main()
 			DEBUG_TIME();
 
 			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-			ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
-			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+			DecompositionWeight<Matrix, Array> c(mx, data.weights());
+			KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 			// Correct results: 0.30766828 0.19547034 0.20683219 0.05496811 0.23506109
 			Vector yy = c.standardize(y);
 			std::cout << k.solve(yy, threads) << '\n';
@@ -87,8 +87,8 @@ int main()
 	//		DEBUG_TIME();
 
 	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-	//		ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
-	//		KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		DecompositionWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 	//		Vector yy = c.standardize(y);
 	//		std::cout << k.solve(yy, threads) << '\n';
 	//	}
@@ -111,8 +111,8 @@ int main()
 	//		DEBUG_TIME();
 
 	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-	//		ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
-	//		KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		DecompositionWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 	//		Vector yy = c.standardize(y);
 	//		std::cout << k.solve(yy, threads) << '\n';
 	//	}
@@ -135,8 +135,8 @@ int main()
 	//		DEBUG_TIME();
 
 	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-	//		ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
-	//		KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		DecompositionWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 	//		Vector yy = c.standardize(y);
 	//		std::cout << k.solve(yy, threads) << '\n';
 	//	}
@@ -159,8 +159,8 @@ int main()
 	//		DEBUG_TIME();
 
 	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-	//		ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
-	//		KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		DecompositionWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 	//		Vector yy = c.standardize(y);
 	//		std::cout << k.solve(yy, threads) << '\n';
 	//	}
@@ -183,8 +183,8 @@ int main()
 	//		DEBUG_TIME();
 
 	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-	//		ComputeHolderWeight<Matrix, Array> c(mx, data.weights());
-	//		KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		DecompositionWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 	//		Vector yy = c.standardize(y);
 	//		std::cout << k.solve(yy, threads) << '\n';
 	//	}
@@ -306,8 +306,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolder<Matrix, Array> c(model_matrix);
-//			Kruskal<ComputeHolder<Matrix, Array>, LinearRegressionFunction> k(c);
+//			Decomposition<Matrix, Array> c(model_matrix);
+//			Kruskal<Decomposition<Matrix, Array>, LinearRegressionFunction> k(c);
 //			// Correct results: 0.320966, 0.190873, 0.209141, 0.037046, 0.241973
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
@@ -316,8 +316,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolderWeight<Matrix, Array> c(model_matrix, data.weights());
-//			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+//			DecompositionWeight<Matrix, Array> c(model_matrix, data.weights());
+//			KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 //			// Correct results: 0.30766828 0.19547034 0.20683219 0.05496811 0.23506109
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
@@ -340,8 +340,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolder<Matrix, Array> c(model_matrix);
-//			Kruskal<ComputeHolder<Matrix, Array>, LinearRegressionFunction> k(c);
+//			Decomposition<Matrix, Array> c(model_matrix);
+//			Kruskal<Decomposition<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //
@@ -349,8 +349,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolderWeight<Matrix, Array> c(model_matrix, data.weights());
-//			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+//			DecompositionWeight<Matrix, Array> c(model_matrix, data.weights());
+//			KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //	}
@@ -372,8 +372,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolder<Matrix, Array> c(model_matrix);
-//			Kruskal<ComputeHolder<Matrix, Array>, LinearRegressionFunction> k(c);
+//			Decomposition<Matrix, Array> c(model_matrix);
+//			Kruskal<Decomposition<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //
@@ -381,8 +381,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolderWeight<Matrix, Array> c(model_matrix, data.weights());
-//			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+//			DecompositionWeight<Matrix, Array> c(model_matrix, data.weights());
+//			KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //	}
@@ -404,8 +404,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolder<Matrix, Array> c(model_matrix);
-//			Kruskal<ComputeHolder<Matrix, Array>, LinearRegressionFunction> k(c);
+//			Decomposition<Matrix, Array> c(model_matrix);
+//			Kruskal<Decomposition<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //
@@ -413,8 +413,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolderWeight<Matrix, Array> c(model_matrix, data.weights());
-//			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+//			DecompositionWeight<Matrix, Array> c(model_matrix, data.weights());
+//			KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //	}
@@ -436,8 +436,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolder<Matrix, Array> c(model_matrix);
-//			Kruskal<ComputeHolder<Matrix, Array>, LinearRegressionFunction> k(c);
+//			Decomposition<Matrix, Array> c(model_matrix);
+//			Kruskal<Decomposition<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //
@@ -445,8 +445,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolderWeight<Matrix, Array> c(model_matrix, data.weights());
-//			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+//			DecompositionWeight<Matrix, Array> c(model_matrix, data.weights());
+//			KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //	}
@@ -468,8 +468,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolder<Matrix, Array> c(model_matrix);
-//			Kruskal<ComputeHolder<Matrix, Array>, LinearRegressionFunction> k(c);
+//			Decomposition<Matrix, Array> c(model_matrix);
+//			Kruskal<Decomposition<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //
@@ -477,8 +477,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolderWeight<Matrix, Array> c(model_matrix, data.weights());
-//			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+//			DecompositionWeight<Matrix, Array> c(model_matrix, data.weights());
+//			KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //	}
@@ -501,8 +501,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolder<Matrix, Array> c(model_matrix);
-//			Kruskal<ComputeHolder<Matrix, Array>, LinearRegressionFunction> k(c);
+//			Decomposition<Matrix, Array> c(model_matrix);
+//			Kruskal<Decomposition<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //
@@ -510,8 +510,8 @@ int main()
 //		{
 //			DEBUG_TIME();
 //
-//			ComputeHolderWeight<Matrix, Array> c(model_matrix, data.weights());
-//			KruskalWeight<ComputeHolderWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+//			DecompositionWeight<Matrix, Array> c(model_matrix, data.weights());
+//			KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
 //			std::cout << k.solve(y, 4) << '\n';
 //		}
 //	}

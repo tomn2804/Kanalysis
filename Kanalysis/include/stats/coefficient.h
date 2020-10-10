@@ -7,30 +7,30 @@
 namespace kanalysis::stats
 {
 	template<typename MatrixType>
-	class ComputeHolder;
+	class Decomposition;
 
 	///
 	/// \brief A class for computing the beta coefficients.
 	///
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	class Coefficient : public CoefficientBase<Coefficient<ComputeHolderType, RegressionFunctionType>>
+	template<typename DecompositionType, typename RegressionFunctionType>
+	class Coefficient : public CoefficientBase<Coefficient<DecompositionType, RegressionFunctionType>>
 	{
 	protected:
-		using Base = CoefficientBase<Coefficient<ComputeHolderType, RegressionFunctionType>>;
+		using Base = CoefficientBase<Coefficient<DecompositionType, RegressionFunctionType>>;
 	public:
 		using Base::Base;
 		Coefficient() = default;
 	};
 
-	template<typename ComputeHolderType_, typename RegressionFunctionType_>
-	struct SolveHolderTraits<Coefficient<ComputeHolderType_, RegressionFunctionType_>>
+	template<typename DecompositionType_, typename RegressionFunctionType_>
+	struct SolveHolderTraits<Coefficient<DecompositionType_, RegressionFunctionType_>>
 	{
-		using ComputeHolderType = ComputeHolderType_;
+		using DecompositionType = DecompositionType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType> coefficient(const ComputeHolder<MatrixType>& decomposition);
+	Coefficient<Decomposition<MatrixType>, RegressionFunctionType> coefficient(const Decomposition<MatrixType>& qr);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
@@ -38,12 +38,12 @@ namespace kanalysis::stats
 	///
 	/// \brief A global factory function.
 	///
-	/// \param decomposition A \a ComputeHolder .
+	/// \param qr A \a Decomposition .
 	/// \return A new \a Coefficient .
 	///
 	template<typename MatrixType, typename RegressionFunctionType>
-	Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType> coefficient(const ComputeHolder<MatrixType>& decomposition)
+	Coefficient<Decomposition<MatrixType>, RegressionFunctionType> coefficient(const Decomposition<MatrixType>& qr)
 	{
-		return Coefficient<ComputeHolder<MatrixType>, RegressionFunctionType>(decomposition);
+		return Coefficient<Decomposition<MatrixType>, RegressionFunctionType>(qr);
 	}
 } // namespace kanalysis::stats

@@ -8,19 +8,19 @@
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename ArrayType>
-	class ComputeHolderWeight;
+	class DecompositionWeight;
 
-	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType>
 	class FittedValueWeight;
 
 	///
 	/// \brief A class for computing the weighted residuals.
 	///
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	class CorrelationWeight : public CorrelationBase<CorrelationWeight<ComputeHolderType, RegressionFunctionType>>
+	template<typename DecompositionType, typename RegressionFunctionType>
+	class CorrelationWeight : public CorrelationBase<CorrelationWeight<DecompositionType, RegressionFunctionType>>
 	{
 	protected:
-		using Base = CorrelationBase<CorrelationWeight<ComputeHolderType, RegressionFunctionType>>;
+		using Base = CorrelationBase<CorrelationWeight<DecompositionType, RegressionFunctionType>>;
 		using typename Base::ComputeHolderDecayType;
 	public:
 		using Base::Base;
@@ -32,36 +32,36 @@ namespace kanalysis::stats
 		template<typename Derived>
 		Scalar solve(const VectorBase<Derived>& std_y) const;
 	protected:
-		FittedValueWeight<const ComputeHolderDecayType&, RegressionFunctionType> m_fitted_value = FittedValueWeight<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
+		FittedValueWeight<const ComputeHolderDecayType&, RegressionFunctionType> m_fitted_value = FittedValueWeight<const ComputeHolderDecayType&, RegressionFunctionType>(Base::qr());
 	private:
 		using Base::m_mean_deviations_x;
 		using Base::m_mean_deviations_y;
 
 		mutable Vector m_normalized_y = Vector::Constant(Base::rows(), 0);
 	private:
-		friend class CorrelationBase<CorrelationWeight<ComputeHolderType, RegressionFunctionType>>;
+		friend class CorrelationBase<CorrelationWeight<DecompositionType, RegressionFunctionType>>;
 	};
 
-	template<typename ComputeHolderType_, typename RegressionFunctionType_>
-	struct SolveHolderTraits<CorrelationWeight<ComputeHolderType_, RegressionFunctionType_>>
+	template<typename DecompositionType_, typename RegressionFunctionType_>
+	struct SolveHolderTraits<CorrelationWeight<DecompositionType_, RegressionFunctionType_>>
 	{
-		using ComputeHolderType = ComputeHolderType_;
+		using DecompositionType = DecompositionType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	CorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> correlation(const ComputeHolderWeight<MatrixType, Array>& decomposition);
+	CorrelationWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType> correlation(const DecompositionWeight<MatrixType, Array>& qr);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
-	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType>
 	template<typename DerivedA, typename DerivedB>
-	Scalar CorrelationWeight<ComputeHolderType, RegressionFunctionType>::cor(const VectorBase<DerivedA>& x, const VectorBase<DerivedB>& y) const
+	Scalar CorrelationWeight<DecompositionType, RegressionFunctionType>::cor(const VectorBase<DerivedA>& x, const VectorBase<DerivedB>& y) const
 	{
 		assert(x.rows() == y.rows());
 
-		const Array& weights = Base::decomposition().weights();
+		const Array& weights = Base::qr().weights();
 
 		Scalar sum_weights = weights.sum();
 		Scalar mean_x = (x.derived().array() * weights).sum() / sum_weights;
@@ -79,17 +79,17 @@ namespace kanalysis::stats
 		return Base::m_results;
 	}
 
-	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType>
 	template<typename Derived>
-	Scalar CorrelationWeight<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
+	Scalar CorrelationWeight<DecompositionType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
 	{
-		WeightFunction::divide_by_sqrt_weights(std_y, Base::decomposition().sqrt_weights(), m_normalized_y);
+		WeightFunction::divide_by_sqrt_weights(std_y, Base::qr().sqrt_weights(), m_normalized_y);
 		return cor(m_fitted_value.solve(std_y), m_normalized_y);
 	}
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	CorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> correlation(const ComputeHolderWeight<MatrixType, Array>& decomposition)
+	CorrelationWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType> correlation(const DecompositionWeight<MatrixType, Array>& qr)
 	{
-		return CorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(decomposition);
+		return CorrelationWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType>(qr);
 	}
 } // namespace kanalysis::stats

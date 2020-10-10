@@ -7,9 +7,9 @@
 namespace kanalysis::stats
 {
 	template<typename DerivedType>
-	struct ComputeHolderTraits;
+	struct QrDecompositionTraits;
 
-	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType>
 	class Correlation;
 
 	///
@@ -38,7 +38,7 @@ namespace kanalysis::stats
 	protected:
 		PartialCorrelationBase() = default;
 
-		Correlation<const ComputeHolderDecayType&, RegressionFunctionType> m_correlation = Correlation<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
+		Correlation<const ComputeHolderDecayType&, RegressionFunctionType> m_correlation = Correlation<const ComputeHolderDecayType&, RegressionFunctionType>(Base::qr());
 
 		mutable Vector m_residuals_x = Vector::Constant(Base::rows(), 0);;
 		mutable Vector m_residuals_y = Vector::Constant(Base::rows(), 0);;

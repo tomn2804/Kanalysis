@@ -20,9 +20,9 @@
     <ClInclude Include="include\stats\coefficient.h" />
     <ClInclude Include="include\stats\coefficient_base.h" />
     <ClInclude Include="include\stats\coefficient_weight.h" />
-    <ClInclude Include="include\stats\compute_holder.h" />
-    <ClInclude Include="include\stats\compute_holder_base.h" />
-    <ClInclude Include="include\stats\compute_holder_weight.h" />
+    <ClInclude Include="include\stats\decomposition.h" />
+    <ClInclude Include="include\stats\decomposition_base.h" />
+    <ClInclude Include="include\stats\decomposition_weight.h" />
     <ClInclude Include="include\stats\correlation.h" />
     <ClInclude Include="include\stats\correlation_base.h" />
     <ClInclude Include="include\stats\correlation_weight.h" />
@@ -56,9 +56,9 @@
     <ClCompile Include="src\stats\coefficient.cpp" />
     <ClCompile Include="src\stats\coefficient_base.cpp" />
     <ClCompile Include="src\stats\coefficient_weight.cpp" />
-    <ClCompile Include="src\stats\compute_holder.cpp" />
-    <ClCompile Include="src\stats\compute_holder_base.cpp" />
-    <ClCompile Include="src\stats\compute_holder_weight.cpp" />
+    <ClCompile Include="src\stats\decomposition.cpp" />
+    <ClCompile Include="src\stats\decomposition_base.cpp" />
+    <ClCompile Include="src\stats\decomposition_weight.cpp" />
     <ClCompile Include="src\stats\correlation.cpp" />
     <ClCompile Include="src\stats\correlation_base.cpp" />
     <ClCompile Include="src\stats\correlation_weight.cpp" />

@@ -6,7 +6,7 @@
 
 namespace kanalysis::stats
 {
-	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType>
 	class FittedValue;
 
 	///
@@ -28,7 +28,7 @@ namespace kanalysis::stats
 		template<typename Derived>
 		Vector& std_solve(const VectorBase<Derived>& std_y) const;
 
-		FittedValue<const ComputeHolderDecayType&, RegressionFunctionType> m_fitted_value = FittedValue<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
+		FittedValue<const ComputeHolderDecayType&, RegressionFunctionType> m_fitted_value = FittedValue<const ComputeHolderDecayType&, RegressionFunctionType>(Base::qr());
 		mutable Vector m_results = Vector::Constant(Base::rows(), 0);
 	private:
 		friend class SolveHolderBase<DerivedType>;

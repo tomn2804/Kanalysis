@@ -10,10 +10,10 @@ namespace kanalysis::stats
 	struct SolveHolderTraits;
 
 	template<typename DerivedType>
-	struct ComputeHolderTraits;
+	struct QrDecompositionTraits;
 
 	template<typename DerivedType>
-	class ComputeHolderBase;
+	class DecompositionBase;
 
 	///
 	/// \brief A CRTP base class all solver classes found in the \a stats namespace.
@@ -26,18 +26,18 @@ namespace kanalysis::stats
 		using SolveHolderTraits = SolveHolderTraits<DerivedType>;
 		using RegressionFunctionType = typename SolveHolderTraits::RegressionFunctionType;
 	public:
-		using ComputeHolderType = typename SolveHolderTraits::ComputeHolderType;
-		using ComputeHolderDecayType = typename std::decay<ComputeHolderType>::type;
-		using ComputeHolderTraits = ComputeHolderTraits<ComputeHolderDecayType>;
+		using DecompositionType = typename SolveHolderTraits::DecompositionType;
+		using ComputeHolderDecayType = typename std::decay<DecompositionType>::type;
+		using QrDecompositionTraits = QrDecompositionTraits<ComputeHolderDecayType>;
 
-		using MatrixType = typename ComputeHolderTraits::MatrixType;
-		using ArrayType = typename ComputeHolderTraits::ArrayType;
-
-		template<typename Derived>
-		SolveHolderBase(const ComputeHolderBase<Derived>& decomposition);
+		using MatrixType = typename QrDecompositionTraits::MatrixType;
+		using ArrayType = typename QrDecompositionTraits::ArrayType;
 
 		template<typename Derived>
-		SolveHolderBase(ComputeHolderBase<Derived>& decomposition);
+		SolveHolderBase(const DecompositionBase<Derived>& qr);
+
+		template<typename Derived>
+		SolveHolderBase(DecompositionBase<Derived>& qr);
 
 		template<typename Derived>
 		void compute(const DenseBase<Derived>& std_x);
@@ -54,12 +54,12 @@ namespace kanalysis::stats
 		const MatrixType& std_x() const;
 		MatrixType& const_cast_std_x() const;
 
-		const ComputeHolderType& decomposition() const;
-		ComputeHolderType& const_cast_decomposition() const;
+		const DecompositionType& qr() const;
+		DecompositionType& const_cast_qr() const;
 	protected:
 		SolveHolderBase() = default;
 	private:
-		ComputeHolderType m_decomposition;
+		DecompositionType m_qr;
 	};
 } // namespace kanalysis::stats
 
@@ -68,25 +68,25 @@ namespace kanalysis::stats
 	///
 	/// \brief A constructor.
 	///
-	/// \param decomposition A \a ComputeHolder or \a ComputeHolderWeight .
+	/// \param qr A \a Decomposition or \a DecompositionWeight .
 	///
 	template<typename DerivedType>
 	template<typename Derived>
-	SolveHolderBase<DerivedType>::SolveHolderBase(const ComputeHolderBase<Derived>& decomposition)
-		: m_decomposition(decomposition.derived())
+	SolveHolderBase<DerivedType>::SolveHolderBase(const DecompositionBase<Derived>& qr)
+		: m_qr(qr.derived())
 	{}
 
 	///
-	/// \overload SolveHolderBase<DerivedType>::SolveHolderBase(const ComputeHolderBase<Derived>& decomposition)
+	/// \overload SolveHolderBase<DerivedType>::SolveHolderBase(const DecompositionBase<Derived>& qr)
 	///
 	template<typename DerivedType>
 	template<typename Derived>
-	SolveHolderBase<DerivedType>::SolveHolderBase(ComputeHolderBase<Derived>& decomposition)
-		: m_decomposition(decomposition.derived())
+	SolveHolderBase<DerivedType>::SolveHolderBase(DecompositionBase<Derived>& qr)
+		: m_qr(qr.derived())
 	{}
 
 	///
-	/// \brief Compute the decomposition of \a std_x .
+	/// \brief Compute the qr of \a std_x .
 	///
 	/// \param std_x A model matrix with standardized values.
 	///
@@ -94,7 +94,7 @@ namespace kanalysis::stats
 	template<typename Derived>
 	void SolveHolderBase<DerivedType>::compute(const DenseBase<Derived>& std_x)
 	{
-		m_decomposition.compute(std_x);
+		m_qr.compute(std_x);
 	}
 
 	///
@@ -126,56 +126,56 @@ namespace kanalysis::stats
 	}
 
 	///
-	/// \return The number of rows of the underlying decomposition.
+	/// \return The number of rows of the underlying qr.
 	///
 	template<typename DerivedType>
 	Index SolveHolderBase<DerivedType>::rows() const
 	{
-		return m_decomposition.rows();
+		return m_qr.rows();
 	}
 
 	///
-	/// \return The number of columns of the underlying decomposition.
+	/// \return The number of columns of the underlying qr.
 	///
 	template<typename DerivedType>
 	Index SolveHolderBase<DerivedType>::cols() const
 	{
-		return m_decomposition.cols();
+		return m_qr.cols();
 	}
 
 	///
-	/// \return The matrix used in the underlying decomposition.
+	/// \return The matrix used in the underlying qr.
 	///
 	template<typename DerivedType>
 	const typename SolveHolderBase<DerivedType>::MatrixType& SolveHolderBase<DerivedType>::std_x() const
 	{
-		return m_decomposition.std_x();
+		return m_qr.std_x();
 	}
 
 	///
-	/// \return The const casted matrix used in the underlying decomposition.
+	/// \return The const casted matrix used in the underlying qr.
 	///
 	template<typename DerivedType>
 	typename SolveHolderBase<DerivedType>::MatrixType& SolveHolderBase<DerivedType>::const_cast_std_x() const
 	{
-		return m_decomposition.const_cast_std_x();
+		return m_qr.const_cast_std_x();
 	}
 
 	///
-	/// \return The underlying decomposition.
+	/// \return The underlying qr.
 	///
 	template<typename DerivedType>
-	const typename SolveHolderBase<DerivedType>::ComputeHolderType& SolveHolderBase<DerivedType>::decomposition() const
+	const typename SolveHolderBase<DerivedType>::DecompositionType& SolveHolderBase<DerivedType>::qr() const
 	{
-		return m_decomposition;
+		return m_qr;
 	}
 
 	///
-	/// \return The underlying decomposition.
+	/// \return The underlying qr.
 	///
 	template<typename DerivedType>
-	typename SolveHolderBase<DerivedType>::ComputeHolderType& SolveHolderBase<DerivedType>::const_cast_decomposition() const
+	typename SolveHolderBase<DerivedType>::DecompositionType& SolveHolderBase<DerivedType>::const_cast_qr() const
 	{
-		return const_cast<ComputeHolderType&>(m_decomposition);
+		return const_cast<DecompositionType&>(m_qr);
 	}
 } // namespace kanalysis::stats

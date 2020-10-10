@@ -7,37 +7,37 @@
 namespace kanalysis::stats
 {
 	template<typename MatrixType>
-	class ComputeHolder;
+	class Decomposition;
 
 	///
 	/// \brief A class for computing Kruskal's relative importance.
 	///
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	class Kruskal : public KruskalBase<Kruskal<ComputeHolderType, RegressionFunctionType>>
+	template<typename DecompositionType, typename RegressionFunctionType>
+	class Kruskal : public KruskalBase<Kruskal<DecompositionType, RegressionFunctionType>>
 	{
 	protected:
-		using Base = KruskalBase<Kruskal<ComputeHolderType, RegressionFunctionType>>;
+		using Base = KruskalBase<Kruskal<DecompositionType, RegressionFunctionType>>;
 	public:
 		using Base::Base;
 		Kruskal() = default;
 	};
 
-	template<typename ComputeHolderType_, typename RegressionFunctionType_>
-	struct SolveHolderTraits<Kruskal<ComputeHolderType_, RegressionFunctionType_>>
+	template<typename DecompositionType_, typename RegressionFunctionType_>
+	struct SolveHolderTraits<Kruskal<DecompositionType_, RegressionFunctionType_>>
 	{
-		using ComputeHolderType = ComputeHolderType_;
+		using DecompositionType = DecompositionType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	Kruskal<ComputeHolder<MatrixType>, RegressionFunctionType> kruskal(const ComputeHolder<MatrixType>& decomposition);
+	Kruskal<Decomposition<MatrixType>, RegressionFunctionType> kruskal(const Decomposition<MatrixType>& qr);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename RegressionFunctionType>
-	Kruskal<ComputeHolder<MatrixType>, RegressionFunctionType> kruskal(const ComputeHolder<MatrixType>& decomposition)
+	Kruskal<Decomposition<MatrixType>, RegressionFunctionType> kruskal(const Decomposition<MatrixType>& qr)
 	{
-		return Kruskal<ComputeHolder<MatrixType>, RegressionFunctionType>(decomposition);
+		return Kruskal<Decomposition<MatrixType>, RegressionFunctionType>(qr);
 	}
 } // namespace kanalysis::stats

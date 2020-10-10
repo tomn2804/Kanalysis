@@ -8,16 +8,16 @@
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename ArrayType>
-	class ComputeHolderWeight;
+	class DecompositionWeight;
 
 	///
 	/// \brief A class for computing the weighted residuals.
 	///
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	class ResidualWeight : public ResidualBase<ResidualWeight<ComputeHolderType, RegressionFunctionType>>
+	template<typename DecompositionType, typename RegressionFunctionType>
+	class ResidualWeight : public ResidualBase<ResidualWeight<DecompositionType, RegressionFunctionType>>
 	{
 	protected:
-		using Base = ResidualBase<ResidualWeight<ComputeHolderType, RegressionFunctionType>>;
+		using Base = ResidualBase<ResidualWeight<DecompositionType, RegressionFunctionType>>;
 	public:
 		using Base::Base;
 		ResidualWeight() = default;
@@ -26,31 +26,31 @@ namespace kanalysis::stats
 		const Vector& solve(const VectorBase<Derived>& std_y) const;
 	};
 
-	template<typename ComputeHolderType_, typename RegressionFunctionType_>
-	struct SolveHolderTraits<ResidualWeight<ComputeHolderType_, RegressionFunctionType_>>
+	template<typename DecompositionType_, typename RegressionFunctionType_>
+	struct SolveHolderTraits<ResidualWeight<DecompositionType_, RegressionFunctionType_>>
 	{
-		using ComputeHolderType = ComputeHolderType_;
+		using DecompositionType = DecompositionType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	ResidualWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> residual(const ComputeHolderWeight<MatrixType, Array>& decomposition);
+	ResidualWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType> residual(const DecompositionWeight<MatrixType, Array>& qr);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
-	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType>
 	template<typename Derived>
-	const Vector& ResidualWeight<ComputeHolderType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
+	const Vector& ResidualWeight<DecompositionType, RegressionFunctionType>::solve(const VectorBase<Derived>& std_y) const
 	{
 		Vector& results = Base::std_solve(std_y);;
-		WeightFunction::divide_by_sqrt_weights(results, Base::decomposition().sqrt_weights(), results);
+		WeightFunction::divide_by_sqrt_weights(results, Base::qr().sqrt_weights(), results);
 		return results;
 	}
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	ResidualWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> residual(const ComputeHolderWeight<MatrixType, Array>& decomposition)
+	ResidualWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType> residual(const DecompositionWeight<MatrixType, Array>& qr)
 	{
-		return ResidualWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(decomposition);
+		return ResidualWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType>(qr);
 	}
 } // namespace kanalysis::stats

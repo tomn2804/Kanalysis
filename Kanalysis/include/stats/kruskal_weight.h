@@ -7,37 +7,37 @@
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename ArrayType>
-	class ComputeHolderWeight;
+	class DecompositionWeight;
 
 	///
 	/// \brief A class for computing weighted Kruskal's relative importance.
 	///
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	class KruskalWeight : public KruskalBase<KruskalWeight<ComputeHolderType, RegressionFunctionType>>
+	template<typename DecompositionType, typename RegressionFunctionType>
+	class KruskalWeight : public KruskalBase<KruskalWeight<DecompositionType, RegressionFunctionType>>
 	{
 	protected:
-		using Base = KruskalBase<KruskalWeight<ComputeHolderType, RegressionFunctionType>>;
+		using Base = KruskalBase<KruskalWeight<DecompositionType, RegressionFunctionType>>;
 	public:
 		using Base::Base;
 		KruskalWeight() = default;
 	};
 
-	template<typename ComputeHolderType_, typename RegressionFunctionType_>
-	struct SolveHolderTraits<KruskalWeight<ComputeHolderType_, RegressionFunctionType_>>
+	template<typename DecompositionType_, typename RegressionFunctionType_>
+	struct SolveHolderTraits<KruskalWeight<DecompositionType_, RegressionFunctionType_>>
 	{
-		using ComputeHolderType = ComputeHolderType_;
+		using DecompositionType = DecompositionType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	KruskalWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> kruskal(const ComputeHolderWeight<MatrixType, Array>& decomposition);
+	KruskalWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType> kruskal(const DecompositionWeight<MatrixType, Array>& qr);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename RegressionFunctionType>
-	KruskalWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> kruskal(const ComputeHolderWeight<MatrixType, Array>& decomposition)
+	KruskalWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType> kruskal(const DecompositionWeight<MatrixType, Array>& qr)
 	{
-		return KruskalWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(decomposition);
+		return KruskalWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType>(qr);
 	}
 } // namespace kanalysis::stats

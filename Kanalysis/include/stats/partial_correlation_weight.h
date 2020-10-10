@@ -7,42 +7,42 @@
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename ArrayType>
-	class ComputeHolderWeight;
+	class DecompositionWeight;
 
-	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType>
 	class ResidualWeight;
 
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	class PartialCorrelationWeight : public PartialCorrelationBase<PartialCorrelationWeight<ComputeHolderType, RegressionFunctionType>>
+	template<typename DecompositionType, typename RegressionFunctionType>
+	class PartialCorrelationWeight : public PartialCorrelationBase<PartialCorrelationWeight<DecompositionType, RegressionFunctionType>>
 	{
 	protected:
-		using Base = PartialCorrelationBase<PartialCorrelationWeight<ComputeHolderType, RegressionFunctionType>>;
+		using Base = PartialCorrelationBase<PartialCorrelationWeight<DecompositionType, RegressionFunctionType>>;
 		using typename Base::ComputeHolderDecayType;
 	public:
 		using Base::Base;
 		PartialCorrelationWeight() = default;
 	protected:
-		ResidualWeight<const ComputeHolderDecayType&, RegressionFunctionType> m_residual = ResidualWeight<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
+		ResidualWeight<const ComputeHolderDecayType&, RegressionFunctionType> m_residual = ResidualWeight<const ComputeHolderDecayType&, RegressionFunctionType>(Base::qr());
 	private:
-		friend class PartialCorrelationBase<PartialCorrelationWeight<ComputeHolderType, RegressionFunctionType>>;
+		friend class PartialCorrelationBase<PartialCorrelationWeight<DecompositionType, RegressionFunctionType>>;
 	};
 
-	template<typename ComputeHolderType_, typename RegressionFunctionType_>
-	struct SolveHolderTraits<PartialCorrelationWeight<ComputeHolderType_, RegressionFunctionType_>>
+	template<typename DecompositionType_, typename RegressionFunctionType_>
+	struct SolveHolderTraits<PartialCorrelationWeight<DecompositionType_, RegressionFunctionType_>>
 	{
-		using ComputeHolderType = ComputeHolderType_;
+		using DecompositionType = DecompositionType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	PartialCorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> partial_correlation(const ComputeHolderWeight<MatrixType, Array>& decomposition);
+	PartialCorrelationWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType> partial_correlation(const DecompositionWeight<MatrixType, Array>& qr);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename RegressionFunctionType>
-	PartialCorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType> partial_correlation(const ComputeHolderWeight<MatrixType, Array>& decomposition)
+	PartialCorrelationWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType> partial_correlation(const DecompositionWeight<MatrixType, Array>& qr)
 	{
-		return PartialCorrelationWeight<ComputeHolderWeight<MatrixType, Array>, RegressionFunctionType>(decomposition);
+		return PartialCorrelationWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType>(qr);
 	}
 } // namespace kanalysis::stats

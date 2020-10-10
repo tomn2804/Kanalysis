@@ -1,6 +1,16 @@
-# Kanalysis/RcppKanalysis
+# Kanalysis
 A fast and simple library to compute Kruskal's Relative Importance Analysis.
 
-## There are 2 variations of this library:
-- A pure C++ header-only library - [Kanalysis](https://github.com/tomn2804/Kanalysis/tree/master/Kanalysis)
-- An Rcpp package - RcppKanalysis - ***Work in Progress***
+## Quick preview:
+```c++
+#include <kanalysis.h>
+
+int main()
+{
+	using namespace kanalysis;
+	Matrix x = Matrix::Random(5, 5);
+	Matrix y = Matrix::Random(5, 5);
+
+	Decomposition<Matrix> qr(x);
+}
+```

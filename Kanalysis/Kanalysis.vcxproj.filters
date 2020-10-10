@@ -33,15 +33,6 @@
     <ClInclude Include="include\stats\coefficient_weight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\stats\compute_holder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\stats\compute_holder_base.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\stats\compute_holder_weight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\stats\correlation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -123,6 +114,15 @@
     <ClInclude Include="include\arithmetic\base_functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\stats\decomposition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stats\decomposition_base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stats\decomposition_weight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tests\main.cpp">
@@ -144,15 +144,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\stats\coefficient_weight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stats\compute_holder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stats\compute_holder_base.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stats\compute_holder_weight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\stats\correlation.cpp">
@@ -228,6 +219,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tests\tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\decomposition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\decomposition_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stats\decomposition_weight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

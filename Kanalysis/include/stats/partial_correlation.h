@@ -7,45 +7,45 @@
 namespace kanalysis::stats
 {
 	template<typename MatrixType>
-	class ComputeHolder;
+	class Decomposition;
 
-	template<typename ComputeHolderType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType>
 	class Residual;
 
 	///
 	/// \brief A class for computing the partial correlation.
 	///
-	template<typename ComputeHolderType, typename RegressionFunctionType>
-	class PartialCorrelation : public PartialCorrelationBase<PartialCorrelation<ComputeHolderType, RegressionFunctionType>>
+	template<typename DecompositionType, typename RegressionFunctionType>
+	class PartialCorrelation : public PartialCorrelationBase<PartialCorrelation<DecompositionType, RegressionFunctionType>>
 	{
 	protected:
-		using Base = PartialCorrelationBase<PartialCorrelation<ComputeHolderType, RegressionFunctionType>>;
+		using Base = PartialCorrelationBase<PartialCorrelation<DecompositionType, RegressionFunctionType>>;
 		using typename Base::ComputeHolderDecayType;
 	public:
 		using Base::Base;
 		PartialCorrelation() = default;
 	protected:
-		Residual<const ComputeHolderDecayType&, RegressionFunctionType> m_residual = Residual<const ComputeHolderDecayType&, RegressionFunctionType>(Base::decomposition());
+		Residual<const ComputeHolderDecayType&, RegressionFunctionType> m_residual = Residual<const ComputeHolderDecayType&, RegressionFunctionType>(Base::qr());
 	private:
-		friend class PartialCorrelationBase<PartialCorrelation<ComputeHolderType, RegressionFunctionType>>;
+		friend class PartialCorrelationBase<PartialCorrelation<DecompositionType, RegressionFunctionType>>;
 	};
 
-	template<typename ComputeHolderType_, typename RegressionFunctionType_>
-	struct SolveHolderTraits<PartialCorrelation<ComputeHolderType_, RegressionFunctionType_>>
+	template<typename DecompositionType_, typename RegressionFunctionType_>
+	struct SolveHolderTraits<PartialCorrelation<DecompositionType_, RegressionFunctionType_>>
 	{
-		using ComputeHolderType = ComputeHolderType_;
+		using DecompositionType = DecompositionType_;
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
 
 	template<typename MatrixType, typename RegressionFunctionType>
-	PartialCorrelation<ComputeHolder<MatrixType>, RegressionFunctionType> partial_correlation(const ComputeHolder<MatrixType>& decomposition);
+	PartialCorrelation<Decomposition<MatrixType>, RegressionFunctionType> partial_correlation(const Decomposition<MatrixType>& qr);
 } // namespace kanalysis::stats
 
 namespace kanalysis::stats
 {
 	template<typename MatrixType, typename RegressionFunctionType>
-	PartialCorrelation<ComputeHolder<MatrixType>, RegressionFunctionType> partial_correlation(const ComputeHolder<MatrixType>& decomposition)
+	PartialCorrelation<Decomposition<MatrixType>, RegressionFunctionType> partial_correlation(const Decomposition<MatrixType>& qr)
 	{
-		return PartialCorrelation<ComputeHolder<MatrixType>, RegressionFunctionType>(decomposition);
+		return PartialCorrelation<Decomposition<MatrixType>, RegressionFunctionType>(qr);
 	}
 } // namespace kanalysis::stats
