@@ -69,7 +69,7 @@ namespace kanalysis::stats
 			template<typename Derived>
 			void solve_each_y(const PartialCorrelationType& pcor, const MatrixBase<Derived>& std_y, std::vector<Index>::const_iterator d_first, Vector& out);
 
-			const Vector& m_std_y;
+			Vector m_std_y;
 
 			std::vector<Matrix> m_lhs_model_matrices;
 			std::vector<Matrix> m_rhs_model_matrices;

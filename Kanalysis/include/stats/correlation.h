@@ -6,6 +6,8 @@
 
 namespace kanalysis::stats
 {
+	struct LinearRegressionFunction;
+
 	template<typename MatrixType>
 	class Decomposition;
 
@@ -46,7 +48,7 @@ namespace kanalysis::stats
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
 
-	template<typename MatrixType, typename RegressionFunctionType>
+	template<typename MatrixType, typename RegressionFunctionType = LinearRegressionFunction>
 	Correlation<Decomposition<MatrixType>, RegressionFunctionType> correlation(const Decomposition<MatrixType>& qr);
 } // namespace kanalysis::stats
 

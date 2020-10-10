@@ -6,6 +6,8 @@
 
 namespace kanalysis::stats
 {
+	struct LinearRegressionFunction;
+
 	template<typename MatrixType, typename ArrayType>
 	class DecompositionWeight;
 
@@ -34,7 +36,7 @@ namespace kanalysis::stats
 		using RegressionFunctionType = RegressionFunctionType_;
 	};
 
-	template<typename MatrixType, typename RegressionFunctionType>
+	template<typename MatrixType, typename RegressionFunctionType = LinearRegressionFunction>
 	PartialCorrelationWeight<DecompositionWeight<MatrixType, Array>, RegressionFunctionType> partial_correlation(const DecompositionWeight<MatrixType, Array>& qr);
 } // namespace kanalysis::stats
 

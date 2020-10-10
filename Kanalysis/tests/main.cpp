@@ -43,32 +43,45 @@ int main()
 	//	std::cout << "i\n";
 	//}
 
+	//int threads = 8;
+
+	Matrix data = Matrix::Random(100, 5);
+	Vector y = Vector::Random(100);
+
+	Matrix x = utils::as_model_matrix(data);
+	std::cout << x << '\n';
+	Decomposition<Matrix> qr(x);
+	auto k = kruskal(qr);
+
 	int threads = 8;
+	Vector results = k.solve(y, threads);
 
-	{
-		int variables = 5;
+	std::cout << results << std::endl;
 
-		std::string filename = DATA_DIRECTORY;
-		filename += "test_data_1.csv";
-		Data data(filename, variables);
+	//{
+	//	int variables = 5;
 
-		Matrix model_matrix = data.model_matrix();
-		Vector y = data.y();
+	//	std::string filename = DATA_DIRECTORY;
+	//	filename += "test_data_1.csv";
+	//	Data data(filename, variables);
 
-		std::cout << "Number of Variables: " << variables << '\n';
-		std::cout << "Number of Threads: " << threads << '\n';
+	//	Matrix model_matrix = data.model_matrix();
+	//	Vector y = data.y();
 
-		{
-			DEBUG_TIME();
+	//	std::cout << "Number of Variables: " << variables << '\n';
+	//	std::cout << "Number of Threads: " << threads << '\n';
 
-			Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
-			DecompositionWeight<Matrix, Array> c(mx, data.weights());
-			KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
-			// Correct results: 0.30766828 0.19547034 0.20683219 0.05496811 0.23506109
-			Vector yy = c.standardize(y);
-			std::cout << k.solve(yy, threads) << '\n';
-		}
-	}
+	//	{
+	//		DEBUG_TIME();
+
+	//		Matrix mx = WeightFunction::standardize(model_matrix, data.weights());
+	//		DecompositionWeight<Matrix, Array> c(mx, data.weights());
+	//		KruskalWeight<DecompositionWeight<Matrix, Array>, LinearRegressionFunction> k(c);
+	//		// Correct results: 0.30766828 0.19547034 0.20683219 0.05496811 0.23506109
+	//		Vector yy = c.standardize(y);
+	//		std::cout << k.solve(yy, threads) << '\n';
+	//	}
+	//}
 
 	//{
 	//	int variables = 10;

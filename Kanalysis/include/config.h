@@ -3,12 +3,17 @@
 //
 // User settings
 //
-//#define KANALYSIS_USE_MKL
 #define KANALYSIS_FORCE_INLINE
+#define KANALYSIS_INCLUDE_DEPENDENCIES
+//#define KANALYSIS_USE_MKL
 
 //
 // Global macros and headers
 //
+#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
+
+#ifdef KANALYSIS_INCLUDE_DEPENDENCIES
+
 #ifdef KANALYSIS_USE_MKL
 #include <mkl.h>
 #define EIGEN_USE_MKL_ALL
@@ -16,9 +21,12 @@
 
 #define EIGEN_MAX_CPP_VER 17
 
-#include <algorithm>
 #include <discreture.hpp>
 #include <Eigen/Dense>
+
+#endif // KANALYSIS_INCLUDE_DEPENDENCIES
+
+#include <algorithm>
 #include <future>
 #include <iostream>
 #include <mutex>
