@@ -509,7 +509,7 @@ These are the only classes that have multi-threading built in.
 
 **Warning: The matrix x must be a [model matrix](https://en.wikipedia.org/wiki/Design_matrix)!**
 
-In order words, there must be a y-intercept column appended at the front of the matrix **x**.
+In order words, there must be a y-intercept column appended to the front of the matrix **x**.
 If the y-intercept is not desired, then fill the column with the value 0.
 
 ##### Example
@@ -532,7 +532,7 @@ The order of the results vector ```relative_importances``` correspond to the ```
 
 To illustrate:
 
-If ```model_matrix``` looks like this
+If the ```model_matrix``` looks like this
 
 | y-intercept | x1 | x2 | x3 | x4 | x5 |
 |-------------|----|----|----|----|----|
@@ -540,7 +540,7 @@ If ```model_matrix``` looks like this
 | 1           | 6  | 7  | 8  | 9  | 10 |
 | 1           | 11 | 12 | 13 | 14 | 15 |
 
-Then the output vector be the "Relative Importance" column below.
+Then the output vector ```relative_importances``` will be the "Relative Importance" column below, where the variables correspond accordingly.
 
 | Variable | Relative Importance |
 |----------|---------------------|
