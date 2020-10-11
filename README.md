@@ -1,4 +1,8 @@
-﻿# Kanalysis
+﻿# Development in Progress
+
+LICENSE file has not been added yet. This project is only made public for preview purposes.
+
+# Kanalysis
 
 A fast and simple C++17 header-only library to compute Kruskal's Relative Importance Analysis and linear regression.
 
