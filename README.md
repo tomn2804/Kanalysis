@@ -19,7 +19,7 @@ A fast and simple C++17 header-only library to compute Kruskal's Relative Import
   - [Manual Installation](#Manual-Installation)
     - [Installing Dependencies](#Installing-Dependencies)
     - [Installing Kanalysis](#Installing-Kanalysis)
-- [Using Kanalysis Within the Namespace Stats](#Using-Kanalysis-Within-the-Namespace-Stats)
+- [Using Kanalysis Within the Stats Namespace](#Using-Kanalysis-Within-the-Stats-Namespace)
   - [The Decomposition Class](#The-Decomposition-Class)
     - [Example](#example1)
   - [The DecompositionWeight Class](#The-DecompositionWeight-Class)
@@ -168,7 +168,7 @@ Make sure the path of other files within the [include](https://github.com/tomn28
 
 ---
 
-## Using Kanalysis Within the Namespace Stats
+## Using Kanalysis Within the Stats Namespace
 
 This library was solely written to solve the Kruskal's Relative Importance Analysis.
 However, this complex computation had led to many other objects being created as a by-product of refactoring out codes.
