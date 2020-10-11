@@ -1,7 +1,7 @@
 ﻿# Development in Progress
 
 **LICENSE file has not been added**.
-Therefore, distribution of this program is not permited.
+This library is not ready for distribution as further documentation and program adjustments are still needed.
 This project repository is only made public for preview purposes.
 
 ---
