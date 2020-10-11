@@ -7,3 +7,6 @@
 [submodule "Kanalysis/external/discreture"]
 	path = Kanalysis/external/discreture
 	url = https://github.com/mraggi/discreture.git
+[submodule "Kanalysis/external/titanic"]
+	path = Kanalysis/external/titanic
+	url = https://github.com/paulhendricks/titanic.git
