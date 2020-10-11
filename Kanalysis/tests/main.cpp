@@ -14,28 +14,28 @@ void print_dimension(const SolveHolderBase<Derived>& x)
 
 int main()
 {
-	Matrix x = as_model_matrix(Matrix::Random(100, 5)); // Independent variables
-	Vector y = Vector::Random(100); // Dependent variable
+	Matrix x(7, 5); // Data with 5 independent variables, and 7 observations
+	for (Index i = 0; i < x.cols(); ++i)
+	{
+		x.col(i).fill(i + 40);
+	}
 
-	Decomposition<Matrix> qr(x);
+	Vector y = Vector::Constant(8, 3); // Dependent variable
+	Array w = Array::Constant(8, 1); // Weights
 
-	Coefficient<Decomposition<Matrix>> b(qr);
-	print_dimension(b);
+	Matrix std_x = WeightFunction::standardize(x, w);
+	Matrix std_y = WeightFunction::standardize(y, w);
 
-	FittedValue<Decomposition<Matrix>> y_hat(qr);
-	print_dimension(y_hat);
+	Vector x1 = x.col(0); // Takes the first independent variable x1 out, to be correlate with y.
+	Matrix x_to_ctrl = x.rightCols(x.cols() - 1);
 
-	Residual<Decomposition<Matrix>> e(qr);
-	print_dimension(e);
+	std::cout << "x1" << std::endl;
+	std::cout << "--" << std::endl;
+	std::cout << x1 << std::endl << std::endl;
 
-	Correlation<Decomposition<Matrix>> r(qr);
-	print_dimension(r);
-
-	PartialCorrelation<Decomposition<Matrix>> pr(qr);
-	print_dimension(pr);
-
-	Kruskal<Decomposition<Matrix>> k(qr);
-	print_dimension(k);
+	std::cout << "x2 x3 x4 x5" << std::endl;
+	std::cout << "-----------" << std::endl;
+	std::cout << x_to_ctrl << std::endl;
 
 	std::system("pause");
 }

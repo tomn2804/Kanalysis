@@ -6,6 +6,18 @@ This project repository is only made public for preview purposes.
 
 ---
 
+# A collapsible section with markdown
+
+<details>
+  <summary>Click to expand!</summary>
+  
+  ## Heading
+  1. A numbered
+  2. list
+     * With some
+     * Sub bullets
+</details>
+
 # Kanalysis
 
 A fast and simple C++17 header-only library to compute Kruskal's Relative Importance Analysis and linear regression.
@@ -32,10 +44,8 @@ If you have a lot of CPU processors and would like to compute the full Kruskal's
     - [Installing Kanalysis](#Installing-Kanalysis)
 - [Using Kanalysis Within the Stats Namespace](#Using-Kanalysis-Within-the-Stats-Namespace)
   - [The Decomposition Class](#The-Decomposition-Class)
-    - [Example](#example1)
   - [The DecompositionWeight Class](#The-DecompositionWeight-Class)
-    - [Key Important Differences Between the Unweighted Class and the Weighted Class](#Key-Important-Differences-Between-the-Unweighted-Class-and-the-Weighted-Class)
-    - [Example](#example2)
+    - [Standardizing Data to Weights](#Standardizing-Data-to-Weights)
   - [Solver Classes](#Solver-Classes)
     - [Coefficient and CoefficientWeight Classes](#Coefficient-and-CoefficientWeight-Classes)
     - [FittedValue and FittedValueWeight Classes](#FittedValue-and-FittedValueWeight-Classes)
@@ -44,7 +54,7 @@ If you have a lot of CPU processors and would like to compute the full Kruskal's
     - [PartialCorrelation and PartialCorrelationWeight Classes](#Coefficient-and-CoefficientWeight-Classes)
     - [Kruskal and KruskalWeight Classes](#Kruskal-and-KruskalWeight-Classes)
   - Benchmarks
-  - [Acknowledgements](#Acknowledgements)
+  - [Acknowledgements and Citations](#Acknowledgements-and-Citations)
 
 ---
 
@@ -75,7 +85,7 @@ int main()
 }
 ```
 
-The output will be:
+The output of the above code will be in the following:
 
 ```
 Progress: 100%
@@ -113,7 +123,7 @@ int main()
 }
 ```
 
-The output will be:
+The output of the above code will be in the following:
 
 ```
 Progress: 100%
@@ -205,7 +215,7 @@ This class is used to construct the following solver classes/objects:
 - [PartialCorrelation](#PartialCorrelation-and-PartialCorrelationWeight-Classes)
 - [Kruskal](#Kruskal-and-KruskalWeight-Classes)
 
-#### Example <a name="example1"></a>
+#### Example
 
 ```c++
 #include <kanalysis.h>
@@ -227,7 +237,7 @@ int main()
 	Matrix x = as_model_matrix(Matrix::Random(100, 5)); // Independent variables
 	Vector y = Vector::Random(100); // Dependent variable
 
-	Decomposition<Matrix> qr(x);
+	auto qr = decomposition(x);
 
 	Coefficient<Decomposition<Matrix>> b(qr);
 	print_dimension(b);
@@ -249,7 +259,7 @@ int main()
 }
 ```
 
-The output will be:
+The output of the above code will be in the following:
 
 ```
 Number of rows: 100
@@ -284,15 +294,16 @@ This class is used to construct the following solver classes/objects:
 - [PartialCorrelationWeight](#PartialCorrelation-and-PartialCorrelationWeight-Classes)
 - [KruskalWeight](#Kruskal-and-KruskalWeight-Classes)
 
-#### Key Important Differences Between the Unweighted Class and the Weighted Class
+#### Standardizing Data to Weights
 
-For the DecompositionWeight class and all it's solver classes, **all input arguments of the dependent variable (y) and the independent variables (x) must be standardized**.
+When inputing data into an object with "Weight" as a suffix, **all data must be standardized**. This applies for the **DecompositionWeight** class and all it's solver classes.
 
-To know for sure, which parameters require the argument data to be standardize, just check if the parameter names contain a ```std_``` prefix to it.
+To know for sure, which parameter requires the data to be standardize, just check if the parameter names contain a ```std_``` prefix to it. **The user is responsible for checking this**.
 
 If the parameter names contain a ```std_``` prefix then the input data must be standardize using the ```WeightFunction::standardize``` fuction or the ```standardize``` member function of the decomposition class.
+The following example will illustrate this.
 
-#### Example <a name="example2"></a>
+#### Example
 
 ```c++
 #include <kanalysis.h>
@@ -335,13 +346,53 @@ Note: The example above applies for all weighted solver classes and the Decompos
 For this section, the following code will be used as the global variables all examples.
 
 ```c++
-Matrix x = Matrix::Random(100, 5); // Independent variables
-Vector y = Vector::Random(100); // Dependent variable
-Array w = Array::Constant(100, 1); // Weights
+Matrix x(7, 5); // Data with 5 independent variables, and 7 observations
+for (Index i = 0; i < x.cols(); ++i)
+{
+	x.col(i).fill(i + 40);
+}
+
+Vector y = Vector::Constant(8, 33); // Dependent variable
+Array w = Array::Constant(8, 1); // Weights
 
 Matrix std_x = WeightFunction::standardize(x, w);
 Matrix std_y = WeightFunction::standardize(y, w);
+
+std::cout << 'y' << std::endl;
+std::cout << "--" << std::endl;
+std::cout << y << std::endl << std::endl;
+
+std::cout << "x1 x2 x3 x4 x5" << std::endl;
+std::cout << "--------------" << std::endl;
+std::cout << x << std::endl;
 ```
+
+The output of the above code will be in the following:
+
+```
+y
+--
+33
+33
+33
+33
+33
+33
+33
+33
+
+x1 x2 x3 x4 x5
+--------------
+40 41 42 43 44
+40 41 42 43 44
+40 41 42 43 44
+40 41 42 43 44
+40 41 42 43 44
+40 41 42 43 44
+40 41 42 43 44
+```
+
+The data is initialized in this particular way instead of being ramdonly generated is for clearer visualization later on.
 
 #### Coefficient and CoefficientWeight Classes
 
@@ -349,12 +400,14 @@ These 2 classes are used to find the beta coefficients **b** of a linear model.
 
 y = **b**X + e
 
-```c++
-auto b = coefficient(decomposition(x)); // Returns a Coefficient class
-Vector results = b.solve(y);
+##### Example
 
-auto b = coefficient(decomposition(std_x, w)); // Returns a CoefficientWeight class
-Vector weighted_results = b.solve(std_y);
+```c++
+auto solver = coefficient(decomposition(x)); // Returns a Coefficient object
+Vector results = solver.solve(y);
+
+auto weighted_solver = coefficient(decomposition(std_x, w)); // Returns a CoefficientWeight object
+Vector weighted_results = weighted_solver.solve(std_y);
 ```
 
 #### FittedValue and FittedValueWeight Classes
@@ -363,12 +416,14 @@ These 2 classes are used to find the fitted values **ŷ** of a linear model.
 
 **ŷ** = bX
 
-```c++
-auto y_hat = fitted_value(decomposition(x)); // Returns a FittedValue class
-Vector results = y_hat.solve(y);
+##### Example
 
-auto weighted_y_hat = fitted_value(decomposition(std_x, w)); // Returns a FittedValueWeight class
-Vector weighted_results = weighted_y_hat.solve(std_y);
+```c++
+auto solver = fitted_value(decomposition(x)); // Returns a FittedValue object
+Vector results = solver.solve(y);
+
+auto weighted_solver = fitted_value(decomposition(std_x, w)); // Returns a FittedValueWeight object
+Vector weighted_results = weighted_solver.solve(std_y);
 ```
 
 #### Residual and ResidualWeight Classes
@@ -377,21 +432,90 @@ These 2 classes are used to find the residuals **e** of a linear model.
 
 **e** = y - ŷ
 
-```c++
-auto e = residual(decomposition(x)); // Returns a Residual class
-Vector results = e.solve(y);
+##### Example
 
-auto weighted_e = residual(decomposition(std_x, w)); // Returns a ResidualWeight class
-Vector weighted_results = weighted_e.solve(std_y);
+```c++
+auto solver = residual(decomposition(x)); // Returns a Residual object
+Vector results = solver.solve(y);
+
+auto weighted_solver = residual(decomposition(std_x, w)); // Returns a ResidualWeight object
+Vector weighted_results = weighted_solver.solve(std_y);
 ```
 
 #### Correlation and CorrelationWeight Classes
 
 These 2 classes are used to find the [Pearson correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) **r** between 2 variables.
 
+##### Example
+
+```c++
+auto solver = correlation(decomposition(x)); // Returns a Correlation object
+Scalar r = solver.solve(y), 2); // Finds the correlation between y and x
+Scalar r_squared = std::pow(r, 2);
+
+auto weighted_solver = correlation(decomposition(std_x, w)); // Returns a CorrelationWeight object
+Scalar weighted_r = weighted_solver.solve(y), 2); // Finds the correlation between y and x, given weights
+Scalar weighted_r_squared = std::pow(weighted_r, 2);
+```
+
 #### PartialCorrelation and PartialCorrelationWeight Classes
 
+These 2 classes are used to find the correlation **r** between 2 variables while controlling for other variables, also known as [partial correlation](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4681537/).
+
+##### Example
+
+Here is an example of how to find the partial correlation between y and x1, while controlling for x2, x3, x4, and x5.
+
+```c++
+Vector x1 = x.col(0); // Takes the first independent variable x1 out, to be correlate with y
+Matrix x_to_ctrl = x.rightCols(x.cols() - 1); // Creates a new matrix without x1
+
+std::cout << x1 << std::endl;
+std::cout << x_to_ctrl << std::endl;
+```
+
+The output of the above code will be in the following:
+
+```
+x1
+--
+40
+40
+40
+40
+40
+40
+40
+
+x2 x3 x4 x5
+-----------
+41 42 43 44
+41 42 43 44
+41 42 43 44
+41 42 43 44
+41 42 43 44
+41 42 43 44
+41 42 43 44
+```
+
+With the variables set, the following code is how to solve it.
+
+```c++
+auto partial_r_squared = partial_correlation(decomposition(x_to_ctrl)); // Returns a PartialCorrelation object
+Scalar partial_r = r.solve(y, x1); // Finds the correlation between y and x1 while controlling for x2, x3, x4, x5.
+Scalar partial_r_squared = std::pow(partial_r, 2);
+
+// Standardize the data to weights
+Matrix std_x_to_ctrl = WeightFunction::standardize(x_to_ctrl, w);
+Vector std_x1 = WeightFunction::standardize(x1, w);
+
+auto weighted_partial_r_squared = correlation(decomposition(std_x_to_ctrl, w)); // Returns a PartialCorrelationWeight object
+Scalar weighted_partial_r_squared = std::pow(weighted_r.solve(std_x1), 2); // Finds the correlation between y and x1 while controlling for x2, x3, x4, x5, given weights.
+```
+
 #### Kruskal and KruskalWeight Classes
+
+##### Example
 
 ---
 
@@ -404,7 +528,9 @@ These 2 classes are used to find the [Pearson correlation coefficient](https://e
 
 ---
 
-## Acknowledgements
+## Acknowledgements and Citations
 
-- [Nguyen Do](https://vn.linkedin.com/in/nguyen-do-a7828294) for providing the partial correlation and Kruskal's formula.
+- [Nguyen Do](https://vn.linkedin.com/in/nguyen-do-a7828294) for providing resources to calculating the partial correlation and providing the Kruskal's formula.
 He is the one that got this project started off the ground.
+
+- Kim, S. (2015). Ppcor: An R Package for a Fast Calculation to Semi-partial Correlation Coefficients. Communications for Statistical Applications and Methods, 22(6), 665-674. doi:10.5351/csam.2015.22.6.665
