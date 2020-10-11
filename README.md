@@ -342,10 +342,10 @@ These 2 classes are used to find the beta coefficients **b** of a linear model.
 y = **b**X + e
 
 ```c++
-Coefficient<Decomposition<Matrix>> b(decomposition(x));
+auto b = coefficient(decomposition(x)); // Returns a Coefficient class
 Vector results = b.solve(y);
 
-CoefficientWeight<DecompositionWeight<Matrix>> weighted_b(decomposition(std_x, w));
+auto b = coefficient(decomposition(std_x, w)); // Returns a CoefficientWeight class
 Vector weighted_results = b.solve(std_y);
 ```
 
@@ -356,10 +356,10 @@ These 2 classes are used to find the fitted values **ŷ** of a linear model.
 **ŷ** = bX
 
 ```c++
-FittedValue<Decomposition<Matrix>> y_hat(decomposition(x));
+auto y_hat = fitted_value(decomposition(x)); // Returns a FittedValue class
 Vector results = y_hat.solve(y);
 
-FittedValueWeight<DecompositionWeight<Matrix>> weighted_y_hat(decomposition(std_x, w));
+auto weighted_y_hat = fitted_value(decomposition(std_x, w)); // Returns a FittedValueWeight class
 Vector weighted_results = weighted_y_hat.solve(std_y);
 ```
 
@@ -370,10 +370,10 @@ These 2 classes are used to find the residuals **e** of a linear model.
 **e** = y - ŷ
 
 ```c++
-Residual<Decomposition<Matrix>> y_hat(decomposition(x));
-Vector results = y_hat.solve(y);
+auto e = residual(decomposition(x)); // Returns a Residual class
+Vector results = e.solve(y);
 
-ResidualWeight<DecompositionWeight<Matrix>> weighted_e(decomposition(std_x, w));
+auto weighted_e = residual(decomposition(std_x, w)); // Returns a ResidualWeight class
 Vector weighted_results = weighted_e.solve(std_y);
 ```
 
