@@ -1,6 +1,8 @@
 ﻿# Development in Progress
 
-LICENSE file has not been added yet. This project is only made public for preview purposes.
+**LICENSE file has not been added**.
+Therefore, distribution of this program is not permited.
+This project repository is only made public for preview purposes.
 
 ---
 
@@ -42,7 +44,7 @@ If you have a lot of CPU processors and would like to compute the full Kruskal's
     - [PartialCorrelation and PartialCorrelationWeight Classes](#Coefficient-and-CoefficientWeight-Classes)
     - [Kruskal and KruskalWeight Classes](#Kruskal-and-KruskalWeight-Classes)
   - Benchmarks
-
+  - [Acknowledgements](#Acknowledgements)
 
 ---
 
@@ -399,3 +401,10 @@ These 2 classes are used to find the [Pearson correlation coefficient](https://e
   - compte
   - solve
 - The Decomposition and DecompositionWeight classes are CRTP designed and inherit from the **DecompositionBase** class.
+
+---
+
+## Acknowledgements
+
+- [Nguyen Do](https://vn.linkedin.com/in/nguyen-do-a7828294) for providing the partial correlation and Kruskal's formula.
+He is the one that got this project started off the ground.
