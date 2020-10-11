@@ -6,18 +6,6 @@ This project repository is only made public for preview purposes.
 
 ---
 
-# A collapsible section with markdown
-
-<details>
-  <summary>Click to expand!</summary>
-  
-  ## Heading
-  1. A numbered
-  2. list
-     * With some
-     * Sub bullets
-</details>
-
 # Kanalysis
 
 A fast and simple C++17 header-only library to compute Kruskal's Relative Importance Analysis and linear regression.
@@ -404,10 +392,10 @@ y = **b**X + e
 
 ```c++
 auto solver = coefficient(decomposition(x)); // Returns a Coefficient object
-Vector results = solver.solve(y);
+Vector beta_coefficients = solver.solve(y);
 
 auto weighted_solver = coefficient(decomposition(std_x, w)); // Returns a CoefficientWeight object
-Vector weighted_results = weighted_solver.solve(std_y);
+Vector weighted_beta_coefficients = weighted_solver.solve(std_y);
 ```
 
 #### FittedValue and FittedValueWeight Classes
@@ -420,10 +408,10 @@ These 2 classes are used to find the fitted values **ŷ** of a linear model.
 
 ```c++
 auto solver = fitted_value(decomposition(x)); // Returns a FittedValue object
-Vector results = solver.solve(y);
+Vector fitted_values = solver.solve(y);
 
 auto weighted_solver = fitted_value(decomposition(std_x, w)); // Returns a FittedValueWeight object
-Vector weighted_results = weighted_solver.solve(std_y);
+Vector weighted_fitted_values = weighted_solver.solve(std_y);
 ```
 
 #### Residual and ResidualWeight Classes
@@ -436,10 +424,10 @@ These 2 classes are used to find the residuals **e** of a linear model.
 
 ```c++
 auto solver = residual(decomposition(x)); // Returns a Residual object
-Vector results = solver.solve(y);
+Vector residuals = solver.solve(y);
 
 auto weighted_solver = residual(decomposition(std_x, w)); // Returns a ResidualWeight object
-Vector weighted_results = weighted_solver.solve(std_y);
+Vector weighted_residuals = weighted_solver.solve(std_y);
 ```
 
 #### Correlation and CorrelationWeight Classes
@@ -454,7 +442,7 @@ Scalar r = solver.solve(y), 2); // Finds the correlation between y and x
 Scalar r_squared = std::pow(r, 2);
 
 auto weighted_solver = correlation(decomposition(std_x, w)); // Returns a CorrelationWeight object
-Scalar weighted_r = weighted_solver.solve(y), 2); // Finds the correlation between y and x, given weights
+Scalar weighted_r = weighted_solver.solve(std_y), 2); // Finds the correlation between y and x, given weights
 Scalar weighted_r_squared = std::pow(weighted_r, 2);
 ```
 
@@ -515,16 +503,52 @@ Scalar weighted_partial_r_squared = std::pow(weighted_r.solve(std_x1), 2); // Fi
 
 #### Kruskal and KruskalWeight Classes
 
+These 2 classes are used to find the relative importance using the Kruskal's method.
+
+These are the only classes that have multi-threading built in.
+
+**Warning: The matrix x must be a [model matrix](https://en.wikipedia.org/wiki/Design_matrix)!**
+
+In order words, there must be a y-intercept column appended at the front of the matrix **x**.
+If the y-intercept is not desired, then fill the column with the value 0.
+
 ##### Example
 
----
+```c++
+int threads = 8; // Number of threads to be run in parallel
 
-### CRTP Designed Class
+Matrix model_matrix = utils::as_model_matrix(x); // Create a model matrix from x
 
-- All Unweighted and Weighted solver classes are CRTP designed and inherit from the **SolverHolderBase** class.
-  - compte
-  - solve
-- The Decomposition and DecompositionWeight classes are CRTP designed and inherit from the **DecompositionBase** class.
+auto solver = kruskal(decomposition(model_matrix)); // Returns a Kruskal object
+Vector relative_importances = solver.solve(y, threads); // Finds the relative importances each x variables toward y
+
+Matrix std_model_matrix = WeightFunction::standardize(model_matrix, w);
+
+auto weighted_solver = kruskal(decomposition(std_model_matrix, w)); // Returns a KruskalWeight object
+Vector weighted_relative_importances = weighted_solver.solve(std_y, threads); // Finds the relative importances each x variables toward y
+```
+
+The order of the results vector ```relative_importances``` correspond to the ```model_matrix``` by columns, excluding the y-intercept column.
+
+To illustrate:
+
+If ```model_matrix``` looks like this
+
+| y-intercept | x1 | x2 | x3 | x4 | x5 |
+|-------------|----|----|----|----|----|
+| 1           | 1  | 2  | 3  | 4  | 5  |
+| 1           | 6  | 7  | 8  | 9  | 10 |
+| 1           | 11 | 12 | 13 | 14 | 15 |
+
+Then the output vector be the "Relative Importance" column below.
+
+| Variable | Relative Importance |
+|----------|---------------------|
+| x1       | 0.130               |
+| x2       | 0.430               |
+| x3       | 0.252               |
+| x4       | 0.142               |
+| x5       | 0.460               |
 
 ---
 
@@ -534,3 +558,5 @@ Scalar weighted_partial_r_squared = std::pow(weighted_r.solve(std_x1), 2); // Fi
 He is the one that got this project started off the ground.
 
 - Kim, S. (2015). Ppcor: An R Package for a Fast Calculation to Semi-partial Correlation Coefficients. Communications for Statistical Applications and Methods, 22(6), 665-674. doi:10.5351/csam.2015.22.6.665
+
+- [OLS in Matrix Form](https://web.stanford.edu/~mrosenfe/soc_meth_proj3/matrix_OLS_NYU_notes.pdf)
