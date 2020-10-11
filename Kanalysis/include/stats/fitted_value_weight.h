@@ -15,7 +15,7 @@ namespace kanalysis::stats
 	///
 	/// \brief A class for computing the weighted fitted values.
 	///
-	template<typename DecompositionType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType = LinearRegressionFunction>
 	class FittedValueWeight : public FittedValueBase<FittedValueWeight<DecompositionType, RegressionFunctionType>>
 	{
 	protected:

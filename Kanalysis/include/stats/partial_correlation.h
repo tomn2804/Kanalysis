@@ -17,7 +17,7 @@ namespace kanalysis::stats
 	///
 	/// \brief A class for computing the partial correlation.
 	///
-	template<typename DecompositionType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType = LinearRegressionFunction>
 	class PartialCorrelation : public PartialCorrelationBase<PartialCorrelation<DecompositionType, RegressionFunctionType>>
 	{
 	protected:

@@ -14,7 +14,7 @@ namespace kanalysis::stats
 	///
 	/// \brief A class for computing the residuals.
 	///
-	template<typename DecompositionType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType = LinearRegressionFunction>
 	class Residual : public ResidualBase<Residual<DecompositionType, RegressionFunctionType>>
 	{
 	protected:

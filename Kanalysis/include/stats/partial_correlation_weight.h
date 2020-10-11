@@ -14,7 +14,7 @@ namespace kanalysis::stats
 	template<typename DecompositionType, typename RegressionFunctionType>
 	class ResidualWeight;
 
-	template<typename DecompositionType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType = LinearRegressionFunction>
 	class PartialCorrelationWeight : public PartialCorrelationBase<PartialCorrelationWeight<DecompositionType, RegressionFunctionType>>
 	{
 	protected:

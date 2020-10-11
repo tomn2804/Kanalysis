@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "include/config.h"
 
@@ -14,14 +14,14 @@ namespace kanalysis::stats
 		template<typename DerivedA, typename DerivedB>
 		static Vector coefficients(const HouseholderQR<DerivedA>& x, const VectorBase<DerivedB>& y);
 
-		// y^ = bX
+		// ŷ = bX
 		template<typename DerivedA, typename DerivedB, typename DerivedC>
 		static void fitted_values(const MatrixBase<DerivedA>& x, const VectorBase<DerivedB>& coefficients, VectorBase<DerivedC>& out);
 
 		template<typename DerivedA, typename DerivedB>
 		static Vector fitted_values(const MatrixBase<DerivedA>& x, const VectorBase<DerivedB>& coefficients);
 
-		// e = y - y^
+		// e = y - ŷ
 		template<typename DerivedA, typename DerivedB, typename DerivedC>
 		static void residuals(const VectorBase<DerivedA>& y, const VectorBase<DerivedB>& fitted_values, VectorBase<DerivedC>& out);
 

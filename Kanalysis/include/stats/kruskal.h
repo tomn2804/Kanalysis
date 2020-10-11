@@ -14,7 +14,7 @@ namespace kanalysis::stats
 	///
 	/// \brief A class for computing Kruskal's relative importance.
 	///
-	template<typename DecompositionType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType = LinearRegressionFunction>
 	class Kruskal : public KruskalBase<Kruskal<DecompositionType, RegressionFunctionType>>
 	{
 	protected:

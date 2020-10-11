@@ -14,7 +14,7 @@ namespace kanalysis::stats
 	///
 	/// \brief A class for computing the fitted values.
 	///
-	template<typename DecompositionType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType = LinearRegressionFunction>
 	class FittedValue : public FittedValueBase<FittedValue<DecompositionType, RegressionFunctionType>>
 	{
 	protected:

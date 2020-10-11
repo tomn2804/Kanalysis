@@ -6,6 +6,8 @@
 
 namespace kanalysis::stats
 {
+	struct LinearRegressionFunction;
+
 	///
 	/// \brief A CRTP base class for \a Coefficient and \a CoefficientWeight .
 	///

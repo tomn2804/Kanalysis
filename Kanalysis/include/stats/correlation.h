@@ -17,7 +17,7 @@ namespace kanalysis::stats
 	///
 	/// \brief A class for computing the correlation.
 	///
-	template<typename DecompositionType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType = LinearRegressionFunction>
 	class Correlation : public CorrelationBase<Correlation<DecompositionType, RegressionFunctionType>>
 	{
 	protected:

@@ -14,7 +14,7 @@ namespace kanalysis::stats
 	///
 	/// \brief A class for computing the beta coefficients.
 	///
-	template<typename DecompositionType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType = LinearRegressionFunction>
 	class Coefficient : public CoefficientBase<Coefficient<DecompositionType, RegressionFunctionType>>
 	{
 	protected:

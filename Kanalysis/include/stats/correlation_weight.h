@@ -18,7 +18,7 @@ namespace kanalysis::stats
 	///
 	/// \brief A class for computing the weighted residuals.
 	///
-	template<typename DecompositionType, typename RegressionFunctionType>
+	template<typename DecompositionType, typename RegressionFunctionType = LinearRegressionFunction>
 	class CorrelationWeight : public CorrelationBase<CorrelationWeight<DecompositionType, RegressionFunctionType>>
 	{
 	protected:
