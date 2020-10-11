@@ -1,11 +1,14 @@
 ﻿# Kanalysis
 
-A fast and simple C++17 header-only library to compute Kruskal's Relative Importance Analysis.
+A fast and simple C++17 header-only library to compute Kruskal's Relative Importance Analysis and linear regression.
+
+If you have a lot of CPU processors and would like to compute the full Kruskal's formula in brute force, then this library is just for you.
 
 **Support Key Features:**
 
 - Weight
 - Multi-threads
+- Intel MKL
 
 ---
 
@@ -32,6 +35,7 @@ A fast and simple C++17 header-only library to compute Kruskal's Relative Import
     - [Correlation and CorrelationWeight Classes](#Coefficient-and-CoefficientWeight-Classes)
     - [PartialCorrelation and PartialCorrelationWeight Classes](#Coefficient-and-CoefficientWeight-Classes)
     - [Kruskal and KruskalWeight Classes](#Kruskal-and-KruskalWeight-Classes)
+  - Benchmarks
 
 
 ---
@@ -184,7 +188,7 @@ These 2 classes are a wrapper class around the Eigen [Matrix](https://eigen.tuxf
 
 ### The Decomposition Class
 
-This class is used to construct the following **solver** classes/objects:
+This class is used to construct the following solver classes/objects:
 
 - [Coefficient](#Coefficient-and-CoefficientWeight-Classes)
 - [FittedValue](#FittedValue-and-FittedValueWeight-Classes)
@@ -263,7 +267,7 @@ Note: The number of columns is 6 instead of 5 because ```as_model_matrix``` is b
 
 ### The DecompositionWeight Class
 
-This class is used to construct the following **solver** classes/objects:
+This class is used to construct the following solver classes/objects:
 
 - [CoefficientWeight](#Coefficient-and-CoefficientWeight-Classes)
 - [FittedValueWeight](#FittedValue-and-FittedValueWeight-Classes)
@@ -320,7 +324,7 @@ Note: The example above applies for all weighted solver classes and the Decompos
 
 ### Solver Classes
 
-For this section, the following code will be global variables used for all examples.
+For this section, the following code will be used as the global variables all examples.
 
 ```c++
 Matrix x = Matrix::Random(100, 5); // Independent variables
