@@ -1,7 +1,7 @@
 ﻿# Development in Progress
 
 **LICENSE file has not been added**.
-This library is not ready for distribution, as further documentation and adjustments are still needed.
+This library is not ready for distribution, as further documentations and adjustments are still needed.
 
 This project repository is only made public for preview purposes.
 
@@ -9,9 +9,9 @@ This project repository is only made public for preview purposes.
 
 # Kanalysis
 
-A fast and simple C++17 header-only library to compute Kruskal's Relative Importance Analysis and low-level regression.
+A simple and high-performance C++17 header-only library, used to compute Kruskal's Relative Importance Analysis and other statistical models.
 
-If you have a lot of CPU processors and would like to compute the full Kruskal's formula in brute force, then this library is just for you.
+If you have a lot of CPU processors and would like to compute the full Kruskal's formula, then this library is just for you.
 
 **Support Key Features:**
 
