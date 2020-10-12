@@ -13,7 +13,8 @@ int main()
 	//test = test.array().abs2().round();
 	//std::cout << test << '\n';
 
-	read_csv(TRAIN_DATA_PATH);
+	Matrix t = read_csv(TITANIC_FILE_PATH);
+	std::cout << t.topRows(5) << '\n';
 	//Matrix x(100, 5); // Data with 5 independent variables, and 7 observations
 	//for (Index i = 0; i < x.cols(); ++i)
 	//{

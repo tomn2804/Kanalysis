@@ -2,48 +2,38 @@
 
 #include "include/config.h"
 
-#include <armadillo>
+#include <armadillo> // To read ".csv" files
 
-#define TRAIN_DATA_PATH "../../../../external/titanic/inst/data-raw/gendermodel.csv"
+#define TITANIC_FILE_PATH "../../../../examples/data/titanic.csv"
 
-// Including the header names, this is the first 6 rows of the "train.csv" file
+// First 5 (excluding headers) rows of the "titanic.csv" dataset:
 //
-//| PassengerId | Survived | Pclass | Name                                                | Sex    | Age | SibSp | Parch | Ticket           | Fare    | Cabin | Embarked |
-//|-------------|----------|--------|-----------------------------------------------------|--------|-----|-------|-------|------------------|---------|-------|----------|
-//|           1 |        0 |      3 | Braund, Mr. Owen Harris                             | male   |  22 |     1 |     0 | A/5 21171        |    7.25 |       | S        |
-//|           2 |        1 |      1 | Cumings, Mrs. John Bradley (Florence Briggs Thayer) | female |  38 |     1 |     0 | PC 17599         | 71.2833 | C85   | C        |
-//|           3 |        1 |      3 | Heikkinen, Miss. Laina                              | female |  26 |     0 |     0 | STON/O2. 3101282 |   7.925 |       | S        |
-//|           4 |        1 |      1 | Futrelle, Mrs. Jacques Heath (Lily May Peel)        | female |  35 |     1 |     0 |           113803 |    53.1 | C123  | S        |
-//|           5 |        0 |      3 | Allen, Mr. William Henry                            | male   |  35 |     0 |     0 |           373450 |    8.05 |       | S        |
-//| ...         | ...      | ...    | ...                                                 | ...    | ... | ...   | ...   | ...              | ...     | ...   | ...      |
+//| Survived | Pclass | Sex | Age | SibSp | Parch |   Fare  |
+//|:--------:|:------:|:---:|:---:|:-----:|:-----:|:-------:|
+//| 0        | 3      | 2   | 22  | 1     | 0     | 7.25    |
+//| 1        | 1      | 1   | 38  | 1     | 0     | 71.2833 |
+//| 1        | 3      | 1   | 26  | 0     | 0     | 7.925   |
+//| 1        | 1      | 1   | 35  | 1     | 0     | 53.1    |
+//| 0        | 3      | 2   | 35  | 0     | 0     | 8.05    |
+// ... 709 out of 714 (excluding headers) rows omitted.
+//
+// Original data sets can be found [here](https://www.kaggle.com/c/titanic/data).
 
 namespace kanalysis
 {
-	void read_csv(const std::string& path)
+	KANALYSIS_INLINE Matrix read_csv(const std::string& path)
 	{
-		arma::Mat<Scalar> data;
+		using namespace arma;
 
-		arma::field<std::string> headers(1);
-		headers(0) = "PassengerId";
-		////headers(1) = "Pclass";
-		////headers(2) = "Age";
-		////headers(3) = "SibSp";
-		////headers(4) = "Fare";
+		// Import the data set
+		Mat<Scalar> data;
+		data.load(path);
 
-		auto names = arma::csv_name(path, headers);
-		data.load(names);
-		data.print();
-		//Map<Matrix> m(data.memptr(), data.n_rows, data.n_cols);
-		//std::cout << m << '\n';
+		// Remove the first header row
+		Col<uword> row_indices(data.n_rows - 1);
+		std::iota(row_indices.begin(), row_indices.end(), 1);
+		data = data.rows(row_indices);
 
-		//arma::Mat<Scalar> data;
-		//data.load(path);
-
-		//arma::Col<arma::uword> row_indices(data.n_rows - 1);
-		//std::iota(row_indices.begin(), row_indices.end(), 1);
-		//data = data.rows(row_indices);
-
-		//arma::Mat<Scalar> model_matrix(data.colptr(0), data.n_rows, 4, false, true);
-		//model_matrix.print();
+		return Map<Matrix>(data.memptr(), data.n_rows, data.n_cols);
 	}
 }
