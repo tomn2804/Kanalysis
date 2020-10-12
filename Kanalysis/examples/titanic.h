@@ -27,7 +27,7 @@ namespace kanalysis
 
 		// Import the data set
 		Mat<Scalar> data;
-		data.load(path);
+		data.load(path, csv_ascii);
 
 		// Remove the first header row
 		Col<uword> row_indices(data.n_rows - 1);
