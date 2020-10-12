@@ -13,41 +13,42 @@ A simple and high-performance C++17 header-only library, used to compute Kruskal
 
 If you have a lot of CPU processors and would like to compute the full Kruskal's formula, then this library is just for you.
 
-**Support Key Features:**
+**Feature highlights:**
 
-- Weight
+- Weighted statistics
 - Multi-threads
 - Intel MKL
+- Progress display
 
 ---
 
-## Table of Contents
+## Table of contents
 
-- [Quick Preview](#Quick-Preview)
+- [Quick preview](#Quick-preview)
   - [Unweighted](#Unweighted)
   - [Weighted](#Weighted)
 - [Installation](#Installation)
-  - [Quick Installation](#Quick-Installation)
-  - [Manual Installation](#Manual-Installation)
-    - [Installing Dependencies](#Installing-Dependencies)
+  - [Quick installation](#Quick-installation)
+  - [Manual installation](#Manual-installation)
+    - [Installing dependencies](#Installing-dependencies)
     - [Installing Kanalysis](#Installing-Kanalysis)
-- [Using Kanalysis Within the Stats Namespace](#Using-Kanalysis-Within-the-Stats-Namespace)
-  - [The Decomposition Class](#The-Decomposition-Class)
-  - [The DecompositionWeight Class](#The-DecompositionWeight-Class)
-    - [Standardizing Data to Weights](#Standardizing-Data-to-Weights)
-  - [Solver Classes](#Solver-Classes)
-    - [Coefficient and CoefficientWeight Classes](#Coefficient-and-CoefficientWeight-Classes)
-    - [FittedValue and FittedValueWeight Classes](#FittedValue-and-FittedValueWeight-Classes)
-    - [Residual and ResidualWeight Classes](#Residual-and-ResidualWeight-Classes)
-    - [Correlation and CorrelationWeight Classes](#Coefficient-and-CoefficientWeight-Classes)
-    - [PartialCorrelation and PartialCorrelationWeight Classes](#Coefficient-and-CoefficientWeight-Classes)
-    - [Kruskal and KruskalWeight Classes](#Kruskal-and-KruskalWeight-Classes)
+- [Using Kanalysis within the stats namespace](#Using-Kanalysis-within-the-stats-namespace)
+  - [The Decomposition class](#The-Decomposition-class)
+  - [The DecompositionWeight class](#The-DecompositionWeight-class)
+    - [Standardizing data to weights](#Standardizing-data-to-weights)
+  - [Solver classes](#Solver-classes)
+    - [Coefficient and CoefficientWeight classes](#Coefficient-and-CoefficientWeight-classes)
+    - [FittedValue and FittedValueWeight classes](#FittedValue-and-FittedValueWeight-classes)
+    - [Residual and ResidualWeight classes](#Residual-and-ResidualWeight-classes)
+    - [Correlation and CorrelationWeight classes](#Coefficient-and-CoefficientWeight-classes)
+    - [PartialCorrelation and PartialCorrelationWeight classes](#Coefficient-and-CoefficientWeight-classes)
+    - [Kruskal and KruskalWeight classes](#Kruskal-and-KruskalWeight-classes)
   - [Benchmarks](#Benchmarks)
-  - [Acknowledgements and References](#Acknowledgements-and-References)
+  - [Acknowledgements and references](#Acknowledgements-and-references)
 
 ---
 
-## Quick Preview
+## Quick preview
 
 Note: All data used in this documentation are generated randomly at compile time, so the output values will vary on each compile.
 
@@ -64,17 +65,17 @@ int main()
 {
 	int threads = 8;
 
-	Matrix x = Matrix::Random(100, 5); // Independent variables
-	Vector y = Vector::Random(100); // Dependent variable
+	Matrix x = as_model_matrix(Matrix::Random(100, 5));
+	Vector y = Vector::Random(100);
 
-	auto qr = decomposition(as_model_matrix(x));
+	auto qr = decomposition(x);
 	Vector results = kruskal(qr).solve(y, threads);
 
 	std::cout << results << std::endl;
 }
 ```
 
-The output of the above code will be in the following:
+The above code would produce the following output:
 
 ```
 Progress: 100%
@@ -98,8 +99,8 @@ int main()
 {
 	int threads = 8;
 
-	Matrix x = Matrix::Random(100, 5); // Independent variables
-	Vector y = Vector::Random(100); // Dependent variable
+	Matrix x = as_model_matrix(Matrix::Random(100, 5));
+	Vector y = Vector::Random(100);
 	Array w = Array::Constant(100, 1); // Weights
 
 	Matrix std_x = WeightFunction::standardize(x, w);
@@ -129,7 +130,7 @@ Note: The output values of Weighted and Unweighted are the same because ```w``` 
 
 ## Installation
 
-### Quick Installation
+### Quick installation
 
 For a quick a simple installation, just use the Git command below to clone this repository and all it's dependencies.
 
@@ -144,7 +145,7 @@ Then add the following macro to the top of your project header ```.h``` or sourc
 #include <users/local/folder/Kanalysis/Kanalysis/include/kanalysis.h>
 ```
 
-### Manual Installation
+### Manual installation
 
 The quick installation process above requires navigating through absolute path and is cumbersome.
 So, for a relative path approach, this is 2 steps process.
@@ -152,7 +153,7 @@ So, for a relative path approach, this is 2 steps process.
 The first step is to install the dependencies and intergrate it into your project.
 Then the second step is to install the Kanalysis library itself.
 
-#### Installing Dependencies
+#### Installing dependencies
 
 C++17 or later is obviously required. Other than that, the following list is the external/third-party libraries needed to be install before using the ```#include <kanalysis.h>```.
 
@@ -179,7 +180,7 @@ Make sure the path of other files within the [include](https://github.com/tomn28
 
 ---
 
-## Using Kanalysis Within the Stats Namespace
+## Using Kanalysis within the stats namespace
 
 This library was solely written to solve the Kruskal's Relative Importance Analysis.
 However, this complex computation had led to many other objects being created as a by-product of refactoring out codes.
@@ -193,7 +194,7 @@ The main workhorse for this Kanalysis library are:
 
 These 2 classes are a wrapper class around the Eigen [Matrix](https://eigen.tuxfamily.org/dox/group__TutorialMatrixClass.html) class and it's [QR decomposition](https://eigen.tuxfamily.org/dox/classEigen_1_1HouseholderQR.html).
 
-### The Decomposition Class
+### The Decomposition class
 
 This class is used to construct the following solver classes/objects:
 
@@ -272,7 +273,7 @@ Number of columns: 6
 
 Note: The number of columns is 6 instead of 5 because ```as_model_matrix``` is being called to convert a regular matrix into a simple or multiple regression [model matrix](https://en.wikipedia.org/wiki/Design_matrix).
 
-### The DecompositionWeight Class
+### The DecompositionWeight class
 
 This class is used to construct the following solver classes/objects:
 
@@ -283,7 +284,7 @@ This class is used to construct the following solver classes/objects:
 - [PartialCorrelationWeight](#PartialCorrelation-and-PartialCorrelationWeight-Classes)
 - [KruskalWeight](#Kruskal-and-KruskalWeight-Classes)
 
-#### Standardizing Data to Weights
+#### Standardizing data to weights
 
 When inputing data into an object with "Weight" as a suffix, **all data must be standardized**. This applies for the **DecompositionWeight** class and all it's solver classes.
 
@@ -330,7 +331,7 @@ Note: The example above applies for all weighted solver classes and the Decompos
 
 ---
 
-### Solver Classes
+### Solver classes
 
 For this section, the following code will be used as the global variables all examples.
 
@@ -383,7 +384,7 @@ x1 x2 x3 x4 x5
 
 The data is initialized in this particular way instead of being ramdonly generated is for clearer visualization later on.
 
-#### Coefficient and CoefficientWeight Classes
+#### Coefficient and CoefficientWeight classes
 
 These 2 classes are used to find the beta coefficients **b** of a linear model.
 
@@ -399,7 +400,7 @@ auto weighted_solver = coefficient(decomposition(std_x, w)); // Returns a Coeffi
 Vector weighted_beta_coefficients = weighted_solver.solve(std_y);
 ```
 
-#### FittedValue and FittedValueWeight Classes
+#### FittedValue and FittedValueWeight classes
 
 These 2 classes are used to find the fitted values **ŷ** of a linear model.
 
@@ -415,7 +416,7 @@ auto weighted_solver = fitted_value(decomposition(std_x, w)); // Returns a Fitte
 Vector weighted_fitted_values = weighted_solver.solve(std_y);
 ```
 
-#### Residual and ResidualWeight Classes
+#### Residual and ResidualWeight classes
 
 These 2 classes are used to find the residuals **e** of a linear model.
 
@@ -431,7 +432,7 @@ auto weighted_solver = residual(decomposition(std_x, w)); // Returns a ResidualW
 Vector weighted_residuals = weighted_solver.solve(std_y);
 ```
 
-#### Correlation and CorrelationWeight Classes
+#### Correlation and CorrelationWeight classes
 
 These 2 classes are used to find the [Pearson correlation coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient) **r** between 2 variables.
 
@@ -447,7 +448,7 @@ Scalar weighted_r = weighted_solver.solve(std_y), 2); // Finds the correlation b
 Scalar weighted_r_squared = std::pow(weighted_r, 2);
 ```
 
-#### PartialCorrelation and PartialCorrelationWeight Classes
+#### PartialCorrelation and PartialCorrelationWeight classes
 
 These 2 classes are used to find the correlation **r** between 2 variables while controlling for other variables, also known as [partial correlation](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4681537/).
 
@@ -502,7 +503,7 @@ auto weighted_partial_r_squared = correlation(decomposition(std_x_to_ctrl, w)); 
 Scalar weighted_partial_r_squared = std::pow(weighted_r.solve(std_x1), 2); // Finds the correlation between y and x1 while controlling for x2, x3, x4, x5, given weights.
 ```
 
-#### Kruskal and KruskalWeight Classes
+#### Kruskal and KruskalWeight classes
 
 These 2 classes are used to find the relative importance using the Kruskal's method.
 
@@ -559,7 +560,7 @@ Throwing in as many CPU processors as you can into the problems, is the mindset 
 
 ---
 
-## Acknowledgements and References
+## Acknowledgements and references
 
 - [Nguyen Do](https://vn.linkedin.com/in/nguyen-do-a7828294) for providing resources to calculating the partial correlation and providing the Kruskal's formula.
 He is the one that got this project started off the ground.
