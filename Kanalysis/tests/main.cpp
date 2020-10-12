@@ -13,8 +13,14 @@ int main()
 	//test = test.array().abs2().round();
 	//std::cout << test << '\n';
 
-	Matrix t = read_csv(TITANIC_FILE_PATH);
-	std::cout << t.topRows(5) << '\n';
+	Matrix data = read_csv(TITANIC_FILE_PATH);
+
+	Vector y = data.col(0);
+	Matrix x = as_model_matrix(data.rightCols(data.cols() - 1));
+
+	auto qr = decomposition(x);
+	std::cout << kruskal(qr).solve(y) << '\n';
+
 	//Matrix x(100, 5); // Data with 5 independent variables, and 7 observations
 	//for (Index i = 0; i < x.cols(); ++i)
 	//{

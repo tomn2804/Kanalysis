@@ -1,7 +1,7 @@
 ﻿# Development in Progress
 
 **LICENSE file has not been added**.
-This library is not ready for distribution yet, as further documentation and program adjustments are still needed.
+This library is not ready for distribution, as further documentation and adjustments are still needed.
 
 This project repository is only made public for preview purposes.
 
@@ -9,7 +9,7 @@ This project repository is only made public for preview purposes.
 
 # Kanalysis
 
-A fast and simple C++17 header-only library to compute Kruskal's Relative Importance Analysis and linear regression.
+A fast and simple C++17 header-only library to compute Kruskal's Relative Importance Analysis and low-level regression.
 
 If you have a lot of CPU processors and would like to compute the full Kruskal's formula in brute force, then this library is just for you.
 
@@ -42,8 +42,8 @@ If you have a lot of CPU processors and would like to compute the full Kruskal's
     - [Correlation and CorrelationWeight Classes](#Coefficient-and-CoefficientWeight-Classes)
     - [PartialCorrelation and PartialCorrelationWeight Classes](#Coefficient-and-CoefficientWeight-Classes)
     - [Kruskal and KruskalWeight Classes](#Kruskal-and-KruskalWeight-Classes)
-  - Benchmarks
-  - [Acknowledgements and Citations](#Acknowledgements-and-Citations)
+  - [Benchmarks](#Benchmarks)
+  - [Acknowledgements and References](#Acknowledgements-and-References)
 
 ---
 
@@ -553,7 +553,13 @@ Then the output vector ```relative_importances``` will be the "Relative Importan
 
 ---
 
-## Acknowledgements and Citations
+## Benchmarks
+
+Throwing in as many CPU processors as you can into the problems, is the mindset behind this library design.
+
+---
+
+## Acknowledgements and References
 
 - [Nguyen Do](https://vn.linkedin.com/in/nguyen-do-a7828294) for providing resources to calculating the partial correlation and providing the Kruskal's formula.
 He is the one that got this project started off the ground.
