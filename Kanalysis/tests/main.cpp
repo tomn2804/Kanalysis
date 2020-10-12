@@ -5,41 +5,48 @@ using namespace kanalysis;
 using namespace kanalysis::stats;
 using namespace kanalysis::utils;
 
+#include "examples/titanic.h"
+
 int main()
 {
-	Matrix x(100, 5); // Data with 5 independent variables, and 7 observations
-	for (Index i = 0; i < x.cols(); ++i)
-	{
-		x.col(i).fill(i + 40);
-	}
+	//Matrix test = Matrix::Random(5, 5);
+	//test = test.array().abs2().round();
+	//std::cout << test << '\n';
 
-	Vector y = Vector::Constant(100, 20); // Dependent variable
-	Array w = Array::Constant(100, 1); // Weights
+	read_csv(TRAIN_DATA_PATH);
+	//Matrix x(100, 5); // Data with 5 independent variables, and 7 observations
+	//for (Index i = 0; i < x.cols(); ++i)
+	//{
+	//	x.col(i).fill(i + 40);
+	//}
 
-	Matrix std_x = WeightFunction::standardize(x, w);
-	Matrix std_y = WeightFunction::standardize(y, w);
+	//Vector y = Vector::Constant(100, 20); // Dependent variable
+	//Array w = Array::Constant(100, 1); // Weights
 
-	Vector x1 = x.col(0); // Takes the first independent variable x1 out, to be correlate with y.
-	Matrix x_to_ctrl = x.rightCols(x.cols() - 1);
+	//Matrix std_x = WeightFunction::standardize(x, w);
+	//Matrix std_y = WeightFunction::standardize(y, w);
 
-	std::cout << "x1" << std::endl;
-	std::cout << "--" << std::endl;
-	std::cout << x1 << std::endl << std::endl;
+	//Vector x1 = x.col(0); // Takes the first independent variable x1 out, to be correlate with y.
+	//Matrix x_to_ctrl = x.rightCols(x.cols() - 1);
 
-	std::cout << "x2 x3 x4 x5" << std::endl;
-	std::cout << "-----------" << std::endl;
-	std::cout << x_to_ctrl << std::endl;
+	//std::cout << "x1" << std::endl;
+	//std::cout << "--" << std::endl;
+	//std::cout << x1 << std::endl << std::endl;
 
-	int threads = 8; // Number of threads to be run in parallel
+	//std::cout << "x2 x3 x4 x5" << std::endl;
+	//std::cout << "-----------" << std::endl;
+	//std::cout << x_to_ctrl << std::endl;
 
-	auto solver = kruskal(decomposition(x)); // Returns a Kruskal object
-	Vector relative_importances = solver.solve(y, threads); // Finds the relative importances each x variables toward y
+	//int threads = 8; // Number of threads to be run in parallel
 
-	auto weighted_solver = kruskal(decomposition(std_x, w)); // Returns a KruskalWeight object
-	Vector weighted_relative_importances = weighted_solver.solve(y, threads); // Finds the relative importances each x variables toward y
+	//auto solver = kruskal(decomposition(x)); // Returns a Kruskal object
+	//Vector relative_importances = solver.solve(y, threads); // Finds the relative importances each x variables toward y
 
-	std::cout << relative_importances << std::endl << std::endl;
-	std::cout << weighted_relative_importances << std::endl;
+	//auto weighted_solver = kruskal(decomposition(std_x, w)); // Returns a KruskalWeight object
+	//Vector weighted_relative_importances = weighted_solver.solve(y, threads); // Finds the relative importances each x variables toward y
+
+	//std::cout << relative_importances << std::endl << std::endl;
+	//std::cout << weighted_relative_importances << std::endl;
 
 	std::system("pause");
 }

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="examples\titanic.h" />
     <ClInclude Include="include\arithmetic\col_functor.h" />
     <ClInclude Include="include\arithmetic\base_functions.h" />
     <ClInclude Include="include\arithmetic\combination_model.h" />
