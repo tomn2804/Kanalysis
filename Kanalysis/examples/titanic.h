@@ -36,4 +36,35 @@ namespace kanalysis
 
 		return Map<Matrix>(data.memptr(), data.n_rows, data.n_cols);
 	}
-}
+
+	struct Titanic
+	{
+		Titanic();
+
+		Matrix data;
+		Map<Matrix> x;
+		Map<Vector> y;
+
+		Index rows() const;
+		Index cols() const;
+	};
+} // namespace kanalysis
+
+namespace kanalysis
+{
+	KANALYSIS_INLINE Titanic::Titanic()
+		: data(read_csv(TITANIC_FILE_PATH))
+		, x(data.col(1).data(), data.rows(), data.cols() - 1)
+		, y(data.col(0).data(), data.rows())
+	{}
+
+	KANALYSIS_INLINE Index Titanic::rows() const
+	{
+		return data.rows();
+	}
+
+	KANALYSIS_INLINE Index Titanic::cols() const
+	{
+		return data.cols();
+	}
+} // namespace kanalysis

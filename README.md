@@ -18,7 +18,6 @@ If you have a lot of CPU processors and would like to compute the full Kruskal's
 - Weighted statistics
 - Multi-threads
 - Intel MKL
-- Progress display
 
 ---
 
@@ -55,76 +54,78 @@ Note: All data used in this documentation are generated randomly at compile time
 ### Unweighted
 
 ```c++
-#include <kanalysis.h>
+#include "examples/titanic.h"
+#include "include/kanalysis.h"
 
-using namespace kanalysis;
 using namespace kanalysis::stats;
-using namespace kanalysis::utils;
+using namespace kanalysis::utils; // For as_model_matrix
+using namespace kanalysis;
 
 int main()
 {
 	int threads = 8;
 
-	Matrix x = as_model_matrix(Matrix::Random(100, 5));
-	Vector y = Vector::Random(100);
+	Titanic data; // Load in example data set
 
-	auto qr = decomposition(x);
-	Vector results = kruskal(qr).solve(y, threads);
+	auto qr = decomposition(as_model_matrix(data.x));
+	auto results = kruskal(qr).solve(data.y, threads);
 
-	std::cout << results << std::endl;
+	std::cout << results << '\n';
 }
 ```
 
-The above code would produce the following output:
+The above code will produce the following output:
 
 ```
 Progress: 100%
-0.00407495
-0.00613109
-  0.249574
-  0.174478
-  0.565742
+ 0.246397
+ 0.593792
+0.0573603
+0.0149979
+0.0106356
+0.0768176
 ```
 
 ### Weighted
 
 ```c++
-#include <kanalysis.h>
+#include "examples/titanic.h"
+#include "include/kanalysis.h"
 
-using namespace kanalysis;
 using namespace kanalysis::stats;
-using namespace kanalysis::utils;
+using namespace kanalysis::utils; // For as_model_matrix
+using namespace kanalysis;
 
 int main()
 {
 	int threads = 8;
 
-	Matrix x = as_model_matrix(Matrix::Random(100, 5));
-	Vector y = Vector::Random(100);
-	Array w = Array::Constant(100, 1); // Weights
+	Titanic data; // Load in example data set
+	Array weights = Array::Constant(data.rows(), 1);
 
-	Matrix std_x = WeightFunction::standardize(x, w);
-	Matrix std_y = WeightFunction::standardize(y, w);
+	Matrix std_x = WeightFunction::standardize(as_model_matrix(data.x), weights);
+	Matrix std_y = WeightFunction::standardize(data.y, weights);
 
-	auto qr = decomposition(std_x, w);
-	Vector results = kruskal(qr).solve(std_y, threads);
+	auto qr = decomposition(std_x, weights);
+	auto results = kruskal(qr).solve(std_y, threads);
 
-	std::cout << results << std::endl;
+	std::cout << results << '\n';
 }
 ```
 
-The output of the above code will be in the following:
+The above code will produce the following output:
 
 ```
 Progress: 100%
-0.00407495
-0.00613109
-  0.249574
-  0.174478
-  0.565742
+ 0.246397
+ 0.593792
+0.0573603
+0.0149979
+0.0106356
+0.0768177
 ```
 
-Note: The output values of Weighted and Unweighted are the same because ```w``` is an array of a constant value of 1.
+Note: ```weights``` is an array of constant value of 1, so the results will remain the same as unweighted.
 
 ---
 
