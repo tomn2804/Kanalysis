@@ -1,14 +1,14 @@
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
-#include "include/arithmetic/combination_model.h"
-#include "include/arithmetic/two_hands_side_col_functor.h"
-#include "include/stats/correlation.h"
-#include "include/stats/correlation_weight.h"
-#include "include/stats/partial_correlation.h"
-#include "include/stats/partial_correlation_weight.h"
-#include "include/threads/thread_pool.h"
+#include "arithmetic/combination_model.h"
+#include "arithmetic/two_hands_side_col_functor.h"
+#include "stats/correlation.h"
+#include "stats/correlation_weight.h"
+#include "stats/partial_correlation.h"
+#include "stats/partial_correlation_weight.h"
+#include "threads/thread_pool.h"
 
 namespace kanalysis::stats
 {

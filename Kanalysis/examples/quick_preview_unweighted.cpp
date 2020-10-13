@@ -1,5 +1,5 @@
-#include "examples/titanic.h"
-#include "include/kanalysis.h"
+#include "kanalysis.h"
+#include "titanic.h"
 
 using namespace kanalysis::stats;
 using namespace kanalysis::utils; // For as_model_matrix

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
-#include "include/stats/solve_holder_base.h"
+#include "stats/solve_holder_base.h"
 
-#include "include/stats/coefficient.h"
+#include "stats/coefficient.h"
 
 namespace kanalysis::stats
 {

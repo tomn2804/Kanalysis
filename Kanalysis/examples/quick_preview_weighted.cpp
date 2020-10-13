@@ -1,5 +1,5 @@
-#include "examples/titanic.h"
-#include "include/kanalysis.h"
+#include "kanalysis.h"
+#include "titanic.h"
 
 using namespace kanalysis::stats;
 using namespace kanalysis::utils; // For as_model_matrix
@@ -13,7 +13,7 @@ int main()
 	Array weights = Array::Constant(data.rows(), 1);
 
 	Matrix std_x = WeightFunction::standardize(as_model_matrix(data.x), weights);
-	Matrix std_y = WeightFunction::standardize(data.y, weights);
+	Vector std_y = WeightFunction::standardize(data.y, weights);
 
 	auto qr = decomposition(std_x, weights);
 	auto results = kruskal(qr).solve(std_y, threads);
@@ -30,5 +30,5 @@ int main()
 //0.0573603
 //0.0149979
 //0.0106356
-//0.0768177
+//0.0768176
 //Press any key to continue . . .

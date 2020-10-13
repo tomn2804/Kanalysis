@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "include/config.h"
+#include "config.h"
 
 namespace kanalysis::stats
 {

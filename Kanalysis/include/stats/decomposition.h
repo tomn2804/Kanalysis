@@ -1,8 +1,8 @@
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
-#include "include/stats/decomposition_base.h"
+#include "stats/decomposition_base.h"
 
 namespace kanalysis::stats
 {

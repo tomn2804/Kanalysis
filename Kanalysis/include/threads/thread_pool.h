@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// https://github.com/mtrebi/thread-pool/blob/master/include/ThreadPool.h
+// https://github.com/mtrebi/thread-pool/blob/master/ThreadPool.h
 
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
-#include "include/threads/safe_queue.h"
-#include "include/utils/progress.h"
+#include "threads/safe_queue.h"
+#include "utils/progress.h"
 
 namespace kanalysis::threads
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
 #define INTERCEPT_COL_INDEX 0
 #define INTERCEPT_COL_VALUE 1

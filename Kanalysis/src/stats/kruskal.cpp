@@ -1,1 +1,1 @@
-#include "include/stats/kruskal.h"
+#include "stats/kruskal.h"

@@ -20,11 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// https://github.com/mtrebi/thread-pool/blob/master/include/SafeQueue.h
+// https://github.com/mtrebi/thread-pool/blob/master/SafeQueue.h
 
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
 namespace kanalysis::threads
 {

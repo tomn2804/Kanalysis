@@ -1,8 +1,8 @@
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
-#include "include/stats/coefficient_base.h"
+#include "stats/coefficient_base.h"
 
 namespace kanalysis::stats
 {

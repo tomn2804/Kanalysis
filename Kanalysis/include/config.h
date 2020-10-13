@@ -4,7 +4,6 @@
 // User settings
 //
 #define KANALYSIS_FORCE_INLINE
-#define KANALYSIS_INCLUDE_DEPENDENCIES
 //#define KANALYSIS_USE_MKL
 
 //
@@ -12,7 +11,7 @@
 //
 #define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
 
-#ifdef KANALYSIS_INCLUDE_DEPENDENCIES
+#ifndef KANALYSIS_DONT_INCLUDE_DEPENDENCIES
 
 #ifdef KANALYSIS_USE_MKL
 #include <mkl.h>
@@ -24,7 +23,7 @@
 #include <discreture.hpp>
 #include <Eigen/Dense>
 
-#endif // KANALYSIS_INCLUDE_DEPENDENCIES
+#endif // !KANALYSIS_DONT_INCLUDE_DEPENDENCIES
 
 #include <algorithm>
 #include <future>

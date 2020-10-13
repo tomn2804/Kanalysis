@@ -1,8 +1,8 @@
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
-#include "include/arithmetic/base_functions.h"
+#include "arithmetic/base_functions.h"
 
 namespace kanalysis::arithmetic
 {

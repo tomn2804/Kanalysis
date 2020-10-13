@@ -31,7 +31,7 @@ If you have a lot of CPU processors and would like to compute the full Kruskal's
   - [Manual installation](#Manual-installation)
     - [Installing dependencies](#Installing-dependencies)
     - [Installing Kanalysis](#Installing-Kanalysis)
-- [Using Kanalysis within the stats namespace](#Using-Kanalysis-within-the-stats-namespace)
+- [Using namespace kanalysis::stats](#Using-namespace-kanalysis::stats)
   - [The Decomposition class](#The-Decomposition-class)
   - [The DecompositionWeight class](#The-DecompositionWeight-class)
     - [Standardizing data to weights](#Standardizing-data-to-weights)
@@ -54,8 +54,8 @@ Note: All data used in this documentation are generated randomly at compile time
 ### Unweighted
 
 ```c++
-#include "examples/titanic.h"
-#include "include/kanalysis.h"
+#include <kanalysis.h>
+#include <titanic.h>
 
 using namespace kanalysis::stats;
 using namespace kanalysis::utils; // For as_model_matrix
@@ -71,6 +71,7 @@ int main()
 	auto results = kruskal(qr).solve(data.y, threads);
 
 	std::cout << results << '\n';
+	std::system("pause"); // Prevent console from closing
 }
 ```
 
@@ -89,8 +90,8 @@ Progress: 100%
 ### Weighted
 
 ```c++
-#include "examples/titanic.h"
-#include "include/kanalysis.h"
+#include <kanalysis.h>
+#include <titanic.h>
 
 using namespace kanalysis::stats;
 using namespace kanalysis::utils; // For as_model_matrix
@@ -104,12 +105,13 @@ int main()
 	Array weights = Array::Constant(data.rows(), 1);
 
 	Matrix std_x = WeightFunction::standardize(as_model_matrix(data.x), weights);
-	Matrix std_y = WeightFunction::standardize(data.y, weights);
+	Vector std_y = WeightFunction::standardize(data.y, weights);
 
 	auto qr = decomposition(std_x, weights);
 	auto results = kruskal(qr).solve(std_y, threads);
 
 	std::cout << results << '\n';
+	std::system("pause"); // Prevent console from closing
 }
 ```
 
@@ -122,7 +124,7 @@ Progress: 100%
 0.0573603
 0.0149979
 0.0106356
-0.0768177
+0.0768176
 ```
 
 Note: ```weights``` is an array of constant value of 1, so the results will remain the same as unweighted.
@@ -133,14 +135,16 @@ Note: ```weights``` is an array of constant value of 1, so the results will rema
 
 ### Quick installation
 
-For a quick a simple installation, just use the Git command below to clone this repository and all it's dependencies.
+For a quick and simple installation, just use the following Git command to clone this repository and all it's dependencies.
 
 ```
 cd users/local/folder
 git clone --recurse https://github.com/tomn2804/Kanalysis.git
 ```
 
-Then add the following macro to the top of your project header ```.h``` or source ```.cpp``` files.
+Then include the "kanalysis.h" file to the top of your project header ```.h``` or source ```.cpp``` files.
+
+It should look something like the following code:
 
 ```c++
 #include <users/local/folder/Kanalysis/Kanalysis/include/kanalysis.h>
@@ -148,47 +152,43 @@ Then add the following macro to the top of your project header ```.h``` or sourc
 
 ### Manual installation
 
-The quick installation process above requires navigating through absolute path and is cumbersome.
-So, for a relative path approach, this is 2 steps process.
-
-The first step is to install the dependencies and intergrate it into your project.
+This is a 2 steps process.
+The first step is to install the dependencies and link it into your project.
 Then the second step is to install the Kanalysis library itself.
 
 #### Installing dependencies
 
-C++17 or later is obviously required. Other than that, the following list is the external/third-party libraries needed to be install before using the ```#include <kanalysis.h>```.
+C++17 or later and it's standard library is obviously required. Other than that, the following list is the external/third-party libraries that are needed to be install before including the "kanalysis.h" file.
 
 - [Eigen](http://eigen.tuxfamily.org)
   - [Intel MKL](https://software.intel.com/content/www/us/en/develop/tools/math-kernel-library.html) (Optional for improving performance on Intel processors)
 - [Discreture](https://github.com/mraggi/discreture)
   - [Boost](https://www.boost.org/) (Comes **pre-installed** if clone directly from this repository, so no need to take action here)
-- [Armadillo](http://arma.sourceforge.net) (Optional for reading data from ```.csv``` file in test cases)
+- [Armadillo](http://arma.sourceforge.net) (Optional for reading data from ```.csv``` file in example cases)
 
 This documentation won't go into details on how to install each of these external/third-party libraries, but the instruction for each libraries can be found within their respective websites.
 
 By default, the Kanalysis's "config.h" file will contain the ```#include``` macros for each of these libraries.
-If this is not desired, then the user can disable this by providing a ```#undef KANALYSIS_INCLUDE_DEPENDENCIES``` macro before including the "kanalysis.h" file.
+If this is not desired, then you can disable this by providing a ```#define KANALYSIS_DONT_INCLUDE_DEPENDENCIES``` macro before including the "kanalysis.h" file.
 After disabling, the user is responsible for including each of these libraries manually.
 
 ####  Installing Kanalysis
 
 Since this is a header-only library, just copy the [include](https://github.com/tomn2804/Kanalysis/tree/master/Kanalysis/include) folder to your project's include folder or wherever you like.
-Then add the following include macro to the top of your project header ```.h``` or source ```.cpp``` files.
+Then just simply include the "kanalysis.h" file to your project header ```.h``` or source ```.cpp``` files.
 
-```#include <kanalysis.h>```
-
-Make sure the path of other files within the [include](https://github.com/tomn2804/Kanalysis/tree/master/Kanalysis/include) folder remains the same, relative to the "kanalysis.h" file.
+Make sure that the path of other files within the [include](https://github.com/tomn2804/Kanalysis/tree/master/Kanalysis/include) folder remains the same, relative to the "kanalysis.h" file.
 
 ---
 
-## Using Kanalysis within the stats namespace
+## Using namespace kanalysis::stats
 
 This library was solely written to solve the Kruskal's Relative Importance Analysis.
 However, this complex computation had led to many other objects being created as a by-product of refactoring out codes.
 These objects can be reused for other general purposes.
 
 Just like how the [Matrix](https://eigen.tuxfamily.org/dox/group__TutorialMatrixClass.html) class is the main workhorse for the [Eigen](http://eigen.tuxfamily.org) library.
-The main workhorse for this Kanalysis library are:
+The main workhorse for the Kanalysis library are:
 
 - [Decomposition](#The-Decomposition-Class)
 - [DecompositionWeight](#The-DecompositionWeight-Class)

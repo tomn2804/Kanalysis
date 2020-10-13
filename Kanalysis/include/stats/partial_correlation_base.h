@@ -1,8 +1,8 @@
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
-#include "include/stats/solve_holder_base.h"
+#include "stats/solve_holder_base.h"
 
 namespace kanalysis::stats
 {

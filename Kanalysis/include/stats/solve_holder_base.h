@@ -1,8 +1,8 @@
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
-#include "include/utils/crtp_base.h"
+#include "utils/crtp_base.h"
 
 namespace kanalysis::stats
 {

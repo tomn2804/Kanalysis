@@ -1,9 +1,9 @@
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
-#include "include/stats/decomposition_base.h"
-#include "include/stats/weight_function.h"
+#include "stats/decomposition_base.h"
+#include "stats/weight_function.h"
 
 namespace kanalysis::stats
 {

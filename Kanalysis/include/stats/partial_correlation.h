@@ -1,8 +1,8 @@
 #pragma once
 
-#include "include/config.h"
+#include "config.h"
 
-#include "include/stats/partial_correlation_base.h"
+#include "stats/partial_correlation_base.h"
 
 namespace kanalysis::stats
 {
