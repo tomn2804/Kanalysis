@@ -68,10 +68,9 @@ int main()
 	Titanic data; // Load in example data set
 
 	auto qr = decomposition(as_model_matrix(data.x));
-	auto results = kruskal(qr).solve(data.y, threads);
+	Vector results = kruskal(qr).solve(data.y, threads);
 
 	std::cout << results << '\n';
-	std::system("pause"); // Prevent console from closing
 }
 ```
 
@@ -108,10 +107,9 @@ int main()
 	Vector std_y = WeightFunction::standardize(data.y, weights);
 
 	auto qr = decomposition(std_x, weights);
-	auto results = kruskal(qr).solve(std_y, threads);
+	Vector results = kruskal(qr).solve(std_y, threads);
 
 	std::cout << results << '\n';
-	std::system("pause"); // Prevent console from closing
 }
 ```
 

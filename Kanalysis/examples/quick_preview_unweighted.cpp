@@ -12,7 +12,7 @@ int main()
 	Titanic data; // Load in example data set
 
 	auto qr = decomposition(as_model_matrix(data.x));
-	auto results = kruskal(qr).solve(data.y, threads);
+	Vector results = kruskal(qr).solve(data.y, threads);
 
 	std::cout << results << '\n';
 	std::system("pause"); // Prevent console from closing
