@@ -50,8 +50,6 @@
     <ClInclude Include="tests\tests.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="examples\quick_preview_unweighted.cpp" />
-    <ClCompile Include="examples\quick_preview_weighted.cpp" />
     <ClCompile Include="src\arithmetic\col_functor.cpp" />
     <ClCompile Include="src\arithmetic\base_functions.cpp" />
     <ClCompile Include="src\arithmetic\combination_model.cpp" />
@@ -85,6 +83,7 @@
     <ClCompile Include="src\utils\progress.cpp" />
     <ClCompile Include="src\utils\crtp_base.cpp" />
     <ClCompile Include="src\utils\utils.cpp" />
+    <ClCompile Include="tests\main.cpp" />
     <ClCompile Include="tests\tests.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

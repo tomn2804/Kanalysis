@@ -1,7 +1,6 @@
-﻿# Development in Progress
+﻿# Coming Soon
 
-**LICENSE file has not been added**.
-This library is not ready for distribution, as further documentations and adjustments are still needed.
+This library is still in development and is not ready for distribution. Hence, the LICENSE file is not added yet.
 
 This project repository is only made public for preview purposes.
 
@@ -49,7 +48,7 @@ If you have a lot of CPU processors and would like to compute the full Kruskal's
 
 ## Quick preview
 
-Note: All data used in this documentation are generated randomly at compile time, so the output values will vary on each compile.
+Note: All of the data used in this documentation's examples are gathered from the [Titanic](https://github.com/paulhendricks/titanic/tree/53be2fd391100044594de004d559858077a10c43) training data set.
 
 ### Unweighted
 
@@ -125,7 +124,7 @@ Progress: 100%
 0.0768176
 ```
 
-Note: ```weights``` is an array of constant value of 1, so the results will remain the same as unweighted.
+Note: ```weights``` is an array of constant value of 1, so the results will be the same as unweighted.
 
 ---
 
@@ -154,6 +153,10 @@ This is a 2 steps process.
 The first step is to install the dependencies and link it into your project.
 Then the second step is to install the Kanalysis library itself.
 
+By default, the project solution ```.sln``` file is set to compile with Clang.
+This project have been tested with compiling using MSVC, Intel Compiler, and Clang.
+CMake file coming soon.
+
 #### Installing dependencies
 
 C++17 or later and it's standard library is obviously required. Other than that, the following list is the external/third-party libraries that are needed to be install before including the "kanalysis.h" file.
@@ -162,7 +165,7 @@ C++17 or later and it's standard library is obviously required. Other than that,
   - [Intel MKL](https://software.intel.com/content/www/us/en/develop/tools/math-kernel-library.html) (Optional for improving performance on Intel processors)
 - [Discreture](https://github.com/mraggi/discreture)
   - [Boost](https://www.boost.org/) (Comes **pre-installed** if clone directly from this repository, so no need to take action here)
-- [Armadillo](http://arma.sourceforge.net) (Optional for reading data from ```.csv``` file in example cases)
+- [Armadillo](http://arma.sourceforge.net) (Optional for reading data from ```.csv``` file for example cases)
 
 This documentation won't go into details on how to install each of these external/third-party libraries, but the instruction for each libraries can be found within their respective websites.
 

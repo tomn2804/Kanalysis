@@ -1,25 +1,70 @@
-#include "include/kanalysis.h"
-#include "include/stats/kruskal.h"
-#include "include/stats/kruskal_weight.h"
+#include "kanalysis.h"
+
 using namespace kanalysis;
 using namespace kanalysis::stats;
 using namespace kanalysis::utils;
 
-#include "examples/titanic.h"
+namespace kanalysis
+{
+	template<typename MatrixType>
+	class Weight
+	{
+	public:
+		template<typename Derived>
+		Weight(const DenseBase<Derived>& x)
+			: data2(x.derived())
+		{}
+
+		template<typename Derived>
+		Weight(DenseBase<Derived>& x)
+			: data2(x.derived())
+		{}
+
+		MatrixType& data()
+		{
+			return data2;
+		}
+
+		const MatrixType& operator=(const Weight& other) const
+		{
+			return data2;
+		}
+
+		MatrixType& operator=(Weight& other)
+		{
+			return data2;
+		}
+
+		MatrixType data2;
+	};
+
+	template<typename Derived>
+	void test(const Matrix& x)
+	{
+		return x;
+	}
+}
 
 int main()
 {
+	Matrix ye;
+
+	Weight<Matrix> huh(ye);
+
+	Matrix huh2 = huh.data();
+	test(huh);
+
 	//Matrix test = Matrix::Random(5, 5);
 	//test = test.array().abs2().round();
 	//std::cout << test << '\n';
 
-	Matrix data = read_csv(TITANIC_FILE_PATH);
+	//Matrix data = read_csv(TITANIC_FILE_PATH);
 
-	Vector y = data.col(0);
-	Matrix x = as_model_matrix(data.rightCols(data.cols() - 1));
+	//Vector y = data.col(0);
+	//Matrix x = as_model_matrix(data.rightCols(data.cols() - 1));
 
-	auto qr = decomposition(x);
-	std::cout << kruskal(qr).solve(y) << '\n';
+	//auto qr = decomposition(x);
+	//std::cout << kruskal(qr).solve(y) << '\n';
 
 	//Matrix x(100, 5); // Data with 5 independent variables, and 7 observations
 	//for (Index i = 0; i < x.cols(); ++i)
